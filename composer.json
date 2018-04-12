@@ -1,0 +1,20 @@
+{
+  "name": "oriolpando/PracticaProjectesWeb",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Oriol Pando Bigas",
+      "email": "oriolpando@gmail.com"
+    }
+  ],
+  "require": {
+    "slim/slim": "^3.0",
+    "slim/twig-view": "^2.3",
+    "doctrine/dbal": "^2.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "PwBox\\": "src/"
+    }
+  }
+}
