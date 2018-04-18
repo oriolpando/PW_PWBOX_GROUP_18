@@ -1,8 +1,9 @@
 {% extends "base.twig" %}
 {% block title %}Home{% endblock %}
+{% block javascript %}home.js{% endblock %}
 {% block css_file %}home.css{% endblock %}
 {% block content %}
 
-    <button type="button" class="btn btn-danger">Login</button>
-    <button type="button" class="btn btn-danger">Register</button>
+    <button type="button" class="btn btn-danger" onclick="showLogin()">Login</button>
+    <button type="button" class="btn btn-danger" onclick="showRegister()">Register</button>
 {% endblock %}
