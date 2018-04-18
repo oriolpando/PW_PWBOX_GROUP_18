@@ -10,6 +10,8 @@
 $app->get('/hello/{name}', 'PwBox\Controller\HelloController:indexAction')
 ->add('PwBox\Controller\Middleware\ExampleMiddleware');
 
+$app->get('/', 'PwBox\Controller\HelloController');
+
 $app->post(
     '/user', 'PwBox\Controller\PostUserController'
 )

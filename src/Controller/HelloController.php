@@ -24,13 +24,12 @@ class  HelloController{
 
     public function indexAction(Request $request, Response $response, array $arg){
         $name = $arg['name'];
-        return $this->container->get('view')->render($response, 'hello.twig',['name' => $name]);
+        return $this->container->get('view')->render($response, 'home.twig',['name' => $name]);
     }
 
     public function __invoke(Request $request, Response $response, array $arg)
     {
-        $name = $arg['name'];
-        return $this->container->get('view')->render($response, 'hello.twig',['name' => $name]);
+        return $this->container->get('view')->render($response, 'home.twig');
     }
 
 
