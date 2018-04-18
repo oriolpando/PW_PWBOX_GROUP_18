@@ -2,9 +2,19 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <script src="{% block javascript %}{% endblock %}"></script>
+    <link rel = "stylesheet" href="{{ base.url() }}/assets/css/styles.css">
     <link rel = "stylesheet" href="{{ base.url() }}/assets/css/{% block css_file %}{% endblock %}">
 </head>
 <body>
-{% block content %}Parent{% endblock %}
+<header>
+    <button type="button">Click Me!</button>
+
+    Buuullshit
+</header>
+<content>
+    {% block content %}Parent{% endblock %}
+</content>
+<footer></footer>
 </body>
 </html>
