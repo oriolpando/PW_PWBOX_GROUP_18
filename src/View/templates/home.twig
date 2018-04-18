@@ -6,4 +6,20 @@
 
     <button type="button" class="btn btn-danger" onclick="showLogin()">Login</button>
     <button type="button" class="btn btn-danger" onclick="showRegister()">Register</button>
+
+    <form>
+        <input type="text" name="title" placeholder="Username">
+        <input type="email" name="content" placeholder="Email">
+        <input type="submit" value="Login" onclick="controlLogin()">
+    </form>
+
+    <form>
+        <input type="text" name="content" placeholder="Name">
+        <input type="text" name="content" placeholder="Surname">
+        <input type="text" name="title" placeholder="Username">
+        <input type="email" name="content" placeholder="Email">
+        <input type="password" name="content" placeholder="Password">
+        <input type="date" name="content" placeholder="24/12/1999">
+        <input type="submit" value="Register" onclick="controlRegister()">
+    </form>
 {% endblock %}
