@@ -2,3 +2,17 @@ body{
     background-image: url("/assets/resources/home.jpg");
     background-size:cover
 }
+
+#login{
+    display: none;
+}
+#register{
+    display: none;
+}
+
+input:invalid,input:required:invalid, input:focus:invalid {
+    border-color:#ff0000;
+}
+input:focus {
+    outline:none;
+}
