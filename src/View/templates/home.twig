@@ -5,25 +5,26 @@
 {% block content %}
 
 
-    <div id = "login" action="/inserir" method="POST">
-        <form>
+    <div id = "login"  >
+        <form action="/inserir" method="POST">
             <input type="text" name="title" placeholder="Username or email">
             <input type="password" name="content" placeholder="Password">
             <input type="submit" value="Login" onclick="controlLogin()">
             <input type="submit" value="Register" onclick="showRegister()">
         </form>
     </div>
-    <div id = "register"  action="/inserir" method="POST">
-        <form >
-            <input type="text" name="content" placeholder="Name"></input>
+    <div id = "register">
+        <form action="/inserir" method="POST">
+            <input type="text" name="content" placeholder="Name">
             <input type="text" name="content" placeholder="Surname">
             <input type="text" name="title" placeholder="Username">
             <input type="email" name="content" placeholder="Email">
             <input type="password" name="content" placeholder="Password">
             <input type="date" id="birth" min="1900-01-01" max="2020-01-01">
-            <input name="myFile" type="file">
+            <input type='file' name="myFile" type="file">
             <input type="submit" value="Register" onclick="controlRegister()">
-            <input type="submit" value="Login" onclick="showLogin()">
         </form>
+        <input type="submit" value="Login" onclick="showLogin()">
+
     </div>
 {% endblock %}

@@ -40,7 +40,7 @@ class PostUserController
 
     public function inserir(Request $request, Response $response)
     {
-
+        echo "lol";
         $messages = $this->container->get('flash')->getMessages();
         $registerMessages = isset($messages['register'])?$messages['register']:[];
 
