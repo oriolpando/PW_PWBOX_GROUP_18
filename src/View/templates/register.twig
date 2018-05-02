@@ -1,0 +1,18 @@
+{% extends 'base.twig' %}
+{% block content %}
+    <form action="/user" method="post">
+        <input type="text" name="username" placeholder="username">
+        <input type="email" name="email" placeholder="email">
+        <input type="password" name="password" placeholder="password">
+        <button type="submit" name="button">Send</button>
+    </form>
+
+
+    {% if error %}
+        {{ error }}
+    {% endif %}
+
+    {% for message in messages %}
+        {{ messages }}
+    {% endfor %}
+{% endblock %}

@@ -6,9 +6,10 @@
  * Time: 19:04
  */
 
+$app->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/hello/{name}', 'PwBox\Controller\HelloController:indexAction')
-->add('PwBox\Controller\Middleware\ExampleMiddleware');
+$app->get('/hello/{name}', 'PwBox\Controller\HelloController')
+->add('PwBox\Controller\Middleware\UserLoggedMiddleware');
 
 $app->get('/', 'PwBox\Controller\HelloController');
 
@@ -16,5 +17,17 @@ $app->get('/', 'PwBox\Controller\HelloController');
 
 $app->post(
     '/user', 'PwBox\Controller\PostUserController'
+)
+;
+
+
+$app->post(
+    '/inserir', 'PwBox\Controller\PostUserController:inserir'
+)
+;
+
+
+$app->get(
+    '/user', 'PwBox\Controller\PostUserController:indexAction'
 )
 ;

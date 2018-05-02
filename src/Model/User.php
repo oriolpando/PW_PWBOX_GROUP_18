@@ -12,29 +12,32 @@ namespace PwBox\Model;
 class User
 {
     private  $id;
+    private $nom;
+    private $surname;
     private $username;
     private $email;
-    private $password;
-    private $created_at;
-    private $updated_at;
+    private $psw;
+    private $birth_date;
 
     /**
      * User constructor.
      * @param $id
+     * @param $nom
+     * @param $surname
      * @param $username
      * @param $email
-     * @param $password
-     * @param $created_at
-     * @param $updated_at
+     * @param $psw
+     * @param $birth_date
      */
-    public function __construct($id, $username, $email, $password, $created_at, $updated_at)
+    public function __construct($id, $nom, $surname, $username, $email, $psw, $birth_date)
     {
         $this->id = $id;
+        $this->nom = $nom;
+        $this->surname = $surname;
         $this->username = $username;
         $this->email = $email;
-        $this->password = $password;
-        $this->created_at = $created_at;
-        $this->updated_at = $updated_at;
+        $this->psw = $psw;
+        $this->birth_date = $birth_date;
     }
 
     /**
@@ -43,6 +46,22 @@ class User
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSurname()
+    {
+        return $this->surname;
     }
 
     /**
@@ -64,25 +83,28 @@ class User
     /**
      * @return mixed
      */
-    public function getPassword()
+    public function getPsw()
     {
-        return $this->password;
+        return $this->psw;
     }
 
     /**
      * @return mixed
      */
-    public function getCreatedAt()
+    public function getBirthDate()
     {
-        return $this->created_at;
+        return $this->birth_date;
     }
 
     /**
-     * @return mixed
+     * User constructor.
+     * @param $id
+     * @param $username
+     * @param $email
+     * @param $password
+     * @param $created_at
+     * @param $updated_at
      */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
-    }
+
 
 }
