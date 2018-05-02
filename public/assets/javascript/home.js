@@ -8,6 +8,7 @@ function showLogin() {
     login.style.display = "block";
     var register = document.getElementById("register");
     register.style.display = "none";
+
 }
 function showRegister() {
     var login = document.getElementById("login");

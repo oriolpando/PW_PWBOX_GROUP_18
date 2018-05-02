@@ -12,7 +12,8 @@ namespace PwBox\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-
+use PwBox\Model\Implementation\DoctrineUserRepository;
+use PwBox\Model\User;
 
 
 class PostUserController
@@ -40,7 +41,12 @@ class PostUserController
 
     public function inserir(Request $request, Response $response)
     {
-        echo "lol";
+
+       var_dump($_POST);
+
+       //$user = new User($_POST['user'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['']);
+        //$doctrine = $this->container->get('doctrine')->save();
+
         $messages = $this->container->get('flash')->getMessages();
         $registerMessages = isset($messages['register'])?$messages['register']:[];
 

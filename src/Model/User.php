@@ -29,9 +29,9 @@ class User
      * @param $psw
      * @param $birth_date
      */
-    public function __construct($id, $nom, $surname, $username, $email, $psw, $birth_date)
+    public function __construct($nom, $surname, $username, $email, $psw, $birth_date)
     {
-        $this->id = $id;
+        $this->id = null;
         $this->nom = $nom;
         $this->surname = $surname;
         $this->username = $username;
