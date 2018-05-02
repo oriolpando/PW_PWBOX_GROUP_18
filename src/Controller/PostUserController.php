@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\Implementation\DoctrineUserRepository;
 use PwBox\Model\User;
+use PwBox\Model\UserRepository;
 
 
 class PostUserController
@@ -44,8 +45,10 @@ class PostUserController
 
        var_dump($_POST);
 
-       //$user = new User($_POST['user'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['']);
-        //$doctrine = $this->container->get('doctrine')->save();
+       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['$password'],$_POST['birth']);
+
+        /** @var UserRepository $userRepo */
+        $userRepo = $this->container->get('user_repository')->save($user);
 
         $messages = $this->container->get('flash')->getMessages();
         $registerMessages = isset($messages['register'])?$messages['register']:[];
