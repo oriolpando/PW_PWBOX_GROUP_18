@@ -18,6 +18,7 @@ class User
     private $email;
     private $psw;
     private $birth_date;
+    private $nom_image;
 
     /**
      * User constructor.
@@ -29,7 +30,7 @@ class User
      * @param $psw
      * @param $birth_date
      */
-    public function __construct($nom, $surname, $username, $email, $psw, $birth_date)
+    public function __construct($nom, $surname, $username, $email, $psw, $birth_date, $nom_image)
     {
         $this->id = null;
         $this->nom = $nom;
@@ -38,6 +39,8 @@ class User
         $this->email = $email;
         $this->psw = $psw;
         $this->birth_date = $birth_date;
+        $this->nom_image = $nom_image;
+
     }
 
     /**
@@ -47,6 +50,15 @@ class User
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNomImage()
+    {
+        return $this->nom_image;
+    }
+
 
     /**
      * @return mixed
@@ -83,7 +95,7 @@ class User
     /**
      * @return mixed
      */
-    public function getPsw()
+    public function getPassword()
     {
         return $this->psw;
     }

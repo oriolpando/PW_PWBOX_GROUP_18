@@ -43,9 +43,8 @@ class PostUserController
     public function inserir(Request $request, Response $response)
     {
 
-       var_dump($_POST);
 
-       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['$password'],$_POST['birth']);
+       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['$password'],$_POST['birth'],$_POST['myFile']);
 
         /** @var UserRepository $userRepo */
         $userRepo = $this->container->get('user_repository')->save($user);
