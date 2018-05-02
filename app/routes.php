@@ -15,19 +15,9 @@ $app->get('/', 'PwBox\Controller\HelloController');
 
 
 
-$app->post(
-    '/user', 'PwBox\Controller\PostUserController'
-)
-;
+$app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
+
+$app->post('/inserir', 'PwBox\Controller\PostUserController:inserir');
 
 
-$app->post(
-    '/inserir', 'PwBox\Controller\PostUserController:inserir'
-)
-;
-
-
-$app->get(
-    '/user', 'PwBox\Controller\PostUserController:indexAction'
-)
-;
+$app->get('/{user}', 'PwBox\Controller\PostUserController:indexAction');

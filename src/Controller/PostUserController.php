@@ -56,6 +56,33 @@ class PostUserController
             ->render($response,'prova.twig',['messages'=> $registerMessages]);
     }
 
+    public function loginCheck(Request $request, Response $response)
+    {
+
+        var_dump($_POST);
+
+        $exists = true;
+        if ($exists){
+            return $response->withStatus(302)->withHeader('Location', '/dashboard');
+        }else{
+            return $response->withStatus(302)->withHeader('Location', '/');
+        }
+
+        /** @var UserRepository $userRepo */
+        /*
+        $userRepo = $this->container->get('user_repository')->save($user);
+
+        $messages = $this->container->get('flash')->getMessages();
+        $registerMessages = isset($messages['register'])?$messages['register']:[];
+
+        return $this->container->get('view')
+            ->render($response,'prova.twig',['messages'=> $registerMessages]);
+        */
+    }
+
+
+
+
     public function __invoke(Request $request, Response $response)
     {
         try{

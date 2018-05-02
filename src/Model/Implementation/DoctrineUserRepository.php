@@ -48,4 +48,13 @@ class DoctrineUserRepository implements UserRepository
 
         $stmt->execute();
     }
+
+    public function get(User $user)
+    {
+        $sql = "SELECT INTO user(nom, surname, username, birth_date, email, psw, image) VALUES(:nom, :surname, :username, :birth_date, :email, :psw, :image)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue("nom", $user->getNom(), 'string');
+
+        $stmt->execute();
+    }
 }
