@@ -42,18 +42,20 @@ class PostUserController
 
     public function inserir(Request $request, Response $response)
     {
+       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['birth'],$_POST['myFile']);
+        try {
+            /** @var UserRepository $userRepo */
+            $userRepo = $this->container->get('user_repository')->save($user);
 
+            $messages = $this->container->get('flash')->getMessages();
+            $registerMessages = isset($messages['register'])?$messages['register']:[];
 
-       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['$password'],$_POST['birth'],$_POST['myFile']);
+            return $this->container->get('view')
+                ->render($response,'prova.twig',['messages'=> $registerMessages]);
+        }catch (\Exception $e) {
+            echo $e->getMessage();
+        }
 
-        /** @var UserRepository $userRepo */
-        $userRepo = $this->container->get('user_repository')->save($user);
-
-        $messages = $this->container->get('flash')->getMessages();
-        $registerMessages = isset($messages['register'])?$messages['register']:[];
-
-        return $this->container->get('view')
-            ->render($response,'prova.twig',['messages'=> $registerMessages]);
     }
 
     public function loginCheck(Request $request, Response $response)
