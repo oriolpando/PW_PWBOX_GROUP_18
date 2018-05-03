@@ -26,6 +26,8 @@
             <input type="submit" value="Register" onclick="controlRegister()">
         </form>
         <input type="submit" value="Login" onclick="showLogin()">
-
+        {% for error in errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
     </div>
 {% endblock %}

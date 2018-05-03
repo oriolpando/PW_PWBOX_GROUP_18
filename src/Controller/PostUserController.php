@@ -41,7 +41,28 @@ class PostUserController
 
     public function inserir(Request $request, Response $response)
     {
-       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['birth'],$_POST['myFile']);
+
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+
+        $errors = [];
+
+
+        if (strlen($username)>20||!ctype_alnum($username)){
+            $errors['username'] = 'invalid user';
+        }
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $errors['email'] = 'invalid email';
+        }
+        if (!empty($errors)) {
+            return $this->container->get('view')
+                ->render($response,'home.twig',['errors'=> $errors]);
+        }
+
+
+
+        $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth'],$_POST['myFile']);
         try {
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
