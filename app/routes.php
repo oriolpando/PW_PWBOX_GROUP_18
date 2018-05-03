@@ -19,5 +19,4 @@ $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
 
 $app->post('/inserir', 'PwBox\Controller\PostUserController:inserir');
 
-
-$app->get('/{user}', 'PwBox\Controller\PostUserController:indexAction');
+$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage');

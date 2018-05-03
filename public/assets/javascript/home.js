@@ -2,9 +2,7 @@
 
 
 function showLogin() {
-    console.log("fuck2");
     var login = document.getElementById("login");
-    console.log(login);
     login.style.display = "block";
     var register = document.getElementById("register");
     register.style.display = "none";

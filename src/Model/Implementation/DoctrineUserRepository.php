@@ -10,6 +10,7 @@ namespace PwBox\Model\Implementation;
 
 
 use Doctrine\DBAL\Connection;
+use function FastRoute\TestFixtures\empty_options_cached;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 use PDO;
@@ -54,12 +55,24 @@ class DoctrineUserRepository implements UserRepository
 
     }
 
-    public function get(User $user)
+    public function tryLogin(String $loginTry, String $psw)
     {
-        $sql = "SELECT INTO user(nom, surname, username, birth_date, email, psw, image) VALUES(:nom, :surname, :username, :birth_date, :email, :psw, :image)";
+
+        $sql = "SELECT id FROM User WHERE (email LIKE ? OR username LIKE ?) AND pswUser LIKE ? ";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue("nom", $user->getNom(), 'string');
+        $stmt->bindParam(1, $loginTry, PDO::PARAM_STR);
+        $stmt->bindParam(2, $loginTry, PDO::PARAM_STR);
+        $stmt->bindParam(3, $psw, PDO::PARAM_STR);
 
         $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        var_dump($result);
+        if (!empty($result)){
+            return $result[0]['id'];
+        }else{
+            return -1;
+        }
     }
 }

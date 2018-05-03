@@ -1,3 +1,7 @@
+USE PwBox;
+
+DROP TABLE IF EXISTS User CASCADE;
+
 CREATE TABLE `User` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(20) NOT NULL,
@@ -8,4 +12,6 @@ CREATE TABLE `User` (
   `pswUser` varchar(12) NOT NULL,
   `image` varchar (50),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+SELECT * FROM User;

@@ -12,7 +12,6 @@ namespace PwBox\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use PwBox\Model\Implementation\DoctrineUserRepository;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 
@@ -45,7 +44,7 @@ class PostUserController
        $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['birth'],$_POST['myFile']);
         try {
             /** @var UserRepository $userRepo */
-            $userRepo = $this->container->get('user_repository')->save($user);
+            $this->container->get('user_repository')->save($user);
 
             $messages = $this->container->get('flash')->getMessages();
             $registerMessages = isset($messages['register'])?$messages['register']:[];
@@ -63,23 +62,16 @@ class PostUserController
 
         var_dump($_POST);
 
-        $exists = true;
-        if ($exists){
-            return $response->withStatus(302)->withHeader('Location', '/dashboard');
+        //TODO: COMPROVAR LOGIN
+
+        $exists = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);;
+
+        if ($exists == -1){
+            return $this->container->get('view')->render($response,'home.twig');
         }else{
-            return $response->withStatus(302)->withHeader('Location', '/');
+            return $this->container->get('view')->render($response,'dashboard.twig');
         }
 
-        /** @var UserRepository $userRepo */
-        /*
-        $userRepo = $this->container->get('user_repository')->save($user);
-
-        $messages = $this->container->get('flash')->getMessages();
-        $registerMessages = isset($messages['register'])?$messages['register']:[];
-
-        return $this->container->get('view')
-            ->render($response,'prova.twig',['messages'=> $registerMessages]);
-        */
     }
 
 
