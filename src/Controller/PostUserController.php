@@ -12,6 +12,7 @@ namespace PwBox\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use PwBox\Model\Implementation\DoctrineUserRepository;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 
@@ -41,31 +42,21 @@ class PostUserController
 
     public function inserir(Request $request, Response $response)
     {
+       $user = new User($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['birth'],$_POST['myFile']);
+       /* $username = $_POST['name'];
 
-        $username = $_POST['username'];
-        $email = $_POST['email'];
+        if (isset($_SESSION[$username])) {
+            echo ('123456789');
 
-        $errors = [];
+            //$_SESSION['counter']+=1;}
+        }else{
+            // $_SESSION['counter']= 0;
+            echo ('987654321');
 
-
-        if (strlen($username)>20||!ctype_alnum($username)){
-            $errors['username'] = 'invalid user';
-        }
-
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $errors['email'] = 'invalid email';
-        }
-        if (!empty($errors)) {
-            return $this->container->get('view')
-                ->render($response,'home.twig',['errors'=> $errors]);
-        }
-
-
-
-        $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth'],$_POST['myFile']);
+        }*/
         try {
             /** @var UserRepository $userRepo */
-            $this->container->get('user_repository')->save($user);
+            $userRepo = $this->container->get('user_repository')->save($user);
 
             $messages = $this->container->get('flash')->getMessages();
             $registerMessages = isset($messages['register'])?$messages['register']:[];
@@ -75,26 +66,50 @@ class PostUserController
         }catch (\Exception $e) {
             echo $e->getMessage();
         }
-
     }
 
-    public function loginCheck(Request $request, Response $response)
-    {
+    public function loginCheck(Request $request, Response $response){
 
         var_dump($_POST);
 
-        //TODO: COMPROVAR LOGIN
-
-        $exists = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);;
-
-        if ($exists == -1){
-            return $this->container->get('view')->render($response,'home.twig');
+        $exists = true;
+        if ($exists){
+            return $response->withStatus(302)->withHeader('Location', '/dashboard');
         }else{
-            return $this->container->get('view')->render($response,'dashboard.twig');
+            return $response->withStatus(302)->withHeader('Location', '/');
         }
 
-    }
+        /** @var UserRepository $userRepo */
+        /*
+        $userRepo = $this->container->get('user_repository')->save($user);
 
+        $messages = $this->container->get('flash')->getMessages();
+        $registerMessages = isset($messages['register'])?$messages['register']:[];
+
+        return $this->container->get('view')
+            ->render($response,'prova.twig',['messages'=> $registerMessages]);
+        */
+    }
+/*
+    public function controlSession (Request $request, Response $response){
+
+        $username = $_POST['name'];
+
+        if (isset($_SESSION[$username])) {
+            echo ('123456789');
+
+            //$_SESSION['counter']+=1;}
+        }else{
+           // $_SESSION['counter']= 0;
+            echo ('987654321');
+
+        }
+
+        echo ($_SESSION[$username]);
+
+
+    }
+*/
 
 
 

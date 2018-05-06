@@ -37,10 +37,9 @@ class  HelloController{
         if (isset($_SESSION['counter'])){
             $_SESSION['counter']+=1;}
             else{
-            $_SESSION['counter']= 1;
+            $_SESSION['counter']= 0;
         }
 
-        echo ($_SESSION['counter']);
         $cookie = FigRequestCookies::get($request, 'advice',0);
         if(empty($cookie->getValue())){
             $response = FigResponseCookies::set($response, SetCookie::create('advice')
