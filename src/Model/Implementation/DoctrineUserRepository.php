@@ -55,6 +55,23 @@ class DoctrineUserRepository implements UserRepository
 
     }
 
+    public function checkIfUserExists(string $username, string $mail){
+
+        $sql = "SELECT id FROM User WHERE (email LIKE ? OR username LIKE ?) ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $mail, PDO::PARAM_STR);
+        $stmt->bindParam(2, $username, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+        if (!empty($result)){
+            return true;
+            }else{
+            return false;
+        }
+
+    }
+
     public function tryLogin(String $loginTry, String $password)
     {
 

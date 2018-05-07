@@ -48,14 +48,19 @@ class PostUserController
         $confirmPassword = $_POST['confirmPassword'];
 
 
+
         $errors = [];
 
+        if($this->container->get('user_repository')->checkIfUserExists($username, $email)){
+            $errors['login'] = 'the username or the mail already exist';
 
-        if (strlen($username)>20||!ctype_alnum($username)){
+        }
+
+        if (empty($username)||strlen($username)>20||!ctype_alnum($username)){
             $errors['username'] = 'invalid user';
         }
 
-        if (strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
+        if (empty($password)||strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
             $errors['password'] = 'invalid password';
         }
 
@@ -85,16 +90,13 @@ class PostUserController
 
         if( !empty($_FILES["image"])){
 
-
-            echo ("image not empty");
-           if($_FILES["image"]["size"]>500000){
+            if($_FILES["image"]["size"]>500000){
                $errors['image'] = 'image too big';
 
            }else{
 
                mkdir($target_dir."/".$username, 0777, TRUE);
                $target_file = $target_dir."/".$username."/"."profile.png";
-               echo "\nfinal: ".$target_file;
 
                if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
                    echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded. ";
@@ -133,6 +135,7 @@ class PostUserController
     public function loginCheck(Request $request, Response $response)
     {
 
+        $errors = [];
         var_dump($_POST);
 
         //TODO: COMPROVAR LOGIN
@@ -141,11 +144,14 @@ class PostUserController
 
         if ($exists == -1){
             //Username o email no existeix a bbdd
-            return $this->container->get('view')->render($response,'home.twig');
+            $errors['notexistent'] = 'The username or the email do not exist';
+            return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
         }else{
             if ($exists == -1){
                 //Contrasenya incorrecta
-                return $this->container->get('view')->render($response,'home.twig');
+
+                $errors['password'] = 'Incorrect password';
+                return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
 
             }else{
                 return $this->container->get('view')->render($response,'dashboard.twig');
