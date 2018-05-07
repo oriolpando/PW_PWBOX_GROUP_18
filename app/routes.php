@@ -13,8 +13,6 @@ $app->get('/hello/{name}', 'PwBox\Controller\HelloController')
 
 $app->get('/', 'PwBox\Controller\HelloController');
 
-
-
 $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
 
 $app->post('/register', 'PwBox\Controller\PostUserController:register');

@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 
-class DashboardController
+class FolderController
 {
     /** @var ContainerInterface */
     private $container;
@@ -24,16 +24,5 @@ class DashboardController
         $this->container = $container;
     }
 
-    public function dashboardPage(Request $request, Response $response)
-    {
-
-        $path    = "assets/resources/perfils/miquelator/root";
-        $files = scandir($path);
-
-        var_dump($files);
-
-        return $this->container->get('view')
-            ->render($response,'dashboard.twig');
-    }
 
 }

@@ -14,7 +14,22 @@ use Psr\Http\Message\ResponseInterface as Response;
 class SessionMiddleware{
     public function __invoke(Request $request, Response $response, callable $next)
     {
-        session_start();
+        //start session
+      //  session_start();
+
+        //Session id
+      //  $id = $this->id;
+       // $_SESSION["id"] = $id;
+
+       /* if (empty($id)) {
+            $cookies = $request->getCookieParams();
+                $id = $cookies[$id];
+        }
+        if (!empty($id)) {
+            session_id($id);
+        }*/
+
         return $next($request, $response);
+
     }
 }

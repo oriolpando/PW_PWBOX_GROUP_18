@@ -85,7 +85,7 @@ class PostUserController
                 ->render($response,'home.twig',['errors'=> $errors]);
         }
 
-        $target_dir = "assets/resources/imatges/perfils";
+        $target_dir = "assets/resources/perfils";
 
         if( !empty($_FILES["image"])){
 
@@ -95,6 +95,7 @@ class PostUserController
            }else{
 
                mkdir($target_dir."/".$username, 0777, TRUE);
+               mkdir($target_dir."/".$username."/root", 0777, TRUE);
                $target_file = $target_dir."/".$username."/"."profile.png";
 
                if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
@@ -179,6 +180,7 @@ class PostUserController
             return $this->container->get('view')->render($response,'register.twig', [
                 'error'=>$e->getMessage(),
             ]);
+
 
         }
         return $response;

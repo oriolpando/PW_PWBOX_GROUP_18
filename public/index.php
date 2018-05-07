@@ -14,3 +14,6 @@ require_once __DIR__ . '/../app/dependencies.php';
 require_once __DIR__ . '/../app/routes.php';
 
 $app->run();
+
+// Start the session
+//session_start();

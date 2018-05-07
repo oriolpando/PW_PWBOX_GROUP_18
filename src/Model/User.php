@@ -38,8 +38,6 @@ class User
         $this->email = $email;
         $this->psw = $psw;
         $this->birth_date = $birth_date;
-
-
     }
 
     /**
