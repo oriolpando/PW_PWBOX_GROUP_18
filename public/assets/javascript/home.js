@@ -41,3 +41,20 @@ function controlRegister() {
     var register = document.getElementById("register");
     register.style.display = "none";
 }
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageUser')
+                .attr('src', e.target.result)
+                .width(50)
+                .height(50);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+

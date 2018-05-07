@@ -4,30 +4,63 @@
 {% block css_file %}home.css{% endblock %}
 {% block content %}
 
-    {% for error in errors %}
-        <p>{{ error }}</p>
-    {% endfor %}
+
     <div id = "login"  >
         <form action="/login" method="POST">
-            <input type="text" name="title" placeholder="Username or email">
-            <input type="password" name="passwordLogin" placeholder="Password">
+            <h1>Sign in</h1>
+            <div class="form-group">
+                <label class="floatLabel">Username or email:</label>
+                <input type="text" name="title" placeholder="Username or email">
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Password:</label>
+                <input type="password" name="passwordLogin" placeholder="Password">
+            </div>
             <input type="submit" value="Login" onclick="controlLogin()">
         </form>
-        <input type="submit" value="Register" onclick="showRegister()">
     </div>
     <div id = "register">
-        <form action="/inserir" method="POST" enctype="multipart/form-data">
-            <input type="text" name="name" placeholder="Name">
-            <input type="text" name="surname" placeholder="Surname">
-            <input type="text" name="username" placeholder="Username">
-            <input type="email" name="email" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
-            <input type="password" name="confirmPassword" placeholder="Password">
-            <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
-            <input type='file' name="image"  accept="image/*" type="file">
-            <input type="submit" value="Register" onclick="controlRegister()">
-        </form>
-        <input type="submit" value="Login" onclick="showLogin()">
+        <form action="/inserir" method="POST">
+            <h1>Register</h1>
 
+            <div class="form-group">
+                <label class="floatLabel">Name:</label>
+                <input type="text" name="name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Surname:</label>
+                <input type="text" name="surname" placeholder="Your surname">
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Username:</label>
+                <input type="text" name="username" placeholder="Create a username">
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Email address:</label>
+                <input type="email" name="email" placeholder="Your email address">
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Password:</label>
+                <input type="password" name="password" placeholder="Create a password">
+                <span>Enter a correct password</span>
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Repeat password:</label>
+                <input type="password" name="confirmPassword" placeholder="Repeat the password">
+                <span>Enter a correct password</span>
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Birth date:</label>
+                <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
+            </div>
+            <div class="form-group">
+                <label class="floatLabel">Select an image for your profile:</label>
+                <input type='file' name="myFile" onchange="readURL(this);" />
+            </div>
+            <input type="submit"  value="Create My Account" onclick="controlRegister()">
+        </form>
+        {% for error in errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
     </div>
 {% endblock %}
