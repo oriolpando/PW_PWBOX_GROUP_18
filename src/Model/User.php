@@ -39,7 +39,7 @@ class User
         $this->email = $email;
         $this->psw = $psw;
         $this->birth_date = $birth_date;
-        $this->nom_image = $nom_image;
+
 
     }
 
@@ -54,11 +54,6 @@ class User
     /**
      * @return mixed
      */
-    public function getNomImage()
-    {
-        return $this->nom_image;
-    }
-
 
     /**
      * @return mixed

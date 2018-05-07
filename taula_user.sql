@@ -10,8 +10,6 @@ CREATE TABLE `User` (
   `birth_date` date NOT NULL,
   `email` varchar(200) NOT NULL,
   `pswUser` varchar(12) NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
-
   PRIMARY KEY (`id`))
   ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
