@@ -69,7 +69,7 @@ class PostUserController
 
         }*/
 
-        $target_dir = "assets/imatges/perfils";
+        $target_dir = "assets/resources/imatges/perfils";
 
         if(!empty($target_dir)){
            echo("Not empty");
@@ -81,12 +81,12 @@ class PostUserController
            }else{
 
 
-               echo("volem fer ".$target_dir."/".$username);
                mkdir($target_dir."/".$username, 0777, TRUE);
-               $target_file = $target_dir.basename($_FILES["image"]["name"]);
+               $target_file = $target_dir."/".$username."/"."profile.png";
+               echo "\nfinal: ".$target_file;
 
                if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
-                   echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+                   echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded. ";
                } else {
                    echo "Sorry, there was an error uploading your file.";
                }
