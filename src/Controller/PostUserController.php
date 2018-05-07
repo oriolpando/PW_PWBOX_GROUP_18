@@ -84,9 +84,10 @@ class PostUserController
 
         $target_dir = "assets/resources/imatges/perfils";
 
-        if(!empty($target_dir)){
+        if( !empty($_FILES["image"])){
 
 
+            echo ("image not empty");
            if($_FILES["image"]["size"]>500000){
                $errors['image'] = 'image too big';
 
