@@ -21,4 +21,4 @@ $app->post('/inserir', 'PwBox\Controller\PostUserController:inserir');
 
 //$app->post('/inserir', 'PwBox\Controller\PostUserController:controlSession');
 
-$app->get('/{user}', 'PwBox\Controller\PostUserController:indexAction');
+$app->post('/profile', 'PwBox\Controller\ProfileController:profilePage');

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: oriol
- * Date: 3/5/2018
- * Time: 20:28
+ * Date: 7/5/2018
+ * Time: 12:59
  */
 
 namespace PwBox\Controller;
@@ -14,7 +14,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 
-class DashboardController
+
+class ProfileController
 {
     /** @var ContainerInterface */
     private $container;
@@ -24,11 +25,11 @@ class DashboardController
         $this->container = $container;
     }
 
-    public function dashboardPage(Request $request, Response $response)
+    public function profilePage(Request $request, Response $response)
     {
 
         return $this->container->get('view')
-            ->render($response,'dashboard.twig');
+            ->render($response,'profile.twig');
     }
 
 }

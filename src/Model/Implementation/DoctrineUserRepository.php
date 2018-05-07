@@ -37,13 +37,14 @@ class DoctrineUserRepository implements UserRepository
     public function save(User $user)
     {
 
+        $psw = password_hash($user->getPassword(), PASSWORD_DEFAULT);
         $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser) VALUES(:nom, :surname, :username, :birth_date, :email, :pswUser)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue("nom", $user->getNom(), 'string');
         $stmt->bindValue("surname", $user->getSurname(), 'string');
         $stmt->bindValue("username", $user->getUsername(), 'string');
         $stmt->bindValue("email", $user->getEmail(), 'string');
-        $stmt->bindValue("pswUser", $user->getPassword(), 'string');
+        $stmt->bindValue("pswUser", $psw, 'string');
         $stmt->bindValue("birth_date", $user->getBirthDate() );
 
 
@@ -54,14 +55,13 @@ class DoctrineUserRepository implements UserRepository
 
     }
 
-    public function tryLogin(String $loginTry, String $psw)
+    public function tryLogin(String $loginTry, String $password)
     {
 
-        $sql = "SELECT id FROM User WHERE (email LIKE ? OR username LIKE ?) AND pswUser LIKE ? ";
+        $sql = "SELECT * FROM User WHERE (email LIKE ? OR username LIKE ?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $loginTry, PDO::PARAM_STR);
         $stmt->bindParam(2, $loginTry, PDO::PARAM_STR);
-        $stmt->bindParam(3, $psw, PDO::PARAM_STR);
 
         $stmt->execute();
 
@@ -69,7 +69,11 @@ class DoctrineUserRepository implements UserRepository
 
         var_dump($result);
         if (!empty($result)){
-            return $result[0]['id'];
+            if (password_verify($password, $result[0]['pswUser'])){
+                return $result[0]['id'];
+            }else{
+                return -2;
+            }
         }else{
             return -1;
         }

@@ -140,12 +140,17 @@ class PostUserController
         $exists = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);;
 
         if ($exists == -1){
+            //Username o email no existeix a bbdd
             return $this->container->get('view')->render($response,'home.twig');
         }else{
-            return $this->container->get('view')->render($response,'dashboard.twig');
-            
+            if ($exists == -1){
+                //Contrasenya incorrecta
+                return $this->container->get('view')->render($response,'home.twig');
 
+            }else{
+                return $this->container->get('view')->render($response,'dashboard.twig');
 
+            }
         }
 
     }

@@ -1,0 +1,13 @@
+{% extends "base.twig" %}
+{% block title %}Home{% endblock %}
+{% block javascript %}home.js{% endblock %}
+{% block css_file %}home.css{% endblock %}
+{% block content %}
+
+    {% for error in errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+    <form action="/" method="POST">
+        <input type="submit" value="LOL">
+    </form>
+{% endblock %}
