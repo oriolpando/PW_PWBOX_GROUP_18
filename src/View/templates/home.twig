@@ -32,17 +32,27 @@
                             <label class="floatLabel">Name:</label>
                             <input type="text" name="name" placeholder="Your name">
                         </div>
+                    </div>
+
+                    <div class="col">
                         <div class="form-group">
                             <label class="floatLabel">Username:</label>
                             <input type="text" name="username" placeholder="Create a username">
                         </div>
-
                     </div>
-                    <div class="col">
+
+                </div>
+                <div class="row">
+
+                <div class="col">
                         <div class="form-group">
                             <label class="floatLabel">Surname:</label>
                             <input type="text" name="surname" placeholder="Your surname">
                         </div>
+                </div>
+
+                    <div class="col">
+
                         <div class="form-group">
                             <label class="floatLabel">Email address:</label>
                             <input type="email" name="email" placeholder="Your email address">
@@ -50,6 +60,8 @@
                     </div>
 
                 </div>
+
+
                 <div class="row">
 
                 <div class="col">
@@ -83,7 +95,7 @@
 
                         <div class="form-group">
                             <label class="floatLabel">Select an image for your profile:</label>
-                            <input type='file' name="myFile" onchange="readURL(this);" />
+                            <input default="assets/resources/user.png" type='file' name="image" onchange="readURL(this);" />
                         </div>
                     </div>
 

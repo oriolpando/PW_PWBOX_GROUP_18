@@ -43,6 +43,12 @@ function controlRegister() {
 }
 
 function readURL(input) {
+    var login = document.getElementById("imageUser");
+    login.style.display = "block";
+    var login = document.getElementById("buttonLogin");
+    login.style.display = "none";
+    var login = document.getElementById("buttonRegister");
+    login.style.display = "none";
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 

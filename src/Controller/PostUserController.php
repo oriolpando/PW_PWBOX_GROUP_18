@@ -48,7 +48,6 @@ class PostUserController
         $confirmPassword = $_POST['confirmPassword'];
 
 
-
         $errors = [];
 
 
@@ -93,21 +92,22 @@ class PostUserController
 
            }else{
 
-
                mkdir($target_dir."/".$username, 0777, TRUE);
                $target_file = $target_dir."/".$username."/"."profile.png";
                echo "\nfinal: ".$target_file;
 
                if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
                    echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded. ";
-               } else {
-                   echo "Sorry, there was an error uploading your file.";
                }
 
            }
 
        }else{
             echo("images empty");
+            $target_file = $target_dir."/".$username."/"."profile.png";
+
+            move_uploaded_file( "assets/resources/user.png", $target_file);
+            echo "Default photo assigned";
         }
 
 
@@ -143,6 +143,9 @@ class PostUserController
             return $this->container->get('view')->render($response,'home.twig');
         }else{
             return $this->container->get('view')->render($response,'dashboard.twig');
+            
+
+
         }
 
     }

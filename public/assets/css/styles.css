@@ -12,10 +12,20 @@
 
 #imageUser{
     float: right;
-    margin-left: 50px;
-    position: absolute;
+    margin-left: 0px;
     top: 10px;
     right: 40px;
+    width: 30px;
+    height: 30px;
+    display: none;
+}
+
+.buttonsLogReg{
+    float: right;
+    margin-left: 50px;
+    position: absolute;
+    top: 15px;
+    right: 160px;
     width: 30px;
     height: 30px;
 }
