@@ -114,8 +114,6 @@ class PostUserController
 
 
 
-
-
         $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
         try {
             /** @var UserRepository $userRepo */
