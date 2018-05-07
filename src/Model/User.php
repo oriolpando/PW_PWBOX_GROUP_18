@@ -30,7 +30,7 @@ class User
      * @param $psw
      * @param $birth_date
      */
-    public function __construct($nom, $surname, $username, $email, $psw, $birth_date, $nom_image)
+    public function __construct($nom, $surname, $username, $email, $psw, $birth_date)
     {
         $this->id = null;
         $this->nom = $nom;
