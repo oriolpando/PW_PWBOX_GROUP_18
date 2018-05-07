@@ -4,7 +4,9 @@
 {% block css_file %}home.css{% endblock %}
 {% block content %}
 
-
+    {% for error in errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
     <div id = "login"  >
         <form action="/login" method="POST">
             <input type="text" name="title" placeholder="Username or email">
@@ -14,7 +16,7 @@
         <input type="submit" value="Register" onclick="showRegister()">
     </div>
     <div id = "register">
-        <form action="/inserir" method="POST">
+        <form action="/inserir" method="POST" enctype="multipart/form-data">
             <input type="text" name="name" placeholder="Name">
             <input type="text" name="surname" placeholder="Surname">
             <input type="text" name="username" placeholder="Username">
@@ -22,12 +24,10 @@
             <input type="password" name="password" placeholder="Password">
             <input type="password" name="confirmPassword" placeholder="Password">
             <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
-            <input type='file' name="myFile" type="file">
+            <input type='file' name="image"  accept="image/*" type="file">
             <input type="submit" value="Register" onclick="controlRegister()">
         </form>
         <input type="submit" value="Login" onclick="showLogin()">
-        {% for error in errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
+
     </div>
 {% endblock %}

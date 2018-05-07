@@ -15,7 +15,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 
-
 class PostUserController
 {
     /** @var ContainerInterface */
@@ -44,6 +43,11 @@ class PostUserController
 
         $username = $_POST['username'];
         $email = $_POST['email'];
+        $date = $_POST['birth'];
+        $password = $_POST['password'];
+        $confirmPassword = $_POST['confirmPassword'];
+
+
 
         $errors = [];
 
@@ -51,6 +55,51 @@ class PostUserController
         if (strlen($username)>20||!ctype_alnum($username)){
             $errors['username'] = 'invalid user';
         }
+
+        if (strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
+            $errors['password'] = 'invalid password';
+        }
+
+        //WHY DON'T YOU WORK???
+       /* if(!strcmp($confirmPassword, $password)){
+            echo($password);
+            echo($confirmPassword);
+            echo(" ".strcmp($confirmPassword, $password));
+            $errors['confirmPassword'] = 'Confirm password field does not match up';
+
+        }*/
+
+        $target_dir = "assets/imatges/perfils";
+
+        if(!empty($target_dir)){
+           echo("Not empty");
+
+
+           if($_FILES["image"]["size"]>500000){
+               $errors['image'] = 'image too big';
+
+           }else{
+
+
+               echo("volem fer ".$target_dir."/".$username);
+               mkdir($target_dir."/".$username, 0777, TRUE);
+               $target_file = $target_dir.basename($_FILES["image"]["name"]);
+
+               if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
+                   echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+               } else {
+                   echo "Sorry, there was an error uploading your file.";
+               }
+
+           }
+
+       }
+
+
+        if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)) {
+            $errors['birth'] = 'wrong birth';
+        }
+
 
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $errors['email'] = 'invalid email';
@@ -62,7 +111,7 @@ class PostUserController
 
 
 
-        $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth'],$_POST['myFile']);
+        $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth'],$target_file);
         try {
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
