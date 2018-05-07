@@ -4,7 +4,9 @@
 {% block css_file %}home.css{% endblock %}
 {% block content %}
 
-
+    {% for error in errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
     <div id = "login"  >
         <form action="/login" method="POST">
             <h1>Sign in</h1>
@@ -20,7 +22,7 @@
         </form>
     </div>
     <div id = "register">
-        <form action="/inserir" method="POST">
+        <form action="/inserir" method="POST" enctype="multipart/form-data">
             <h1>Register</h1>
 
             <div class="form-group">
@@ -59,8 +61,6 @@
             </div>
             <input type="submit"  value="Create My Account" onclick="controlRegister()">
         </form>
-        {% for error in errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
+
     </div>
 {% endblock %}
