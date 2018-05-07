@@ -114,8 +114,6 @@ class PostUserController
 
 
 
-
-
         $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
         try {
             /** @var UserRepository $userRepo */
@@ -125,7 +123,7 @@ class PostUserController
             $registerMessages = isset($messages['register'])?$messages['register']:[];
 
             return $this->container->get('view')
-                ->render($response,'prova.twig',['messages'=> $registerMessages]);
+                ->render($response,'dashboard.twig',['messages'=> $registerMessages]);
         }catch (\Exception $e) {
             echo $e->getMessage();
         }
