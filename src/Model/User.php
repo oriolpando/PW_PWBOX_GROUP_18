@@ -11,14 +11,13 @@ namespace PwBox\Model;
 
 class User
 {
-    private  $id;
+    private $id;
     private $nom;
     private $surname;
     private $username;
     private $email;
     private $psw;
     private $birth_date;
-    private $nom_image;
 
     /**
      * User constructor.

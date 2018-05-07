@@ -140,7 +140,7 @@ class PostUserController
 
         //TODO: COMPROVAR LOGIN
 
-        $exists = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);;
+        $exists = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
         if ($exists == -1){
             //Username o email no existeix a bbdd
@@ -179,7 +179,6 @@ class PostUserController
             return $this->container->get('view')->render($response,'register.twig', [
                 'error'=>$e->getMessage(),
             ]);
-
 
         }
         return $response;

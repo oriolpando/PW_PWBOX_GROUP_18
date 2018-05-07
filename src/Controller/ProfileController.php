@@ -27,9 +27,11 @@ class ProfileController
 
     public function profilePage(Request $request, Response $response)
     {
-
+        $id = 8;
+        $user = $this->container->get('user_repository')->getUser($id);
+        $path = 'assets/resources/imatges/perfils/aleoriol/profile.png';
         return $this->container->get('view')
-            ->render($response,'profile.twig');
+            ->render($response,'profile.twig', ['srcProfileImg'=> $path]);
     }
 
 }

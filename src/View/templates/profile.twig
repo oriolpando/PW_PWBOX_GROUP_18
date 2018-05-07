@@ -1,15 +1,79 @@
 {% extends "base.twig" %}
 {% block title %}Home{% endblock %}
 {% block javascript %}home.js{% endblock %}
-{% block css_file %}home.css{% endblock %}
+{% block css_file %}profile.css{% endblock %}
 {% block content %}
 
     {% for error in errors %}
         <p>{{ error }}</p>
     {% endfor %}
 
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Edit Information</button>
+
+    <div id = "userInfo">
+        <form action="/inserir" method="POST" enctype="multipart/form-data">
+            <h1>Register</h1>
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col">
+                        <img src="{{ srcProfileImg }}" id="CurrentImageUser" width="100" height="100">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Name:</label>
+                            <label class="floatLabel">{{ name }}</label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Username:</label>
+                            <label class="floatLabel">{{ username }}</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Surname:</label>
+                            <label class="floatLabel">{{ surname }}</label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+
+                        <div class="form-group">
+                            <label class="floatLabel">Email address:</label>
+                            <label class="floatLabel">{{ email }}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Birth date:</label>
+                            <label class="floatLabel">{{ birthDate }}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Edit Information</button>
+
+        </form>
+    </div>
 
     <!-- Modal -->
     <div id="EditInformation" class="modal fade" role="dialog">
@@ -21,12 +85,12 @@
                     <h4 class="modal-title">Edit Information</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="/" method="POST" enctype="multipart/form-data">
+                    <form action="/updateInfo" method="POST" enctype="multipart/form-data">
                         <div class="container">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <img src="{{ srcProfileImg }}" id="CurrentImageUser">
+                                        <img src="{{ srcProfileImg }}" id="CurrentImageUser" width="100" height="100">
                                         <input default="assets/resources/profile.png" accept="image/*" type='file' name="image" onchange="readURL(this)" />
                                     </div>
                                 </div>
