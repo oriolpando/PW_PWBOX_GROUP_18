@@ -25,40 +25,73 @@
         <form action="/inserir" method="POST" enctype="multipart/form-data">
             <h1>Register</h1>
 
-            <div class="form-group">
-                <label class="floatLabel">Name:</label>
-                <input type="text" name="name" placeholder="Your name">
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Surname:</label>
-                <input type="text" name="surname" placeholder="Your surname">
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Username:</label>
-                <input type="text" name="username" placeholder="Create a username">
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Email address:</label>
-                <input type="email" name="email" placeholder="Your email address">
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Password:</label>
-                <input type="password" name="password" placeholder="Create a password">
-                <span>Enter a correct password</span>
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Repeat password:</label>
-                <input type="password" name="confirmPassword" placeholder="Repeat the password">
-                <span>Enter a correct password</span>
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Birth date:</label>
-                <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
-            </div>
-            <div class="form-group">
-                <label class="floatLabel">Select an image for your profile:</label>
-                <input type='file'  accept="image/*" name="image" onchange="readURL(this);" />
-            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Name:</label>
+                            <input type="text" name="name" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label class="floatLabel">Username:</label>
+                            <input type="text" name="username" placeholder="Create a username">
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Surname:</label>
+                            <input type="text" name="surname" placeholder="Your surname">
+                        </div>
+                        <div class="form-group">
+                            <label class="floatLabel">Email address:</label>
+                            <input type="email" name="email" placeholder="Your email address">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                <div class="col">
+                    <div class="form-group">
+                        <label class="floatLabel">Password:</label>
+                        <input type="password" name="password" placeholder="Create a password">
+                        <span>Enter a correct password</span>
+                    </div>
+                </div>
+
+                    <div class="col">
+
+                    <div class="form-group">
+                        <label class="floatLabel">Repeat password:</label>
+                        <input type="password" name="confirmPassword" placeholder="Repeat the password">
+                        <span>Enter a correct password</span>
+                    </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floatLabel">Birth date:</label>
+                            <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
+                        </div>
+                    </div>
+
+                    <div class="col">
+
+                        <div class="form-group">
+                            <label class="floatLabel">Select an image for your profile:</label>
+                            <input type='file' name="myFile" onchange="readURL(this);" />
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+
+
             <input type="submit"  value="Create My Account" onclick="controlRegister()">
         </form>
 

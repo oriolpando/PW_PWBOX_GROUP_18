@@ -37,7 +37,7 @@ class DoctrineUserRepository implements UserRepository
     public function save(User $user)
     {
 
-        $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser, image) VALUES(:nom, :surname, :username, :birth_date, :email, :pswUser, :image)";
+        $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser) VALUES(:nom, :surname, :username, :birth_date, :email, :pswUser)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue("nom", $user->getNom(), 'string');
         $stmt->bindValue("surname", $user->getSurname(), 'string');
@@ -45,7 +45,6 @@ class DoctrineUserRepository implements UserRepository
         $stmt->bindValue("email", $user->getEmail(), 'string');
         $stmt->bindValue("pswUser", $user->getPassword(), 'string');
         $stmt->bindValue("birth_date", $user->getBirthDate() );
-        $stmt->bindValue("image", $user->getNomImage(), 'string');
 
 
 
