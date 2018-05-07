@@ -9,7 +9,7 @@ CREATE TABLE `User` (
   `username` varchar(40) NOT NULL,
   `birth_date` date NOT NULL,
   `email` varchar(200) NOT NULL,
-  `pswUser` varchar(12) NOT NULL,
+  `pswUser` varchar(100) NOT NULL,
   PRIMARY KEY (`id`))
   ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
