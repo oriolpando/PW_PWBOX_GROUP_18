@@ -17,7 +17,7 @@ $app->get('/', 'PwBox\Controller\HelloController');
 
 $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
 
-$app->post('/inserir', 'PwBox\Controller\PostUserController:inserir');
+$app->post('/register', 'PwBox\Controller\PostUserController:register');
 
 //$app->post('/inserir', 'PwBox\Controller\PostUserController:controlSession');
 

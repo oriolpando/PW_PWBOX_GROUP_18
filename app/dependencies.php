@@ -27,6 +27,8 @@ $container['doctrine'] = function ($container){
     return $connection;
 };
 
+
+
 $container['user_repository'] = function($container){
     $repository = new PwBox\Model\Implementation\DoctrineUserRepository(
         $container->get('doctrine')

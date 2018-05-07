@@ -14,7 +14,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
-
 class PostUserController
 {
     /** @var ContainerInterface */
@@ -38,7 +37,7 @@ class PostUserController
             ->render($response,'register.twig',['messages'=> $registerMessages]);
     }
 
-    public function inserir(Request $request, Response $response)
+    public function register(Request $request, Response $response)
     {
 
         $username = $_POST['username'];
@@ -112,6 +111,9 @@ class PostUserController
             echo "Default photo assigned";
         }
 
+
+
+        mail("miquelet-sans@hotmail.com","Goddammit","yelloo");
 
 
         $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
