@@ -34,8 +34,7 @@ class DoctrineUserRepository implements UserRepository
      * @param User $user
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function save(User $user)
-    {
+    public function save(User $user){
 
         $psw = password_hash($user->getPassword(), PASSWORD_DEFAULT);
         $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser) VALUES(:nom, :surname, :username, :birth_date, :email, :pswUser)";
@@ -96,8 +95,7 @@ class DoctrineUserRepository implements UserRepository
         }
     }
 
-    public function getUser(int $id)
-    {
+    public function getUser(int $id){
 
         $sql = "SELECT * FROM User WHERE id LIKE ?";
         $stmt = $this->connection->prepare($sql);
@@ -110,5 +108,15 @@ class DoctrineUserRepository implements UserRepository
         $user = new User($result[0]['id'],$result[0]['nom'],$result[0]['surname'],$result[0]['username'], $result[0]['email'], $result[0]['pswUser'], $result[0]['birth_date']);
 
         return $user;
+    }
+
+    public function updateEmail(String $email)
+    {
+        $sql = "UPDATE User SET email LIKE ? WHERE id LIKE 8";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+
+        $stmt->execute();
+
     }
 }

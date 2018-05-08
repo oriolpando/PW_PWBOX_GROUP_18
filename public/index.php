@@ -13,7 +13,8 @@ $app = new \Slim\App($settings);
 require_once __DIR__ . '/../app/dependencies.php';
 require_once __DIR__ . '/../app/routes.php';
 
+session_start();
+
 $app->run();
 
 // Start the session
-//session_start();

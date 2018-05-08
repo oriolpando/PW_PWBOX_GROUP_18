@@ -18,9 +18,11 @@ $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
 
 $app->post('/register', 'PwBox\Controller\PostUserController:register');
 
-$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage');
+$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 //->add();
 
 //$app->post('/inserir', 'PwBox\Controller\PostUserController:controlSession');
 
 $app->post('/profile', 'PwBox\Controller\ProfileController:profilePage');
+
+$app->get('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser');

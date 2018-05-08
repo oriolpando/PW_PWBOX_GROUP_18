@@ -162,6 +162,14 @@ class PostUserController
 
             }
         }
+            //aixo ho fem un cop el loggin ha estat OK
+            //i tambe ho posem quan ens cliquen el link deel mail per activar i tot ok
+            //if tot ok{
+                //$_SESSION['id'] = $id;
+
+            //Quan et facis logout
+            //session_destroy();
+
 
     }
 
