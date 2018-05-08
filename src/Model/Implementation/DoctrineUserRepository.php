@@ -111,4 +111,14 @@ class DoctrineUserRepository implements UserRepository
 
         return $user;
     }
+
+    public function updateEmail(String $email)
+    {
+        $sql = "UPDATE User SET email LIKE ? WHERE id LIKE 8";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+    }
 }
