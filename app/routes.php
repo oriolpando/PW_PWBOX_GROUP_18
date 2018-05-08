@@ -14,8 +14,12 @@ $app->get('/hello/{name}', 'PwBox\Controller\HelloController')
 $app->get('/', 'PwBox\Controller\HelloController');
 
 $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
+//->add();
 
 $app->post('/register', 'PwBox\Controller\PostUserController:register');
+
+$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage');
+//->add();
 
 //$app->post('/inserir', 'PwBox\Controller\PostUserController:controlSession');
 

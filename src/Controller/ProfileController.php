@@ -29,9 +29,12 @@ class ProfileController
     {
         $id = 8;
         $user = $this->container->get('user_repository')->getUser($id);
-        $path = 'assets/resources/imatges/perfils/aleoriol/profile.png';
+
+        $path = 'assets/resources/imatges/perfils/'.$user->getUsername().'/profile.png';
+
         return $this->container->get('view')
-            ->render($response,'profile.twig', ['srcProfileImg'=> $path]);
+            ->render($response,'profile.twig',
+                ['srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
     }
 
 }

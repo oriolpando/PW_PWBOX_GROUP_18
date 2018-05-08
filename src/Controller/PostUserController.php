@@ -117,7 +117,7 @@ class PostUserController
         mail("miquelet-sans@hotmail.com","Goddammit","yelloo");
 
 
-        $user = new User($_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
+        $user = new User(null, $_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
         try {
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
@@ -155,6 +155,9 @@ class PostUserController
                 return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
 
             }else{
+
+                return $response->withStatus(302)->withHeader('Location','/dashboard');
+
                 return $this->container->get('view')->render($response,'dashboard.twig');
 
             }

@@ -96,22 +96,18 @@ class DoctrineUserRepository implements UserRepository
         }
     }
 
-    public function getUser(String $loginTry, String $password)
+    public function getUser(int $id)
     {
 
-        $sql = "SELECT * FROM User WHERE (email LIKE ? OR username LIKE ?)";
+        $sql = "SELECT * FROM User WHERE id LIKE ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindParam(1, $loginTry, PDO::PARAM_STR);
-        $stmt->bindParam(2, $loginTry, PDO::PARAM_STR);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         $stmt->execute();
 
         $result = $stmt->fetchAll();
 
-        $user = '';
-        //$user = new User($result[0]['id'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
-
-        var_dump($result);
+        $user = new User($result[0]['id'],$result[0]['nom'],$result[0]['surname'],$result[0]['username'], $result[0]['email'], $result[0]['pswUser'], $result[0]['birth_date']);
 
         return $user;
     }
