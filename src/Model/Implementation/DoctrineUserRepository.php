@@ -115,15 +115,15 @@ class DoctrineUserRepository implements UserRepository
 
         //TODO: Arreglar la puta query, arriba tot be pero no canvia email
         $id = $_SESSION['id'];
-        $idFin = intval($id);
-        var_dump($idFin);
-        $sql = "UPDATE User SET email = ? WHERE id LIKE ?";
+
+        var_dump($email);
+        $sql = "UPDATE User SET email = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
-        $stmt->bindParam(1, $idFin, PDO::PARAM_INT);
-
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
 
         $stmt->execute();
+
 
     }
 }
