@@ -12,7 +12,7 @@ namespace PwBox\Model\Implementation;
 use Doctrine\DBAL\Connection;
 use function FastRoute\TestFixtures\empty_options_cached;
 use PwBox\Model\FileRepository;
-use PwBox\Model\Item;
+use PwBox\Model\php;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 use PDO;
@@ -38,28 +38,26 @@ class DoctrineFileRepository implements FileRepository
         $sql = "INSERT INTO Item(nom, parent, type) VALUES(:nom, :parent, :type)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue("nom", "root", 'string');
-        $stmt->bindValue("parent", null, 'int');
+        $stmt->bindValue("parent", null, 'string');
         $stmt->bindValue("type", false, 'boolean');
 
         $stmt->execute();
 
 
-        $sql = "SELECT id FROM PwBox.Item order by id desc limit 1";
+        $sql = "SELECT id FROM Item order by id desc limit 1";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();
 
-
-        echo "yellooi ".$result[0]['id'];
         return $result[0]['id'];
 
     }
 
 
-    public function saveItem(Item $item)
+    public function saveItem($item)
     {
         /**
-         * @param Item $item
+         * @param php $item
          * @throws \Doctrine\DBAL\DBALException
 */
         $nom = $item->getNom();
@@ -69,7 +67,7 @@ class DoctrineFileRepository implements FileRepository
         $sql = "INSERT INTO Item(nom, parent, type) VALUES(:nom, :parent, :type)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue("nom", $nom, 'string');
-        $stmt->bindValue("parent", $parent, 'int');
+        $stmt->bindValue("parent", $parent, 'string');
         $stmt->bindValue("type", $type, 'boolean');
 
         $stmt->execute();

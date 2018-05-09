@@ -27,6 +27,12 @@ $container['doctrine'] = function ($container){
     return $connection;
 };
 
+$container['file_repository'] = function($container){
+    $repo = new PwBox\Model\Implementation\DoctrineFileRepository(
+        $container->get('doctrine')
+    );
+    return $repo;
+};
 
 
 

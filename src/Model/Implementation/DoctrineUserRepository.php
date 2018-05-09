@@ -86,7 +86,11 @@ class DoctrineUserRepository implements UserRepository
         var_dump($result);
         if (!empty($result)){
             if (password_verify($password, $result[0]['pswUser'])){
-                return $result[0]['id'];
+                $results = [];
+                $results[0] =  $result[0]['id'];
+                $results[1] =  $result[0]['id_motherfolder'];
+
+                return $results;
             }else{
                 return -2;
             }

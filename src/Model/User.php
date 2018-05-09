@@ -18,6 +18,7 @@ class User
     private $email;
     private $psw;
     private $birth_date;
+    private $id_motherfolder;
 
     /**
      * User constructor.
@@ -29,7 +30,7 @@ class User
      * @param $psw
      * @param $birth_date
      */
-    public function __construct($id, $nom, $surname, $username, $email, $psw, $birth_date)
+    public function __construct($id, $nom, $surname, $username, $email, $psw, $birth_date,$id_motherfolder)
     {
         $this->id = $id;
         $this->nom = $nom;
@@ -38,6 +39,7 @@ class User
         $this->email = $email;
         $this->psw = $psw;
         $this->birth_date = $birth_date;
+        $this->id_motherfolder = $id_motherfolder;
     }
 
     /**

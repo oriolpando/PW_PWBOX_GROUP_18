@@ -105,10 +105,17 @@ class PostUserController
 
 
 
-        mail("miquelet-sans@hotmail.com","Goddammit","yelloo");
+        $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
-
-        $user = new User(null, $_POST['name'],$_POST['surname'],$username,$email,$_POST['password'],$_POST['birth']);
+        $user = new User
+        (null,
+            $_POST['name'],
+            $_POST['surname'],
+            $username,$email,
+            $_POST['password'],
+            $_POST['birth'],
+            $id_motherfolder
+        );
         try {
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
@@ -116,6 +123,7 @@ class PostUserController
             $messages = $this->container->get('flash')->getMessages();
             $registerMessages = isset($messages['register'])?$messages['register']:[];
 
+         $_SESSION['currentfolder'] = $id_motherfolder;
             return $this->container->get('view')
                 ->render($response,'dashboard.twig',['messages'=> $registerMessages]);
         }catch (\Exception $e) {
@@ -154,16 +162,19 @@ class PostUserController
         }
 
         $errors = [];
+        var_dump($_POST);
 
+        //TODO: COMPROVAR LOGIN
+
+        $id = [];
         $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
-        if ($id == -1){
-
+        if ($id[0] == -1){
             //Username o email no existeix a bbdd
             $errors['notexistent'] = 'The username or the email do not exist';
             return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
         }else{
-            if ($id == -2){
+            if ($id[0] == -2){
                 //Contrasenya incorrecta
 
                 $errors['password'] = 'Incorrect password';
@@ -171,11 +182,12 @@ class PostUserController
 
             }else{
 
-                /** @var FileRepository $fileRepo
+                /** @var FileRepository $fileRepo **/
 
-                $this->container->get('file_repository')->iniciaFolder();
-                 * */
-                $_SESSION['id'] = $id;
+                $_SESSION['currentFolder'] = $id[1];
+
+
+                $_SESSION['id'] = $id[0];
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
 
                 //return $this->container->get('view')->render($response,'dashboard.twig');

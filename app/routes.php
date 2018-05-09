@@ -28,6 +28,8 @@ $app->get('/profile', 'PwBox\Controller\ProfileController:profilePage')->add('Pw
 
 $app->get('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
+$app->post('/addFolder', 'PwBox\Controller\FolderController:addFolder');
+
 
 
 
