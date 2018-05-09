@@ -10,8 +10,6 @@
 
 $app->get('/', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-//TODO: Evitar $app->get(login), $app->get(register)
-
 $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
 
 $app->get('/login', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');

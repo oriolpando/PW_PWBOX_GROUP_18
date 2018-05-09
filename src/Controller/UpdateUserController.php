@@ -11,8 +11,6 @@ namespace PwBox\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use PwBox\Model\User;
-use PwBox\Model\UserRepository;
 
 class UpdateUserController
 {
@@ -35,11 +33,10 @@ class UpdateUserController
 
             var_dump($exists);
 
-            return $response->withStatus(200)->withHeader('ok');
+            return $response->withStatus(200);
         }catch (\Exception $e){
-            return $response->withStatus(500)->withHeader('noOk');
+            return $response->withStatus(500);
         }
-
 
     }
 
