@@ -1,0 +1,24 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oriol
+ * Date: 12/4/2018
+ * Time: 20:38
+ */
+
+namespace PwBox\Model\Implementation;
+
+
+use Doctrine\DBAL\Connection;
+use function FastRoute\TestFixtures\empty_options_cached;
+use PwBox\Model\FileRepository;
+use PwBox\Model\User;
+use PwBox\Model\UserRepository;
+use PDO;
+class DoctrineFileRepository
+{
+    public function saveFolder(Folder $folder)
+    {
+    }
+
+}

@@ -158,7 +158,7 @@ class PostUserController
 
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
 
-                return $this->container->get('view')->render($response,'dashboard.twig');
+                //return $this->container->get('view')->render($response,'dashboard.twig');
 
             }
         }

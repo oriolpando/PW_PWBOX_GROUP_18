@@ -27,13 +27,23 @@ class DashboardController
     public function dashboardPage(Request $request, Response $response)
     {
 
+        //canviar path depenent de qui siguis
         $path = "assets/resources/perfils/carla/root";
+        $path    = "assets/resources/perfils/miquelator/root/";
         $files = scandir($path);
 
-        var_dump($files);
+        $folders = [];
+
+        echo ("yooo ".sizeof($files));
+        for($i=0;$i<sizeof($files);$i++){
+            if (is_dir($path.$files[$i])){
+                $folders[$files[$i]] = $files[$i];
+            }
+        }
+
 
         return $this->container->get('view')
-            ->render($response,'dashboard.twig');
+            ->render($response,'dashboard.twig', ['folders'=>$folders]);
     }
 
 }
