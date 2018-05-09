@@ -28,18 +28,13 @@ class DashboardController
     {
 
         //canviar path depenent de qui siguis
-        $path = "assets/resources/perfils/carla/root";
+        //$path = "assets/resources/perfils/carla/root";
         $path    = "assets/resources/perfils/miquelator/root/";
         $files = scandir($path);
 
         $folders = [];
 
-        echo ("yooo ".sizeof($files));
-        for($i=0;$i<sizeof($files);$i++){
-            if (is_dir($path.$files[$i])){
-                $folders[$files[$i]] = $files[$i];
-            }
-        }
+
 
 
         return $this->container->get('view')

@@ -12,13 +12,69 @@ namespace PwBox\Model\Implementation;
 use Doctrine\DBAL\Connection;
 use function FastRoute\TestFixtures\empty_options_cached;
 use PwBox\Model\FileRepository;
+use PwBox\Model\Item;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
 use PDO;
-class DoctrineFileRepository
+class DoctrineFileRepository implements FileRepository
 {
-    public function saveFolder(Folder $folder)
+
+    private const DATE_FORMAT = 'Y-m-d H:i:s';
+
+    /** @var Connection */
+    private $connection;
+
+    /**
+     * DoctrineUserRepository constructor.
+     * @param $connection
+     */
+    public function __construct($connection)
     {
+        $this->connection = $connection;
     }
+
+    public function iniciaFolder()
+    {
+        $sql = "INSERT INTO Item(nom, parent, type) VALUES(:nom, :parent, :type)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue("nom", "root", 'string');
+        $stmt->bindValue("parent", null, 'int');
+        $stmt->bindValue("type", false, 'boolean');
+
+        $stmt->execute();
+
+
+        $sql = "SELECT id FROM PwBox.Item order by id desc limit 1";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+
+        echo "yellooi ".$result[0]['id'];
+        return $result[0]['id'];
+
+    }
+
+
+    public function saveItem(Item $item)
+    {
+        /**
+         * @param Item $item
+         * @throws \Doctrine\DBAL\DBALException
+*/
+        $nom = $item->getNom();
+        $parent = $_SESSION['currentFolder'];
+        $type = $item->getType();
+
+        $sql = "INSERT INTO Item(nom, parent, type) VALUES(:nom, :parent, :type)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue("nom", $nom, 'string');
+        $stmt->bindValue("parent", $parent, 'int');
+        $stmt->bindValue("type", $type, 'boolean');
+
+        $stmt->execute();
+
+    }
+
 
 }

@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
+use PwBox\Model\FileRepository;
 class PostUserController
 {
     /** @var ContainerInterface */
@@ -146,6 +147,11 @@ class PostUserController
                 return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
 
             }else{
+
+                /** @var FileRepository $fileRepo
+
+                $this->container->get('file_repository')->iniciaFolder();
+                 * */
                 $_SESSION['id'] = $id;
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
 
