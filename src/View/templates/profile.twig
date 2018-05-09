@@ -71,7 +71,7 @@
 
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Edit Information</button>
-
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#DeleteAccount">Delete Account</button>
         </form>
     </div>
 
@@ -138,6 +138,30 @@
             </div>
         </div>
     </div>
+    {#
+    <!-- Modal -->
+    <div id="DeleteAccount" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Information</h4>
+                </div>
+                <div class="modal-body">
+
+                    <p>Deleting your account will erase all folders and files that you have uploaded, including thos that are shared with other users!<p>
+
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="">Cancel</button>
+                    <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" >Delete Account</button>
+                </div>
+                <div> class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    #}
 
 
 {% endblock %}

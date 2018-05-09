@@ -11,14 +11,17 @@ function updateDb() {
         xmlhttp.open("GET","/updateUser?email="+mail,true);
         xmlhttp.send();
 
-        console.log(xmlhttp.data);
 
-        if(xmlhttp.status == 500){
-            console.log("seeee");
-            document.getElementById("mailUp").innerHTML = mail;
-
-        }else{
-            console.log("fuck2");
+        xmlhttp.onreadystatechange = function () {
+            var DONE = 4; // readyState 4 means the request is done.
+            var OK = 200; // status 200 is a successful return.
+            if (xmlhttp.readyState === DONE) {
+                if (xmlhttp.status === OK)
+                    document.getElementById("mailUp").innerHTML = mail;
+            } else {
+                console.log("fuck2");
+            }
         }
     }
+
 }
