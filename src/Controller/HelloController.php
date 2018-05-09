@@ -34,12 +34,7 @@ class  HelloController{
 
     public function __invoke(Request $request, Response $response, array $arg)
     {
-        if (isset($_SESSION['counter'])){
-            $_SESSION['counter']+=1;}
-            else{
-            $_SESSION['counter']= 0;
-        }
-
+        /*
         $cookie = FigRequestCookies::get($request, 'advice',0);
         if(empty($cookie->getValue())){
             $response = FigResponseCookies::set($response, SetCookie::create('advice')
@@ -53,6 +48,7 @@ class  HelloController{
             'home.twig',
             ['counter'=>$_SESSION['counter'],
             'advice'=>$cookie->getValue()]);
+        */
     }
 
 

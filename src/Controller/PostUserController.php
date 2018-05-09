@@ -28,15 +28,6 @@ class PostUserController
         $this->container = $container;
     }
 
-    public function indexAction(Request $request, Response $response)
-    {
-        $messages = $this->container->get('flash')->getMessages();
-        $registerMessages = isset($messages['register'])?$messages['register']:[];
-
-        return $this->container->get('view')
-            ->render($response,'register.twig',['messages'=> $registerMessages]);
-    }
-
     public function register(Request $request, Response $response)
     {
 
@@ -148,7 +139,7 @@ class PostUserController
             $errors['notexistent'] = 'The username or the email do not exist';
             return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
         }else{
-            if ($id == -1){
+            if ($id == -2){
                 //Contrasenya incorrecta
 
                 $errors['password'] = 'Incorrect password';
@@ -162,39 +153,16 @@ class PostUserController
 
             }
         }
-            //aixo ho fem un cop el loggin ha estat OK
             //i tambe ho posem quan ens cliquen el link deel mail per activar i tot ok
             //if tot ok{
                 //
-
-            //TODO: Quan et facis logout
-            //session_destroy();
-
-
     }
 
-
-
-
-    public function __invoke(Request $request, Response $response)
+    public function logOut(Request $request, Response $response)
     {
-        try{
-            $data = $request->getParsedBody();
-            $service = $this->container->get('post_user_use_case');
-            $service($data);
-            $this->container->get('flash')->addMessage('register','User registered.');
 
-            return $response->withStatus(302)->withHeader('Location','/user');
-
-        }catch (\Exception $e){
-
-            return $this->container->get('view')->render($response,'register.twig', [
-                'error'=>$e->getMessage(),
-            ]);
-
-
-        }
-        return $response;
+        session_destroy();
+        return $response->withStatus(302)->withHeader('Location','/');
     }
 
 }

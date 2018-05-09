@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <script src="{{ base.url() }}/assets/javascript/base.js"></script>
     <script src="{{ base.url() }}/assets/javascript/{% block javascript %}{% endblock %}"></script>
 
     <!-- Bootstrap core CSS -->
@@ -30,6 +31,11 @@
                 <li id="holaquetal" class="nav-item menu">
                     <button id="buttonRegister" type="button" class="btn btn-danger" onclick="showRegister()">Register</button>
                 </li>
+                <li id="holaquetal" class="nav-item menu">
+                    <button id="buttonLogot" type="button" class="btn btn-danger" onclick="logOut()">Register</button>
+                </li>
+
+
                 <img id="imageUser"/>
             </ul>
         </div>

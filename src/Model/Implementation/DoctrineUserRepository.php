@@ -112,9 +112,12 @@ class DoctrineUserRepository implements UserRepository
 
     public function updateEmail(String $email)
     {
-        $sql = "UPDATE User SET email = ? WHERE id LIKE 8";
+        $id = $_SESSION['id'];
+        $sql = "UPDATE User SET email = ? WHERE id LIKE ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
 
         $stmt->execute();
 
