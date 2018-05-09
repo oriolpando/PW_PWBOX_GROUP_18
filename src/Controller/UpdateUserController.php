@@ -26,13 +26,21 @@ class UpdateUserController
 
     public function updateUser(Request $request, Response $response)
     {
+
         var_dump($_GET);
+        try{
+            $email=$_GET['email'];
 
-        $email=$_GET['email'];
+            $exists = $this->container->get('user_repository')->updateEmail($email);
 
-        $exists = $this->container->get('user_repository')->updateEmail($email);
+            var_dump($exists);
 
-        var_dump($exists);
+            return $response->withStatus(200)->withHeader('ok');
+        }catch (\Exception $e){
+            return $response->withStatus(500)->withHeader('noOk');
+        }
+
+
     }
 
 }

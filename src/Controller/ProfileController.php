@@ -27,6 +27,7 @@ class ProfileController
 
     public function profilePage(Request $request, Response $response)
     {
+        echo $_SESSION['id'];
         $id = 8;
         $user = $this->container->get('user_repository')->getUser($id);
 
@@ -36,5 +37,4 @@ class ProfileController
             ->render($response,'profile.twig',
                 ['srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
     }
-
 }

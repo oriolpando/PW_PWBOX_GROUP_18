@@ -63,7 +63,7 @@ class PostUserController
             $errors['password'] = 'invalid password';
         }
 
-        //WHY DON'T YOU WORK???
+        //TODO: WHY DON'T YOU WORK???
        /* if(!strcmp($confirmPassword, $password)){
             echo($password);
             echo($confirmPassword);
@@ -141,21 +141,21 @@ class PostUserController
 
         //TODO: COMPROVAR LOGIN
 
-        $exists = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
+        $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
-        if ($exists == -1){
+        if ($id == -1){
             //Username o email no existeix a bbdd
             $errors['notexistent'] = 'The username or the email do not exist';
             return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
         }else{
-            if ($exists == -1){
+            if ($id == -1){
                 //Contrasenya incorrecta
 
                 $errors['password'] = 'Incorrect password';
                 return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
 
             }else{
-
+                $_SESSION['id'] = $id;
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
 
                 //return $this->container->get('view')->render($response,'dashboard.twig');
@@ -165,9 +165,9 @@ class PostUserController
             //aixo ho fem un cop el loggin ha estat OK
             //i tambe ho posem quan ens cliquen el link deel mail per activar i tot ok
             //if tot ok{
-                //$_SESSION['id'] = $id;
+                //
 
-            //Quan et facis logout
+            //TODO: Quan et facis logout
             //session_destroy();
 
 

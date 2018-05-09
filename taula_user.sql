@@ -14,3 +14,13 @@ CREATE TABLE `User` (
   ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 SELECT * FROM User;
+
+CREATE TABLE `Item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(20) NOT NULL,
+  `parent` varchar(100) NOT NULL,
+  `type` bool NOT NULL,
+  PRIMARY KEY (`id`))
+  ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+  SELECT * FROM Item;
