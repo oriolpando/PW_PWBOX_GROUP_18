@@ -16,9 +16,11 @@ class SessionMiddleware{
     {
 
         if(!isset($_SESSION['id'])){
-            return $response->withStatus(302)->withHeader('Location','/login');
-        }
+            $response->withStatus(302);
 
+            //return  $this->container->get('view')->render($response,'home.twig');
+
+        }
 
         return $next($request, $response);
 

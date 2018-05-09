@@ -6,23 +6,20 @@
  * Time: 19:04
  */
 
-$app->add('PwBox\Controller\Middleware\SessionMiddleware');
+//$app->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/hello/{name}', 'PwBox\Controller\HelloController')
-->add('PwBox\Controller\Middleware\UserLoggedMiddleware');
+$app->get('/', 'PwBox\Controller\HelloController')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/', 'PwBox\Controller\HelloController');
+//TODO: Evitar $app->get(login), $app->get(register)
 
 $app->post('/login', 'PwBox\Controller\PostUserController:loginCheck');
-//->add();
+
+$app->get('/login', 'PwBox\Controller\PostUserController:loginCheck')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
 $app->post('/register', 'PwBox\Controller\PostUserController:register');
 
 $app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
-//->add();
 
-//$app->post('/inserir', 'PwBox\Controller\PostUserController:controlSession');
+$app->post('/profile', 'PwBox\Controller\ProfileController:profilePage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->post('/profile', 'PwBox\Controller\ProfileController:profilePage');
-
-$app->get('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser');
+$app->get('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser')->add('PwBox\Controller\Middleware\SessionMiddleware');

@@ -11,9 +11,12 @@ function updateDb() {
         xmlhttp.open("GET","/updateUser?email="+mail,true);
         xmlhttp.send();
 
-        console.log(xmlhttp.status);
-        if(xmlhttp.status != 500){
+        console.log(xmlhttp.data);
+
+        if(xmlhttp.status == 500){
+            console.log("seeee");
             document.getElementById("mailUp").innerHTML = mail;
+
         }else{
             console.log("fuck2");
         }
