@@ -114,20 +114,19 @@ class DoctrineUserRepository implements UserRepository
         return $user;
     }
 
-    public function updateEmail(String $email)
+    public function updateUser(String $email, String $psw)
     {
 
-        //TODO: Arreglar la puta query, arriba tot be pero no canvia email
         $id = $_SESSION['id'];
 
         var_dump($email);
-        $sql = "UPDATE User SET email = ? WHERE id = ?";
+        $sql = "UPDATE User SET email = ?, pswUser = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
-        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $psw, PDO::PARAM_STR);
+        $stmt->bindParam(3, $id, PDO::PARAM_INT);
 
         $stmt->execute();
-
 
     }
 }

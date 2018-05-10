@@ -1,14 +1,25 @@
+var reader;
+var change = 0;
+
+
 function updateDb() {
     var mail = document.getElementById("mailUp").value;
     var psw = document.getElementById("passUp").value;
     var confPsw = document.getElementById("passConfUp").value;
+
+    console.log(reader);
 
     if (psw != confPsw){
         console.log("fuck2");
     }else{
         console.log(mail + psw + confPsw);
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET","/updateUser?email="+mail,true);
+        if (change == 0){
+            xmlhttp.open("GET","/updateUser?email="+mail+"&psw="+psw+"&pswConf="+confPsw,true);
+        }else{
+            xmlhttp.open("GET","/updateUser?email="+mail+"&psw="+psw+"&pswConf="+confPsw+"&image="+reader,true);
+        }
+        change = 0;
         xmlhttp.send();
 
 
@@ -18,7 +29,7 @@ function updateDb() {
             if (xmlhttp.readyState === DONE) {
                 if (xmlhttp.status === OK){
                     console.log("fuck11");
-                document.getElementById("mail").innerHTML = mail;
+                    document.getElementById("mail").innerHTML = mail;
                 }else {
                     console.log("fuckv2")
                 }
@@ -27,4 +38,20 @@ function updateDb() {
         }
     }
 
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageUser')
+                .attr('src', e.target.result)
+                .width(50)
+                .height(50);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+        change = 1;
+    }
 }

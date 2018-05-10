@@ -25,13 +25,63 @@ class UpdateUserController
     public function updateUser(Request $request, Response $response)
     {
 
-        var_dump($_GET);
         try{
             $email=$_GET['email'];
+            $password=$_GET['psw'];
+            $confirmPassword=$_GET['pswConf'];
+            $img = $_GET['image'];
 
-            $exists = $this->container->get('user_repository')->updateEmail($email);
+            if (empty($password)||strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
+                $errors['password'] = 'invalid password';
+            }
 
-            var_dump($exists);
+            if(strcmp($confirmPassword, $password) != 0){
+                echo($password);
+                echo($confirmPassword);
+                echo(" ".strcmp($confirmPassword, $password));
+                $errors['confirmPassword'] = 'Confirm password field does not match up';
+
+            }
+
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $errors['email'] = 'invalid email';
+            }
+
+            if (!empty($errors)) {
+                return $this->container->get('view')
+                    ->render($response,'profile.twig',['errors'=> $errors]);
+            }
+
+
+            if( !empty($_FILES["image"])){
+
+
+                if($_FILES["image"]["size"]>500000){
+                    $errors['image'] = 'image too big';
+
+                }else{
+
+
+                    if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
+                        echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded. ";
+                    }
+
+                }
+
+            }else{
+                echo("images empty");
+
+                echo "Default photo assigned";
+            }
+
+
+
+
+
+
+            $passwordHashed = password_hash($password,PASSWORD_DEFAULT);
+
+            $exists = $this->container->get('user_repository')->updateUser($email, $passwordHashed);
 
             return $response->withStatus(200);
         }catch (\Exception $e){
