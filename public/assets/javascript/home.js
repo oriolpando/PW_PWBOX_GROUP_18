@@ -36,10 +36,41 @@ function controlLogin() {
 }
 
 function controlRegister() {
+
     var login = document.getElementById("login");
     login.style.display = "block";
     var register = document.getElementById("register");
     register.style.display = "none";
+
+    //comprovacions registre
+
+    var name = document.getElementById("name");
+    var username = document.getElementById("username");
+    var surname = document.getElementById("surname");
+    var email = document.getElementById("email");
+    var psw = document.getElementById("psw");
+    var birth = document.getElementById("psw");
+    var image = document.getElementById("image");
+
+    var errorName = false;
+    var errorUsername = false;
+    var errorSurname = false;
+    var errorEmail = false;
+    var errorPsw = false;
+    var errorBirth = false;
+    var errorImage = false;
+
+    //validacio nom
+
+    if (name == null){
+        errorName = true;
+    }
+
+    if((username == null) || (length(username) > 12) || (length(username) < 6) || (username.value.match("/^[0-9a-zA-Z]+$/")) ){
+        errorUsername = true;
+    }
+
+
 }
 
 function readURL(input) {

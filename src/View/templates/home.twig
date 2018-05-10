@@ -30,14 +30,14 @@
                     <div class="col">
                         <div class="form-group">
                             <label class="floatLabel">Name:</label>
-                            <input type="text" name="name" placeholder="Your name">
+                            <input type="text" id="name" name="name" placeholder="Your name">
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
                             <label class="floatLabel">Username:</label>
-                            <input type="text" name="username" placeholder="Create a username">
+                            <input type="text" id="username" name="username" placeholder="Create a username">
                         </div>
                     </div>
 
@@ -47,7 +47,7 @@
                 <div class="col">
                         <div class="form-group">
                             <label class="floatLabel">Surname:</label>
-                            <input type="text" name="surname" placeholder="Your surname">
+                            <input type="text" id="surname" name="surname" placeholder="Your surname">
                         </div>
                 </div>
 
@@ -55,7 +55,7 @@
 
                         <div class="form-group">
                             <label class="floatLabel">Email address:</label>
-                            <input type="email" name="email" placeholder="Your email address">
+                            <input type="email" id="email" name="email" placeholder="Your email address">
                         </div>
                     </div>
 
@@ -67,7 +67,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label class="floatLabel">Password:</label>
-                        <input type="password" name="password" placeholder="Create a password">
+                        <input type="password" id="psw" name="password" placeholder="Create a password">
                         <span>Enter a correct password</span>
                     </div>
                 </div>
@@ -77,7 +77,8 @@
                     <div class="form-group">
                         <label class="floatLabel">Repeat password:</label>
                         <input type="password" name="confirmPassword" placeholder="Repeat the password">
-                        <span>Enter a correct password</span>
+                        {#<span {% if errors['email'] not defined %}  class="hidden" {% endif %}>Enter a correct password</span>#}
+                        {#  {% if form.get('errors') is not empty %}  #}
                     </div>
                     </div>
 
@@ -91,11 +92,12 @@
                         </div>
                     </div>
 
+
                     <div class="col">
 
                         <div class="form-group">
                             <label class="floatLabel">Select an image for your profile:</label>
-                            <input default="assets/resources/user.png" accept="image/*" type='file' name="image" onchange="readURL(this);" />
+                            <input default="assets/resources/user.png" accept="image/*" type='file' id="image" name="image" onchange="readURL(this);" />
                         </div>
                     </div>
 

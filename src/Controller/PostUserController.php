@@ -32,20 +32,23 @@ class PostUserController
     public function register(Request $request, Response $response)
     {
 
+        $name = $_POST['name'];
         $username = $_POST['username'];
         $email = $_POST['email'];
         $date = $_POST['birth'];
         $password = $_POST['password'];
         $confirmPassword = $_POST['confirmPassword'];
 
-
-
         $errors = [];
 
         if($this->container->get('user_repository')->checkIfUserExists($username, $email)){
             $errors['login'] = 'the username or the mail already exist';
-
         }
+
+        if (empty($name)){
+            $errors['name'] = 'invalid user';
+        }
+
 
         if (empty($username)||strlen($username)>20||!ctype_alnum($username)){
             $errors['username'] = 'invalid user';
@@ -71,6 +74,7 @@ class PostUserController
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $errors['email'] = 'invalid email';
         }
+
         if (!empty($errors)) {
             return $this->container->get('view')
                 ->render($response,'home.twig',['errors'=> $errors]);

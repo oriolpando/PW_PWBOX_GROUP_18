@@ -71,7 +71,6 @@ input[type="password"]:focus {
 }
 
 span {
-    display:none;
     background: #F9A5A5;
     padding: 2px 5px;
     color: #666;
