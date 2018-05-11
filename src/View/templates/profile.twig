@@ -2,6 +2,23 @@
 {% block title %}Home{% endblock %}
 {% block javascript %}update.js{% endblock %}
 {% block css_file %}profile.css{% endblock %}
+
+{% block header %}
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav buttonsLogReg">
+            <div>
+                <button id="dropdownButton" class="dropdown" class="dropbtn">Nom i cognom</button>
+                <div class="dropdown-content">
+                    <a href="#">Edit profile</a>
+                    <a href="#" onclick="logOut()">Logout</a>
+                </div>
+                <img id="imageUser"/>
+            </div>
+        </ul>
+    </div>
+{% endblock %}
+
 {% block content %}
 
     {% for error in errors %}

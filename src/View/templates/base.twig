@@ -23,29 +23,15 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav buttonsLogReg">
 
-                <li class="nav-item menu">
-                    <button id="buttonLogin" type="button" class="btn btn-danger" onclick="showLogin()">Login</button>
-                </li>
-                <li id="holaquetal" class="nav-item menu">
-                    <button id="buttonRegister" type="button" class="btn btn-danger" onclick="showRegister()">Register</button>
-                </li>
-                <li id="holaquetal" class="nav-item menu">
-                    <button id="buttonLogout" type="button" class="btn btn-danger" onclick="logOut()">Register</button>
-                </li>
+        {% block header %}
+        {% endblock %}
 
-                <img id="imageUser"/>
-            </ul>
-        </div>
     </nav>
 
 </header>
-<content>
 
     {% block content %}{% endblock %}
-</content>
 <footer></footer>
 </body>
 

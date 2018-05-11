@@ -37,8 +37,7 @@ class DashboardController
 
 
 
-        return $this->container->get('view')
-            ->render($response,'dashboard.twig', ['folders'=>$folders]);
+        return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$folders, 'ola'=>0]);
     }
 
 }

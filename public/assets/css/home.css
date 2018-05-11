@@ -98,3 +98,68 @@ input[type="submit"]:hover {
     background: rgba(210,0,40,1);
     text-shadow:0 1px 3px darken(rgba(148,186,101,0.7), 30%);
 }
+
+#uppercase{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+}
+#number{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+
+}
+#lengthmin{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+
+}
+#lengthmax{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+
+}
+
+#message {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    padding: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#message2 {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    padding: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+    margin-bottom: 0px;
+
+}
+
+.valid:before {
+    position: relative;
+    left: -15px;
+    content: "✔";
+    margin-bottom: 0px;
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -15px;
+    content: "✖";
+}

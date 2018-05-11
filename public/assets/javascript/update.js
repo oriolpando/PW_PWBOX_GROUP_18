@@ -40,6 +40,11 @@ function updateDb() {
 
 }
 
+function editInformation() {
+    var editInf = document.getElementById("editInformation");
+    editInf.style.display = block;
+}
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         reader = new FileReader();

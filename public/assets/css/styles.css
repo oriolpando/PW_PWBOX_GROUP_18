@@ -18,6 +18,8 @@
     width: 30px;
     height: 30px;
     display: none;
+    border-radius: 50%;
+
 }
 
 .buttonsLogReg{
@@ -25,7 +27,7 @@
     margin-left: 50px;
     position: absolute;
     top: 15px;
-    right: 160px;
+   right: 260px;
     width: 30px;
     height: 30px;
 }
@@ -44,3 +46,45 @@ body {
 }
 
 
+.dropbtn {
+    background: rgba(190,30,4,1);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: block
+;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}

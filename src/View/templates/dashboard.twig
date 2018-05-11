@@ -2,6 +2,22 @@
 {% block title %}Home{% endblock %}
 {% block javascript %}home.js{% endblock %}
 {% block css_file %}home.css{% endblock %}
+
+{% block header %}
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav buttonsLogReg">
+            <div>
+                <button id="dropdownButton" class="dropdown" class="dropbtn">Nom i cognom</button>
+                <div class="dropdown-content">
+                    <a href="profile.twig" onchange="editProfile()">Edit profile</a>
+                    <a href="base.twig" onchange="logOut()">Logout</a>
+                </div>
+                <img id="imageUser"/>
+            </div>
+        </ul>
+    </div>
+{% endblock %}
+
 {% block content %}
 
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Add Folder</button>
