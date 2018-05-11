@@ -1,6 +1,6 @@
 {% extends "base.twig" %}
 {% block title %}Home{% endblock %}
-{% block javascript %}home.js{% endblock %}
+{% block javascript %}dashboard.js{% endblock %}
 {% block css_file %}home.css{% endblock %}
 
 {% block header %}
@@ -21,6 +21,8 @@
 {% block content %}
 
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Add Folder</button>
+    <button type="button" class="btn btn-info btn-lg" onclick="toRoot()">Return to root folder</button>
+
 
     {% for error in errors %}
         <p>{{ error }}</p>
@@ -55,5 +57,7 @@
         </div>
     </div>
 
-    <h1>ESTEM DASHBORD</h1>
+    <div>
+        {{ folders|raw }}
+    </div>
 {% endblock %}

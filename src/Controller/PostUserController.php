@@ -134,6 +134,7 @@ class PostUserController
             $registerMessages = isset($messages['register'])?$messages['register']:[];
 
             $_SESSION['currentFolder'] = $id_motherfolder;
+            $_SESSION['motherFolder'] = $id_motherfolder;
 
 
             return $this->container->get('view')
@@ -197,6 +198,9 @@ class PostUserController
                 $_SESSION['currentFolder'] = $id[1];
 
                 $_SESSION['id'] = $id[0];
+
+                $_SESSION['motherFolder'] = $id[1];
+
 
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
 

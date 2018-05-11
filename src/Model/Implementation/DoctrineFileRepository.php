@@ -12,6 +12,7 @@ namespace PwBox\Model\Implementation;
 use Doctrine\DBAL\Connection;
 use function FastRoute\TestFixtures\empty_options_cached;
 use PwBox\Model\FileRepository;
+use PwBox\Model\Item;
 use PwBox\Model\php;
 use PwBox\Model\User;
 use PwBox\Model\UserRepository;
@@ -102,7 +103,22 @@ class DoctrineFileRepository implements FileRepository
             return false;
         }
 
+    }
+    public function getCurrentItems()
+    {
 
+        $parent = $_SESSION['currentFolder'];
+
+        $sql = "SELECT * FROM Item WHERE parent = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
 
     }
 

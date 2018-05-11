@@ -35,10 +35,28 @@ class DashboardController
         $path    = "assets/resources/perfils/aleoriol/root/";
         $files = scandir($path);
 
-        $folders = [];
+        $showItems = [];
+
+        $showItems = $this->container->get('file_repository')->getCurrentItems();
+        $html = '<div id = "items">';
+        if (!empty($showItems)){
+            foreach ($showItems as $item){
+
+                if ($item['type'] == 0){
+                    $html = $html.'<div>';
+                    $html = $html.'<label>'.$item['nom'].'</label><img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px>'
+                        .'<button type="button" class="btn btn-danger" onclick="enterFolder('.$item['id'].')">Enter</button>';
+                    $html = $html.'</div>';
+                }else{
+
+                }
+
+            }
+        }
+        $html = $html.'</div>';
 
 
-        return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$folders, 'ola'=>0]);
+        return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$html]);
     }
 
 }

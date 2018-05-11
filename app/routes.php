@@ -32,6 +32,12 @@ $app->post('/addFolder', 'PwBox\Controller\FolderController:addFolder');
 
 $app->get('/deleteUser', 'PwBox\Controller\UpdateUserController:deleteUser');
 
+$app->get('/enterFolder/{id}', 'PwBox\Controller\FolderController:enterFolder')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
+$app->get('/toRoot', 'PwBox\Controller\FolderController:toRoot')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
+
+
 
 
 

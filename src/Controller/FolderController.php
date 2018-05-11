@@ -35,4 +35,21 @@
         }
      }
 
+     public function enterFolder (Request $request, Response $response, array $arg){
+         $id = $arg['id'];
+
+        $_SESSION['currentFolder'] = $id;
+
+        return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+     }
+
+     public function toRoot (Request $request, Response $response){
+
+         var_dump($_SESSION);
+         $_SESSION['currentFolder'] = $_SESSION['motherFolder'];
+
+
+     }
+
  }
