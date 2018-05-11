@@ -35,17 +35,25 @@ class DoctrineFileRepository implements FileRepository
 
     public function iniciaFolder()
     {
-        $sql = "INSERT INTO Item(nom, parent, type) VALUES(:nom, :parent, :type)";
+
+        $nom = 'root';
+        $id = $_SESSION['id'];
+
+        $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(, null, false, ?)";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue("nom", "root", 'string');
-        $stmt->bindValue("parent", null, 'string');
-        $stmt->bindValue("type", false, 'boolean');
+
+        $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
 
         $stmt->execute();
 
 
-        $sql = "SELECT id FROM Item order by id desc limit 1";
+        $sql = "SELECT id FROM Item WHERE id_propietari = ? AND nom LIKE ?";
         $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $nom, PDO::PARAM_STR);
+
         $stmt->execute();
         $result = $stmt->fetchAll();
 
@@ -63,12 +71,15 @@ class DoctrineFileRepository implements FileRepository
         $nom = $item->getNom();
         $parent = $_SESSION['currentFolder'];
         $type = $item->getType();
+        $id = $_SESSION['id'];
 
-        $sql = "INSERT INTO Item(nom, parent, type) VALUES(:nom, :parent, :type)";
+        $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(?, ?, ?, ?)";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue("nom", $nom, 'string');
-        $stmt->bindValue("parent", $parent, 'string');
-        $stmt->bindValue("type", $type, 'boolean');
+
+        $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+        $stmt->bindParam(2, $parent, PDO::PARAM_STR);
+        $stmt->bindParam(3, $type, PDO::PARAM_BOOL);
+        $stmt->bindParam(4, $id, PDO::PARAM_INT);
 
         $stmt->execute();
 

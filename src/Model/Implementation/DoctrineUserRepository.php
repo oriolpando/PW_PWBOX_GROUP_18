@@ -36,21 +36,28 @@ class DoctrineUserRepository implements UserRepository
      */
     public function save(User $user){
 
-        $psw = password_hash($user->getPassword(), PASSWORD_DEFAULT);
-        $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser) VALUES(:nom, :surname, :username, :birth_date, :email, :pswUser)";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue("nom", $user->getNom(), 'string');
-        $stmt->bindValue("surname", $user->getSurname(), 'string');
-        $stmt->bindValue("username", $user->getUsername(), 'string');
-        $stmt->bindValue("email", $user->getEmail(), 'string');
-        $stmt->bindValue("pswUser", $psw, 'string');
-        $stmt->bindValue("birth_date", $user->getBirthDate() );
+        $nom = $user->getNom();
+        $surname = $user->getSurname();
+        $username = $user->getUsername();
+        $birthDate = $user->getBirthDate();
+        $email = $user->getEmail();
+        $pswUser = $user->getPassword();
+        $psw = password_hash($pswUser, PASSWORD_DEFAULT);
+        $motherfolder = $user->getMotherFolder();
+        var_dump($user);
 
+        $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser, id_motherfolder) VALUES(?,?,?,?,?,?,?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+        $stmt->bindParam(2, $surname, PDO::PARAM_STR);
+        $stmt->bindParam(3, $username, PDO::PARAM_STR);
+        $stmt->bindParam(4, $birthDate, PDO::PARAM_STR);
+        $stmt->bindParam(5, $email, PDO::PARAM_STR);
+        $stmt->bindParam(6, $psw, PDO::PARAM_STR);
+        $stmt->bindParam(7, $motherfolder, PDO::PARAM_INT);
 
 
         $stmt->execute();
-
-        echo $user->getBirthDate();
 
     }
 
@@ -125,6 +132,21 @@ class DoctrineUserRepository implements UserRepository
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
         $stmt->bindParam(2, $psw, PDO::PARAM_STR);
         $stmt->bindParam(3, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+    }
+
+    public function setMotherFolder(int $id_motherfolder)
+    {
+
+        $id = $_SESSION['id'];
+
+        $sql = "UPDATE User SET id_motherfolder = ? WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(2, $id_motherfolder, PDO::PARAM_INT);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
 
         $stmt->execute();
 

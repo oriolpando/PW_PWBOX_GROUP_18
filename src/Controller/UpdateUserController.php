@@ -61,10 +61,11 @@ class UpdateUserController
 
                 }else{
 
-
+                /*
                     if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
                         echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded. ";
                     }
+                */
 
                 }
 

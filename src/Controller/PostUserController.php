@@ -109,7 +109,6 @@ class PostUserController
 
 
 
-        $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
         $user = new User
         (null,
@@ -118,16 +117,21 @@ class PostUserController
             $username,$email,
             $_POST['password'],
             $_POST['birth'],
-            $id_motherfolder
+            null
         );
         try {
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
+            $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
+
+            $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
+
+            $_SESSION['id'] = $this->container->get('user_repository')->tryLogin($username, $password);
 
             $messages = $this->container->get('flash')->getMessages();
             $registerMessages = isset($messages['register'])?$messages['register']:[];
 
-         $_SESSION['currentfolder'] = $id_motherfolder;
+            $_SESSION['currentfolder'] = $id_motherfolder;
             return $this->container->get('view')
                 ->render($response,'dashboard.twig',['messages'=> $registerMessages]);
         }catch (\Exception $e) {

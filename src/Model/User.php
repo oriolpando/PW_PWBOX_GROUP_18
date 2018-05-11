@@ -102,6 +102,11 @@ class User
         return $this->birth_date;
     }
 
+    public function getMotherFolder()
+    {
+        return $this->id_motherfolder;
+    }
+
     /**
      * User constructor.
      * @param $id
