@@ -27,14 +27,14 @@ class ProfileController
 
     public function profilePage(Request $request, Response $response)
     {
-        echo $_SESSION['id'];
-        $id = 8;
+
+        $id = $_SESSION['id'];
         $user = $this->container->get('user_repository')->getUser($id);
 
-        $path = 'assets/resources/imatges/perfils/'.$user->getUsername().'/profile.png';
+        $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
 
         return $this->container->get('view')
             ->render($response,'profile.twig',
-                ['srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
+                ['user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
     }
 }

@@ -20,13 +20,19 @@
          $this->container = $container;
      }
 
-     public function addFolder (){
+     public function addFolder (Request $request, Response $response){
 
-         echo $_SESSION['currentFolder'];
          /** @var FileRepository $fileRepo **/
         $item = new Item (null, $_POST['nom'],$_SESSION['currentFolder'],0);
-        $this->container->get('file_repository')->saveItem($item);
+        $ok = $this->container->get('file_repository')->saveItem($item);
 
+        if ($ok){
+            return $response->withStatus(302)->withHeader('Location','/dashboard');
+        }else{
+            $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+            return $this->container->get('view')
+                ->render($response,'dashboard.twig', ['errors'=> $errors]);
+        }
      }
 
  }

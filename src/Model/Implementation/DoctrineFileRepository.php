@@ -73,15 +73,36 @@ class DoctrineFileRepository implements FileRepository
         $type = $item->getType();
         $id = $_SESSION['id'];
 
-        $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(?, ?, ?, ?)";
+
+        $sql = "SELECT id FROM Item WHERE parent = ? AND type = ? AND nom LIKE ?";
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(1, $nom, PDO::PARAM_STR);
-        $stmt->bindParam(2, $parent, PDO::PARAM_STR);
-        $stmt->bindParam(3, $type, PDO::PARAM_BOOL);
-        $stmt->bindParam(4, $id, PDO::PARAM_INT);
+        $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+        $stmt->bindParam(2, $type, PDO::PARAM_BOOL);
+        $stmt->bindParam(3, $nom, PDO::PARAM_STR);
+
+
 
         $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        if (empty($result)){
+            $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(?, ?, ?, ?)";
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+            $stmt->bindParam(2, $parent, PDO::PARAM_STR);
+            $stmt->bindParam(3, $type, PDO::PARAM_BOOL);
+            $stmt->bindParam(4, $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return true;
+        }else{
+            return false;
+        }
+
+
 
     }
 

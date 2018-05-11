@@ -126,13 +126,16 @@ class PostUserController
 
             $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
+
             $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
 
 
             $messages = $this->container->get('flash')->getMessages();
             $registerMessages = isset($messages['register'])?$messages['register']:[];
 
-            $_SESSION['currentfolder'] = $id_motherfolder;
+            $_SESSION['currentFolder'] = $id_motherfolder;
+
+
             return $this->container->get('view')
                 ->render($response,'dashboard.twig',['messages'=> $registerMessages]);
         }catch (\Exception $e) {
@@ -173,8 +176,6 @@ class PostUserController
         $errors = [];
         var_dump($_POST);
 
-        //TODO: COMPROVAR LOGIN
-
         $id = [];
         $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
@@ -195,8 +196,8 @@ class PostUserController
 
                 $_SESSION['currentFolder'] = $id[1];
 
-
                 $_SESSION['id'] = $id[0];
+
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
 
                 //return $this->container->get('view')->render($response,'dashboard.twig');

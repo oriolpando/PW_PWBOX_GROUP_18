@@ -68,17 +68,11 @@ class UpdateUserController
                 */
 
                 }
-
             }else{
                 echo("images empty");
 
                 echo "Default photo assigned";
             }
-
-
-
-
-
 
             $passwordHashed = password_hash($password,PASSWORD_DEFAULT);
 
@@ -89,6 +83,44 @@ class UpdateUserController
             return $response->withStatus(500);
         }
 
+    }
+
+    public function deleteUser(Request $request, Response $response)
+    {
+
+        $id = $_SESSION['id'];
+        $user = $this->container->get('user_repository')->getUser($id);
+
+        $dirPath = 'assets/resources/perfils/'.$user->getUsername();
+
+        self::deleteDir($dirPath);
+
+        $this->container->get('user_repository')->deleteUser();
+
+        echo 'User deleted';
+        session_destroy();
+        return $this->container->get('view')
+            ->render($response,'home.twig');
+
+    }
+
+    public static function deleteDir($dirPath)
+    {
+        if (!is_dir($dirPath)) {
+            throw new InvalidArgumentException("$dirPath must be a directory");
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                self::deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
     }
 
 }

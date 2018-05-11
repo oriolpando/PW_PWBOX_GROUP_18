@@ -136,7 +136,7 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-        $user = new User($result[0]['id'],$result[0]['nom'],$result[0]['surname'],$result[0]['username'], $result[0]['email'], $result[0]['pswUser'], $result[0]['birth_date']);
+        $user = new User($result[0]['id'],$result[0]['nom'],$result[0]['surname'],$result[0]['username'], $result[0]['email'], $result[0]['pswUser'], $result[0]['birth_date'],$result[0]['id_motherfolder']);
 
         return $user;
     }
@@ -167,6 +167,27 @@ class DoctrineUserRepository implements UserRepository
 
         $stmt->bindParam(1, $id_motherfolder, PDO::PARAM_INT);
         $stmt->bindParam(2, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+    }
+
+    public function deleteUser()
+    {
+        $id = $_SESSION['id'];
+
+
+        $sql = "DELETE FROM Item WHERE id_propietari = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $sql = "DELETE FROM User WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         $stmt->execute();
 

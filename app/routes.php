@@ -30,6 +30,8 @@ $app->get('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser')->ad
 
 $app->post('/addFolder', 'PwBox\Controller\FolderController:addFolder');
 
+$app->get('/deleteUser', 'PwBox\Controller\UpdateUserController:deleteUser');
+
 
 
 

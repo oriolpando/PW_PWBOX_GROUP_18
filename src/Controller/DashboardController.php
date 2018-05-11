@@ -27,14 +27,15 @@ class DashboardController
     public function dashboardPage(Request $request, Response $response)
     {
 
+
+        //TODO: fer que el path sigui ok
         //canviar path depenent de qui siguis
         //$path = "assets/resources/perfils/carla/root";
-        $path    = "assets/resources/perfils/miquelator/root/";
+        //$path    = "assets/resources/perfils/miquelator/root/";
+        $path    = "assets/resources/perfils/aleoriol/root/";
         $files = scandir($path);
 
         $folders = [];
-
-
 
 
         return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$folders, 'ola'=>0]);

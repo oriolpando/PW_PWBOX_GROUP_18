@@ -45,6 +45,10 @@ function editInformation() {
     editInf.style.display = block;
 }
 
+function deleteUs(){
+    location.href = "/deleteUser";
+}
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         reader = new FileReader();
