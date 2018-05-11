@@ -78,6 +78,26 @@ class DoctrineUserRepository implements UserRepository
 
     }
 
+    public function getId(String $loginTry)
+    {
+
+        $sql = "SELECT id FROM User WHERE (email LIKE ? OR username LIKE ?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $loginTry, PDO::PARAM_STR);
+        $stmt->bindParam(2, $loginTry, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        var_dump($result);
+        if (!empty($result)){
+            return $result[0]['id'];;
+        }else{
+            return -1;
+        }
+    }
+
     public function tryLogin(String $loginTry, String $password)
     {
 
@@ -145,7 +165,7 @@ class DoctrineUserRepository implements UserRepository
         $sql = "UPDATE User SET id_motherfolder = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(2, $id_motherfolder, PDO::PARAM_INT);
+        $stmt->bindParam(1, $id_motherfolder, PDO::PARAM_INT);
         $stmt->bindParam(2, $id, PDO::PARAM_INT);
 
         $stmt->execute();

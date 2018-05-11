@@ -122,11 +122,12 @@ class PostUserController
         try {
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
+            $_SESSION['id'] = $this->container->get('user_repository')->getId($username);
+
             $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
             $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
 
-            $_SESSION['id'] = $this->container->get('user_repository')->tryLogin($username, $password);
 
             $messages = $this->container->get('flash')->getMessages();
             $registerMessages = isset($messages['register'])?$messages['register']:[];

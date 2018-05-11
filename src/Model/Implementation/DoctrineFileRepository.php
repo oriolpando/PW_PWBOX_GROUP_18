@@ -39,7 +39,7 @@ class DoctrineFileRepository implements FileRepository
         $nom = 'root';
         $id = $_SESSION['id'];
 
-        $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(, null, false, ?)";
+        $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(?, null, false, ?)";
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindParam(1, $nom, PDO::PARAM_STR);
