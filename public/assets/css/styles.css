@@ -3,7 +3,6 @@
     margin: 5px;
 }
 
-
 #iconPwBox{
 
     width: 80px;
@@ -96,4 +95,8 @@ body {
     width: 100%;
     background-color: whitesmoke;
     text-align: center;
+}
+
+#infoProfile{
+    margin-top: 40px;
 }

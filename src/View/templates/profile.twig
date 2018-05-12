@@ -7,16 +7,28 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav buttonsLogReg">
-            <img id="imageUser"/>
-            <div class="dropdown">
-                <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">{{ user }}
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Edit profile</a></li>
-                    <li><a href="#"onclick="logOut()">Logout</a></li>
-                </ul>
+            <div>
+                <button id="dropdownButton" class="dropdown" class="dropbtn">Nom i cognom</button>
+                <div class="dropdown-content">
+                    <a href="#">Edit profile</a>
+                    <a href="#" onclick="logOut()">Logout</a>
+                </div>
+                <img id="imageUser" src="/assets/resources/user.png"/>
             </div>
         </ul>
+    </div>#}
+
+    <div class="navbar">
+        <div class="dropdown" id="positionNameProfile">
+            <button class="dropbtn" id="nameProfile">Carla Radresa
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Edit profile</a>
+                <a href="#">Notifications</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -26,72 +38,86 @@
         <p>{{ error }}</p>
     {% endfor %}
 
-
-    <div id = "userInfo">
-        <form action="/" method="POST" enctype="multipart/form-data">
-            <h1>Register</h1>
-
-            <div class="container">
-                <div class="row">
-
-                    <div class="col">
-                        <img src="{{ srcProfileImg }}" id="CurrentImageUser" width="100" height="100">
+<div id="editProfile">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="buttonsEdit">
+                    <div class="container">
+                        <div class="row">
+                            <input type="submit" value="Edit" class="buttonEditInfo" data-toggle="modal" data-target="#EditInformation">
+                        </div>
+                        <div class="row">
+                            <input type="submit" value="Delete Account" class=" buttonEditInfo" data-toggle="modal" data-target="#DeleteAccount">
+                        </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="floatLabel">Name:</label>
-                            <label class="floatLabel">{{ name }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="floatLabel">Username:</label>
-                            <label class="floatLabel">{{ username }}</label>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="floatLabel">Surname:</label>
-                            <label class="floatLabel">{{ surname }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col">
-
-                        <div class="form-group">
-                            <label class="floatLabel">Email address:</label>
-                            <label id = "mail" class="floatLabel">{{ email }}</label>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="floatLabel">Birth date:</label>
-                            <label class="floatLabel">{{ birthDate }}</label>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
+            <div class="col-9">
+                <div id = "userInfo">
+                    <form action="/" method="POST" enctype="multipart/form-data">
+                        <h1>Your profile</h1>
 
-            <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#EditInformation">Edit Information</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteAccount">Delete Account</button>
-        </form>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <img {#src="{{ srcProfileImg }}"#} src="/assets/resources/user.png" id="CurrentImageUser" width="100" height="100">
+                                </div>
+                            </div>
+                            <div id="infoProfile">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="floatLabel">Name:</label>
+                                            <label class="floatLabel">{{ name }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="floatLabel">Username:</label>
+                                            <label class="floatLabel">{{ username }}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="floatLabel">Surname:</label>
+                                            <label class="floatLabel">{{ surname }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+
+                                        <div class="form-group">
+                                            <label class="floatLabel">Email address:</label>
+                                            <label id = "mail" class="floatLabel">{{ email }}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="floatLabel">Birth date:</label>
+                                            <label class="floatLabel">{{ birthDate }}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
     <!-- Modal -->
     <div id="EditInformation" class="modal fade" role="dialog">
@@ -177,6 +203,7 @@
             </div>
         </div>
     </div>
+    #}
 
 
 {% endblock %}
