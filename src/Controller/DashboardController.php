@@ -39,6 +39,8 @@ class DashboardController
 
         $showItems = $this->container->get('file_repository')->getCurrentItems();
         $html = '<div id = "items">';
+
+
         if (!empty($showItems)){
             foreach ($showItems as $item){
 

@@ -13,6 +13,9 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
+use Swift_SmtpTransport;
+use Swift_Mailer;
+use Swift_Message;
 use PwBox\Model\UserRepository;
 use PwBox\Model\FileRepository;
 class PostUserController
@@ -40,6 +43,10 @@ class PostUserController
         $confirmPassword = $_POST['confirmPassword'];
 
         $errors = [];
+
+
+
+
 
         if($this->container->get('user_repository')->checkIfUserExists($username, $email)){
             $errors['login'] = 'the username or the mail already exist';
@@ -79,6 +86,8 @@ class PostUserController
             return $this->container->get('view')
                 ->render($response,'home.twig',['errors'=> $errors]);
         }
+
+
 
         $target_dir = "assets/resources/perfils";
 
@@ -123,6 +132,41 @@ class PostUserController
             /** @var UserRepository $userRepo */
             $this->container->get('user_repository')->save($user);
             $_SESSION['id'] = $this->container->get('user_repository')->getId($username);
+
+
+
+            //Si tot està bé, enviem missatge
+            $transport = (new Swift_SmtpTransport('smtp.live.com', 587, 'tls'))
+                ->setUsername('projectesweb2@hotmail.com')
+                ->setPassword('MiqPanCar96')
+            ;
+
+            // Create the Mailer using your created Transport
+            $mailer = new Swift_Mailer($transport);
+
+
+            $id = $_SESSION['id'];
+            // Create a message
+            $message = (new Swift_Message('Activation mail'))
+                ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
+                ->setTo([$email, $email => $name])
+                ->setBody(
+                    '<html>' .
+                    ' <head></head>' .
+                    ' <body>' .
+                    '<a href="pwbox.test/activate?id=' . $id.'">Sign in</a>'.
+                    ' </body>' .
+                    '</html>',
+                    'text/html' // Mark the content-type as HTML
+                );
+
+
+
+
+
+            // Send the message
+            $result = $mailer->send($message);
+
 
             $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
