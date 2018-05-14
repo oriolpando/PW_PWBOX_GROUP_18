@@ -35,6 +35,8 @@
 
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Add Folder</button>
     <button type="button" class="btn btn-info btn-lg" onclick="toRoot()">Return to root folder</button>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ModalFile" >Upload File</button>
+
 
 
     {% for error in errors %}
@@ -59,6 +61,33 @@
                         <div class="container">
                             <div class="form-group">
                                <input type='text' placeholder="Nom" name="nom">
+                            </div>
+                        </div>
+                        <input type="submit"  value="Confirm">
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="ModalFile" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add folder</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Choose the name for the folder</p>
+                    <form method="POST" enctype="multipart/form-data" action="/addFile">
+                        <div class="container">
+                            <div class="form-group">
+                                <input default="assets/resources/user.png" accept="image/*" type='file' id="uploadFile" name="uploadFile" />
+
                             </div>
                         </div>
                         <input type="submit"  value="Confirm">

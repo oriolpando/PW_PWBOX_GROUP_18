@@ -34,6 +34,19 @@ class DoctrineFileRepository implements FileRepository
         $this->connection = $connection;
     }
 
+    public function getUsernameFromId ($id){
+
+        $sql = "SELECT username FROM User WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        return $result[0]['username'];
+    }
+
     public function iniciaFolder()
     {
 

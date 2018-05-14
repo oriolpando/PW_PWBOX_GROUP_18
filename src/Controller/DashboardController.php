@@ -24,20 +24,24 @@ class DashboardController
         $this->container = $container;
     }
 
+
+
     public function dashboardPage(Request $request, Response $response)
     {
 
 
-        //TODO: fer que el path sigui ok
-        //canviar path depenent de qui siguis
-        //$path = "assets/resources/perfils/carla/root";
-        //$path    = "assets/resources/perfils/miquelator/root/";
-        $path    = "assets/resources/perfils/aleoriol/root/";
+        $filerepo = $this->container->get('file_repository');
+
+
+        $username = $filerepo->getUsernameFromId($_SESSION['id']);
+
+
+        $path    = "assets/resources/perfils/".$username."/root/";
         $files = scandir($path);
 
         $showItems = [];
 
-        $showItems = $this->container->get('file_repository')->getCurrentItems();
+        $showItems = $filerepo->getCurrentItems();
         $html = '<div id = "items">';
 
 

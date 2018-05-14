@@ -38,6 +38,9 @@ $app->get('/toRoot', 'PwBox\Controller\FolderController:toRoot')->add('PwBox\Con
 
 $app->get('/activate/{id}', 'PwBox\Controller\PostUserController:activate');
 
+$app->post('/addFile', 'PwBox\Controller\FolderController:addFile');
+
+
 
 
 

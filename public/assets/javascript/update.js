@@ -7,7 +7,7 @@ function updateDb() {
     var psw = document.getElementById("passUp").value;
     var confPsw = document.getElementById("passConfUp").value;
 
-    console.log(reader);
+
 
     if (psw != confPsw){
         console.log("fuck2");

@@ -31,6 +31,10 @@ class UpdateUserController
             $confirmPassword=$_GET['pswConf'];
             $img = $_GET['image'];
 
+            echo "hello".$_FILES["image"];
+
+
+
             if (empty($password)||strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
                 $errors['password'] = 'invalid password';
             }

@@ -109,11 +109,9 @@ class PostUserController
            }
 
        }else{
-            echo("images empty");
             $target_file = $target_dir."/".$username."/"."profile.png";
 
             move_uploaded_file( "assets/resources/user.png", $target_file);
-            echo "Default photo assigned";
         }
 
 
