@@ -20,7 +20,7 @@ $app->post('/register', 'PwBox\Controller\PostUserController:register');
 
 $app->get('/register', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
+$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage');
 
 $app->post('/profile', 'PwBox\Controller\ProfileController:profilePage');
 

@@ -156,6 +156,49 @@ input[type="submit"]:hover {
     margin-right: 0px;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
+ .dropdown:hover .dropbtn {
     background-color: rgba(210,0,40,1);
+}
+#positionNameProfile{
+    margin-left: 0em;
+    margin-right: 0px;
+}
+
+
+.dropdown:hover .dropbtn {
+    background-color: rgba(210,0,40,1);
+}
+
+
+#dropName{
+    padding: 2px;
+    float: right;
+
+}
+
+#nameProfile{
+    padding: 8px;
+    width: 150px;
+}
+
+#logoDropdown{
+    float: right;
+    margin-right: 0em;
+    margin-left: 76em;
+
+}
+
+#contentProfile{
+    margin-top: 130px;
+    margin-left: 8em;
+    margin-right: 0em;
+}
+
+#imageUserEditProfile{
+    margin-left: 120px;
+}
+
+#buttonChange{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

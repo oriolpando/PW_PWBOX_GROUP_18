@@ -118,11 +118,13 @@ function controlRegister() {
         document.getElementById("message").style.display = "block";
     }
 
+    //ERRORS REGISTRE
+
     if (name == null){
         errorName = true;
     }
 
-    if((username == null) || (length(username) > 12) || (username.value.match("/^[0-9a-zA-Z]+$/")) ){
+    if((username == null) || (length(username) > 20) || (username.value.match("/^[0-9a-zA-Z]+$/")) ){
         errorUsername = true;
     }
 
@@ -140,12 +142,20 @@ function controlRegister() {
         errorBirth = true;
     }
 
-    if(psw != confirmPsw){
-        errorConfirmPsw = true;
+    var upperCaseLetters = /[A-Z]/g;
+    var numbers = /[0-9]/g;
+
+    if((length(psw) < 6) || (length(psw) > 12) || (!(psw.value.match(numbers))) || (!psw.value.match(upperCaseLetters))) {
+        errorPsw = true;
     }else{
-        var msg2 = document.getElementById("message2");
-        msg2.style.display = "block";
+        if(psw != confirmPsw){
+            errorConfirmPsw = true;
+        }else{
+            var msg2 = document.getElementById("message2");
+            msg2.style.display = "block";
+        }
     }
+
 }
 
 function readURL(input) {

@@ -31,12 +31,11 @@ class SessionMiddleware{
         if(!isset($_SESSION['id'])){
 
             $response->withStatus(302);
-            return $this->container->get('view')->render($response,'home.twig');
+            return $this->container->get('view')->render($response,'base.twig');
 
         }
 
         return $next($request, $response);
-
     }
 
 }

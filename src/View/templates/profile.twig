@@ -5,31 +5,23 @@
 
 {% block header %}
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav buttonsLogReg">
-            <div>
-                <button id="dropdownButton" class="dropdown" class="dropbtn">Nom i cognom</button>
+    <nav id="logoDropdown" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a href="/profile">
+            <img src="{{ srcProfileImg }}" id="imageUser"/>
+        </a>
+        <div class="navbar">
+            <div class="dropdown" id="positionNameProfile">
+                <button class="dropbtn" id="nameProfile">Carla Radresa
+                    <i class="fa fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                     <a href="#">Edit profile</a>
-                    <a href="#" onclick="logOut()">Logout</a>
+                    <a href="#">Notifications</a>
+                    <a href="#">Logout</a>
                 </div>
-                <img id="imageUser" src="/assets/resources/user.png"/>
-            </div>
-        </ul>
-    </div>#}
-
-    <div class="navbar">
-        <div class="dropdown" id="positionNameProfile">
-            <button class="dropbtn" id="nameProfile">Carla Radresa
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Edit profile</a>
-                <a href="#">Notifications</a>
-                <a href="#">Logout</a>
             </div>
         </div>
-    </div>
+    </nav>
 {% endblock %}
 
 {% block content %}
@@ -133,9 +125,9 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-group">
-                                        <img src="{{ srcProfileImg }}" id="NewImageUser" width="100" height="100">
-                                        <input default="assets/resources/profile.png" accept="image/*" type='file' name="image" onchange="readURL(this)" />
+                                    <div class="form-group" id="imageUserEditProfile">
+                                        <img  src="{{ srcProfileImg }}" id="NewImageUser" width="100" height="100">
+                                        <input id="buttonChange" default="assets/resources/profile.png" accept="image/*" type='file' name="image" onchange="readURL(this)" />
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +142,6 @@
                                 </div>
 
                             </div>
-
 
                             <div class="row">
 
@@ -203,7 +194,7 @@
             </div>
         </div>
     </div>
-    #}
+
 
 
 {% endblock %}

@@ -163,3 +163,67 @@ input[type="submit"]:hover {
     left: -15px;
     content: "✖";
 }
+
+#positionNameProfile{
+    margin-left: 0em;
+    margin-right: 0px;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: rgba(210,0,40,1);
+}
+
+
+#dropName{
+    padding: 2px;
+    float: right;
+
+}
+
+#nameProfile{
+    padding: 8px;
+    width: 150px;
+}
+
+#logoDropdown{
+    float: right;
+    margin-right: 0em;
+    margin-left: 76em;
+
+}
+
+#contentProfile{
+    margin-top: 130px;
+    margin-left: 8em;
+    margin-right: 0em;
+}
+
+.buttonsEdit{
+    margin-right: 50px;
+    margin-top: 60px;
+}
+
+#buttonProfile{
+    margin-top: 1.6em;
+}
+
+
+#editInfo, #deleteAcc{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 16px;
+    width: 150px;
+}
+
+.form-group{
+    margin-bottom: 0px;
+}
+
+.spans{
+    margin-bottom: 7px;
+    display: none;
+}
+
+.hidden{
+    display: block;
+}
