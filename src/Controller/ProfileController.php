@@ -29,12 +29,13 @@ class ProfileController
     {
 
         $id = $_SESSION['id'];
+
         $user = $this->container->get('user_repository')->getUser($id);
 
         $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
 
         return $this->container->get('view')
             ->render($response,'profile.twig',
-                ['user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
+                ['srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
     }
 }

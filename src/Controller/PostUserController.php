@@ -162,8 +162,12 @@ class PostUserController
             $result = $mailer->send($message);
 
 
+            echo "abans iniciaFolder";
+
             $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
+            echo "despreeeeeees";
+            die();
 
             $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
 

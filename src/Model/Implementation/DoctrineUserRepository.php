@@ -56,7 +56,6 @@ class DoctrineUserRepository implements UserRepository
         $stmt->bindParam(6, $psw, PDO::PARAM_STR);
         $stmt->bindParam(7, $motherfolder, PDO::PARAM_INT);
 
-
         $stmt->execute();
 
     }
