@@ -251,3 +251,7 @@ input[type="submit"]:hover {
 .hidden{
     display: block;
 }
+
+.CMove{
+    cursor: pointer;
+}
