@@ -46,10 +46,45 @@
 
      public function addFile(Request $request, Response $response){
 
-        $nom = $_FILES["uploadFile"]['name'];
-        echo ("nom ".$nom);
+         $errors =[];
+
+         $allowed_types =array('jpg','png','gif','pdf','md','txt' );
+         $name = $_FILES['uploadFile']['name'];
+         $error = null;
+
+    // Get the file extension
+    $extension = pathinfo($name, PATHINFO_EXTENSION);
+
+    // Search the array for the allowed file type
+
+    if (in_array($extension, $allowed_types, false) != true) {
+        $errors['extension'] = "Error when uploading ". $extension;
+        return $this->container->get('view')
+            ->render($response,'dashboard.twig', ['errors'=> $errors]);
+    }
 
 
+
+
+         $filerepo = $this->container->get('file_repository');
+         $username = $filerepo->getUsernameFromId($_SESSION['id']);
+         $target_dir = "assets/resources/perfils";
+
+         if( !empty($_FILES["uploadFile"])){
+
+             if($_FILES["uploadFile"]["size"]>2000000){
+                 $errors['file'] = 'file too big';
+
+             }else{
+
+
+                 $target_file = $target_dir."/".$username."/root/".$name;
+
+                 move_uploaded_file( $_FILES["uploadFile"]["tmp_name"], $target_file);
+
+             }
+
+         }
 
 
          /** @var FileRepository $fileRepo **/

@@ -31,8 +31,6 @@ class DashboardController
 
 
         $filerepo = $this->container->get('file_repository');
-
-
         $username = $filerepo->getUsernameFromId($_SESSION['id']);
 
 

@@ -24,7 +24,7 @@ SELECT * FROM User;
 
 CREATE TABLE `Item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(20) NOT NULL,
+  `nom` varchar(50) NOT NULL,
   `parent` varchar(100),
   `type` bool NOT NULL,
   `id_propietari` int(11) NOT NULL,

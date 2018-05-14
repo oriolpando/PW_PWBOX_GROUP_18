@@ -89,6 +89,21 @@ class PostUserController
 
         if( !empty($_FILES["image"])){
 
+
+            $errors =[];
+
+            $allowed_types =array('jpg','png' );
+            $name = $_FILES['uploadFile']['name'];
+            $error = null;
+
+            // Get the file extensions
+            $extension = pathinfo($name, PATHINFO_EXTENSION);
+
+            // Search the array for the allowed file type
+            if (in_array($extension, $allowed_types, false) != true) {
+                $errors['extension'] = "Extension not allowed";
+            }
+
             if($_FILES["image"]["size"]>500000){
                $errors['image'] = 'image too big';
 
@@ -99,7 +114,7 @@ class PostUserController
                $target_file = $target_dir."/".$username."/"."profile.png";
 
                if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
-                   echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded. ";
+                   echo "The file ". basename( $name). " has been uploaded. ";
                }
 
            }
