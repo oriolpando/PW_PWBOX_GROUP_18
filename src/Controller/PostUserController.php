@@ -45,9 +45,6 @@ class PostUserController
         $errors = [];
 
 
-
-
-
         if($this->container->get('user_repository')->checkIfUserExists($username, $email)){
             $errors['login'] = 'the username or the mail already exist';
         }
@@ -86,7 +83,6 @@ class PostUserController
             return $this->container->get('view')
                 ->render($response,'home.twig',['errors'=> $errors]);
         }
-
 
 
         $target_dir = "assets/resources/perfils";
@@ -245,9 +241,6 @@ class PostUserController
 
 
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
-
-                //return $this->container->get('view')->render($response,'dashboard.twig');
-
             }
         }
     }
@@ -256,6 +249,13 @@ class PostUserController
     {
 
         session_destroy();
+        return $response->withStatus(302)->withHeader('Location','/');
+    }
+
+
+    public function activate(Request $request, Response $response)
+    {
+
         return $response->withStatus(302)->withHeader('Location','/');
     }
 

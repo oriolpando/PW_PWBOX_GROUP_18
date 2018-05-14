@@ -36,7 +36,7 @@ $app->get('/enterFolder/{id}', 'PwBox\Controller\FolderController:enterFolder')-
 
 $app->get('/toRoot', 'PwBox\Controller\FolderController:toRoot')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/activate/{id}', 'PwBox\Controller\PostUserController:activate');
+$app->get('/activate?id={id}', 'PwBox\Controller\PostUserController:activate');
 
 $app->post('/addFile', 'PwBox\Controller\FolderController:addFile');
 

@@ -28,6 +28,8 @@ function updateDb() {
             var OK = 200; // status 200 is a successful return.
             if (xmlhttp.readyState === DONE) {
                 if (xmlhttp.status === OK){
+
+                    $('#EditInformation').modal('hide');
                     console.log("fuck11");
                     document.getElementById("mail").innerHTML = mail;
                 }else {
