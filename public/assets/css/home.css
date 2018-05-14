@@ -99,6 +99,30 @@ input[type="submit"]:hover {
     text-shadow:0 1px 3px darken(rgba(148,186,101,0.7), 30%);
 }
 
+.buttons {
+    background: rgba(190,30,4,1);
+    max-width: 450px;
+    border-radius: 2px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 1em;
+    line-height: 1.6em;
+    margin: 3em 2em 0;
+    outline: none;
+    padding: .8em 0;
+    text-shadow: 0 1px #68B25B;
+    margin: 0 auto;
+    margin-top: 0.8em;
+}
+
+.buttons:hover {
+    background: rgba(210,0,40,1);
+    text-shadow:0 1px 3px darken(rgba(148,186,101,0.7), 30%);
+}
+
+
 #uppercase{
     margin-bottom: 0px;
     font-size: 0.75em;
@@ -208,11 +232,11 @@ input[type="submit"]:hover {
 }
 
 
-#editInfo, #deleteAcc{
+#addF, #returntF, #uploadF{
     padding-top: 6px;
     padding-bottom: 6px;
-    font-size: 16px;
-    width: 150px;
+    font-size: 15px;
+    width: 180px;
 }
 
 .form-group{

@@ -2,7 +2,6 @@
 {% block title %}Home{% endblock %}
 {% block javascript %}dashboard.js{% endblock %}
 {% block css_file %}home.css{% endblock %}
-
 {% block header %}
 
     <nav id="logoDropdown" class="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,9 +14,9 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#">Edit profile</a>
+                    <a href="profile.twig" onchange="editProfile()">Edit profile</a>
                     <a href="#">Notifications</a>
-                    <a href="#">Logout</a>
+                    <a href="base.twig" onchange="logOut()">Logout</a>
                 </div>
             </div>
         </div>
@@ -25,36 +24,20 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="container" id="contentProfile">
         <div class="row">
             <div class="col-3">
                 <div class="buttonsEdit">
                     <div class="container">
                         <div class="row">
-                            <input type="submit" value="Edit" id="editInfo" class="buttonEditInfo" data-toggle="modal" data-target="#EditInformation">
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav buttonsLogReg">
-            <div>
-                <button id="dropdownButton" class="dropdown" class="dropbtn">Nom i cognom</button>
-                <p>{{ currentfolder }}</p>
-                <div class="dropdown-content">
-                    <a href="profile.twig" onchange="editProfile()">Edit profile</a>
-                    <a href="base.twig" onchange="logOut()">Logout</a>
-                </div>
-                <img id="imageUser"/>
-                <div class="navbar">
-                    <div class="dropdown" id="positionNameProfile">
-                        <button class="dropbtn" id="nameProfile">Carla Radresa
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="#">Edit profile</a>
-                            <a href="#">Notifications</a>
-                            <a href="#">Logout</a>
+                            <button type="button" id="addF" class="btn btn-info btn-lg buttons" data-toggle="modal" data-target="#EditInformation">Add Folder</button>
                         </div>
                         <div class="row">
-                            <input type="submit" value="Delete Account" id="deleteAcc" class=" buttonEditInfo" data-toggle="modal" data-target="#DeleteAccount">
+                            {#<input type="submit" value="Delete Account" id="deleteAcc" class=" buttonEditInfo" data-toggle="modal" data-target="#DeleteAccount">#}
+                            <button type="button" id="returntF" class="btn btn-info btn-lg buttons " onclick="toRoot()">Return to root folder</button>
+                        </div>
+                        <div class="row">
+                            <button type="button" id="uploadF" class="btn btn-info btn-lg buttons" data-toggle="modal" data-target="#ModalFile" >Upload File</button>
                         </div>
                     </div>
                 </div>
@@ -65,34 +48,11 @@
                 </form>
             </div>
         </div>
-
     </div>
 
     {% for error in errors %}
         <p>{{ error }}</p>
     {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </ul>
-    </div>
-{% endblock %}
-
-{% block content %}
-
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#EditInformation">Add Folder</button>
-    <button type="button" class="btn btn-info btn-lg" onclick="toRoot()">Return to root folder</button>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ModalFile" >Upload File</button>
-
-
-
-    {% for error in errors %}
-        <p>{{ error }}</p>
-    {% endfor %}
-    <form action="/profile" method="POST">
-        <input type="submit" value="Profile">
-    </form>
-
 
     <!-- Modal -->
     <div id="EditInformation" class="modal fade" role="dialog">
