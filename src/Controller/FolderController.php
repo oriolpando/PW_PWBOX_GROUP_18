@@ -59,8 +59,7 @@
 
     if (in_array($extension, $allowed_types, false) != true) {
         $errors['extension'] = "Error when uploading ". $extension;
-        return $this->container->get('view')
-            ->render($response,'dashboard.twig', ['errors'=> $errors]);
+
     }
 
 
@@ -70,25 +69,23 @@
          $username = $filerepo->getUsernameFromId($_SESSION['id']);
          $target_dir = "assets/resources/perfils";
 
-         if( !empty($_FILES["uploadFile"])){
+
 
              if($_FILES["uploadFile"]["size"]>2000000){
                  $errors['file'] = 'file too big';
 
-             }else{
-
-
-                 $target_file = $target_dir."/".$username."/root/".$name;
-
-                 move_uploaded_file( $_FILES["uploadFile"]["tmp_name"], $target_file);
+             }
+             if(!empty($errors)){
+                 return $this->container->get('view')
+                     ->render($response,'dashboard.twig', ['errors'=> $errors]);
 
              }
 
-         }
+
 
 
          /** @var FileRepository $fileRepo **/
-         $item = new Item (null, $nom , $_SESSION['currentFolder'],1);
+         $item = new Item (null, $name , $_SESSION['currentFolder'],1);
          $ok = $this->container->get('file_repository')->saveItem($item);
 
          if ($ok){
