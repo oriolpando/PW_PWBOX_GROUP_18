@@ -36,6 +36,7 @@ class DoctrineFileRepository implements FileRepository
 
     public function getUsernameFromId ($id){
 
+        echo $id;
         $sql = "SELECT username FROM User WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 

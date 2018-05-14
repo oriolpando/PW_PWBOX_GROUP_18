@@ -255,7 +255,6 @@ class PostUserController
 
                 $_SESSION['motherFolder'] = $id[1];
 
-
                 return $response->withStatus(302)->withHeader('Location','/dashboard');
             }
         }

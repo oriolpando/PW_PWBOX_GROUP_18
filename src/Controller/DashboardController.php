@@ -30,8 +30,7 @@ class DashboardController
     {
 
 
-        $filerepo = $this->container->get('file_repository');
-        $username = $filerepo->getUsernameFromId($_SESSION['id']);
+        $username = $this->container->get('file_repository')->getUsernameFromId($_SESSION['id']);
 
 
         $path    = "assets/resources/perfils/".$username."/root/";
@@ -39,20 +38,25 @@ class DashboardController
 
         $showItems = [];
 
-        $showItems = $filerepo->getCurrentItems();
+        $showItems = $this->container->get('file_repository')->getCurrentItems();
         $html = '<div id = "items">';
 
 
         if (!empty($showItems)){
             foreach ($showItems as $item){
 
+
+
+
                 if ($item['type'] == 0){
                     $html = $html.'<div>';
-                    $html = $html.'<label>'.$item['nom'].'</label><img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px>'
-                        .'<button type="button" class="btn btn-danger" onclick="enterFolder('.$item['id'].')">Enter</button>';
+                    $html = $html.'<label>'.$item['nom'].'</label><a ondblclick = "enterFolder()"><img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>';
                     $html = $html.'</div>';
                 }else{
-
+                    $html = $html.'<div>';
+                    $html = $html.'<label>'.$item['nom'].'</label><img src="/assets/resources/file.png" name="'.$item['id'].'" width = 60px height = 60px>'
+                        .'<button type="button" class="btn btn-danger" onclick="enterFolder('.$item['id'].')">Enter</button>';
+                    $html = $html.'</div>';
                 }
 
             }

@@ -62,9 +62,6 @@
 
     }
 
-
-
-
          $filerepo = $this->container->get('file_repository');
          $username = $filerepo->getUsernameFromId($_SESSION['id']);
          $target_dir = "assets/resources/perfils";
@@ -99,16 +96,12 @@
 
 
 
-
-
-
-
-
-
      public function toRoot (Request $request, Response $response){
 
-         var_dump($_SESSION);
          $_SESSION['currentFolder'] = $_SESSION['motherFolder'];
+
+         return $response->withStatus(302)->withHeader('Location','/dashboard');
+
 
 
      }
