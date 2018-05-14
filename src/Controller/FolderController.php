@@ -46,10 +46,14 @@
 
      public function addFile(Request $request, Response $response){
 
+        $nom = $_FILES["uploadFile"]['name'];
+        echo ("nom ".$nom);
+
+
 
 
          /** @var FileRepository $fileRepo **/
-         $item = new Item (null, $_FILES["image"]['nom'], $_SESSION['currentFolder'],1);
+         $item = new Item (null, $nom , $_SESSION['currentFolder'],1);
          $ok = $this->container->get('file_repository')->saveItem($item);
 
          if ($ok){

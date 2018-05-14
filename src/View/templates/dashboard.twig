@@ -86,14 +86,14 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add folder</h4>
+                    <h4 class="modal-title">Upload File</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Choose the name for the folder</p>
+                    <p>Choose the file to upload</p>
                     <form method="POST" enctype="multipart/form-data" action="/addFile">
                         <div class="container">
                             <div class="form-group">
-                                <input default="assets/resources/user.png" accept="image/*" type='file' id="uploadFile" name="uploadFile" />
+                                <input default="assets/resources/user.png" accept=".jpg,.png,.gif,.pdf,.md,.txtA" type='file' id="uploadFile" name="uploadFile" />
 
                             </div>
                         </div>
