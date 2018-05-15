@@ -48,7 +48,7 @@ class DashboardController
 
                 if ($item['type'] == 0){
                     $html = $html.'<div>';
-                    $html = $html.'<label>'.$item['nom'].'</label><a class="CMove" ondblclick = "enterFolder()">
+                    $html = $html.'<label>'.$item['nom'].'</label><a class="CMove" ondblclick = "enterFolder('.$item['id'].')">
                         <img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>';
                     $html = $html.'</div>';
                 }else{

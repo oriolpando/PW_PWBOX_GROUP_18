@@ -23,6 +23,7 @@
      public function addFolder (Request $request, Response $response){
 
          /** @var FileRepository $fileRepo **/
+         var_dump($_SESSION);
         $item = new Item (null, $_POST['nom'],$_SESSION['currentFolder'],0);
         $ok = $this->container->get('file_repository')->saveItem($item);
 
@@ -40,7 +41,18 @@
 
         $_SESSION['currentFolder'] = $id;
 
+        var_dump($_SESSION);
+
         return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+     }
+
+     public function toRoot (Request $request, Response $response){
+
+         $_SESSION['currentFolder'] = $_SESSION['motherFolder'];
+
+
+         return $response->withStatus(302)->withHeader('Location','/dashboard');
 
      }
 
