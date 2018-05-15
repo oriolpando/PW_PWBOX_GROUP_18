@@ -32,8 +32,7 @@ class PostUserController
         $this->container = $container;
     }
 
-    public function register(Request $request, Response $response)
-    {
+    public function register(Request $request, Response $response){
 
         $name = $_POST['name'];
         $username = $_POST['username'];
@@ -41,9 +40,7 @@ class PostUserController
         $date = $_POST['birth'];
         $password = $_POST['password'];
         $confirmPassword = $_POST['confirmPassword'];
-
         $errors = [];
-
 
         if($this->container->get('user_repository')->checkIfUserExists($username, $email)){
             $errors['login'] = 'the username or the mail already exist';
@@ -52,7 +49,6 @@ class PostUserController
         if (empty($name)){
             $errors['name'] = 'invalid user';
         }
-
 
         if (empty($username)||strlen($username)>20||!ctype_alnum($username)){
             $errors['username'] = 'invalid user';
@@ -83,7 +79,6 @@ class PostUserController
             return $this->container->get('view')
                 ->render($response,'home.twig',['errors'=> $errors]);
         }
-
 
         $target_dir = "assets/resources/perfils";
 
@@ -169,10 +164,6 @@ class PostUserController
                     'text/html' // Mark the content-type as HTML
                 );
 
-
-
-
-
             // Send the message
             $result = $mailer->send($message);
 
@@ -196,7 +187,6 @@ class PostUserController
         }catch (\Exception $e) {
             echo $e->getMessage();
         }
-
     }
 
     public function loginCheck(Request $request, Response $response)

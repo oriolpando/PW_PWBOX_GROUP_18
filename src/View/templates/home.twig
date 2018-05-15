@@ -19,9 +19,10 @@
 
 {% block content %}
 
-    {% for error in errors %}
+   {#
+   {% for error in errors %}
         <p>{{ error }}</p>
-    {% endfor %}
+    {% endfor %}#}
     <div id = "login"  >
         <form action="/login" method="POST">
             <h1>Sign in</h1>
@@ -47,20 +48,21 @@
                             <label class="floatLabel">Name:</label>
                             <input type="text" id="name" name="name" placeholder="Your name">
                         </div>
-                        <div class="spans">
-                            <span class="hidden">Enter a correct NAME</span>
-                            <span>Enter correct name</span>
+                        <div id="spanName" class="spans">
+                            <span >Enter a correct NAME</span>
                         </div>
                     </div>
-
-
                     <div class="col">
                         <div class="form-group">
                             <label class="floatLabel">Username:</label>
                             <input type="text" id="username" name="username" placeholder="Create a username">
                         </div>
-                        <div class="spans">
-                            <span>Enter correct username</span>
+                        <div class="spans" id="spanUsername">
+                            <span >Enter correct username</span>
+                            {% if errors['username'] is not empty %}
+
+                            <span  class="hidden">Enter a correct password</span>
+                                {% endif %}
                         </div>
                     </div>
 
@@ -73,7 +75,7 @@
                             <input type="text" id="surname" name="surname" placeholder="Your surname">
                         </div>
                     <div class="spans">
-                        <span>Enter correct surname</span>
+                        <span id="spanSurname">Enter correct surname</span>
                     </div>
                 </div>
 
@@ -84,7 +86,7 @@
                             <input type="email" id="email" name="email" placeholder="Your email address">
                         </div>
                         <div class="spans">
-                            <span>Enter correct email</span>
+                            <span id="spanEmail">Enter correct email</span>
                         </div>
                     </div>
 
@@ -98,7 +100,11 @@
                         <label class="floatLabel">Password:</label>
                         <input type="password" id="psw" name="password" placeholder="Create a password" onfocus="focusFunction()" onblur="blurFunction()" onkeyup="validatePsw()">
                         {#<span {% if errors['psw'] not defined %}  class="hidden" {% endif %}>Enter a correct password</span>#}
-                        {#  {% if form.get('errors') is not empty %}  #}                    </div>
+                        {#  {% if form.get('errors') is not empty %}  #}
+                    </div>
+                    <div class="spans">
+                        <span id="spanPsw">Enter correct password</span>
+                    </div>
                     <div id="message">
                         <p id="uppercase" class="invalid">A <b>uppercase</b> letter</p>
                         <p id="number" class="invalid">A <b>number</b></p>
@@ -115,6 +121,9 @@
                             {#<span {% if errors['email'] not defined %}  class="hidden" {% endif %}>Enter a correct password</span>#}
                             {#  {% if form.get('errors') is not empty %}  #}
                         </div>
+                    <div class="spans">
+                        <span id="spanCpsw">Enter same password</span>
+                    </div>
                         <div id="message2">
                             <p class="valid">Correct Password</p>
                         </div>
@@ -129,6 +138,9 @@
                             <label class="floatLabel">Birth date:</label>
                             <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
                         </div>
+                        <div class="spans">
+                            <span id="spanBirth">Enter correct birth date</span>
+                        </div>
                     </div>
 
 
@@ -138,13 +150,16 @@
                             <label class="floatLabel">Select an image for your profile:</label>
                             <input src="{{ srcProfileImg }}" accept="image/*" type='file' id="image" name="image" onchange="readURL(this);" />
                         </div>
+                        <div class="spans">
+                            <span id="spanImage">Enter correct image</span>
+                        </div>
                     </div>
 
                 </div>
 
                 </div>
 
-            <input type="submit"  value="Create My Account" onclick="controlRegister()">
+            <input type="submit" value="Create My Account"  onclick="controlRegister(event)">
         </form>
 
     </div>

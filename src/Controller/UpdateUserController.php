@@ -62,7 +62,6 @@ class UpdateUserController
 
                 if($_FILES["image"]["size"]>500000){
                     $errors['image'] = 'image too big';
-
                 }else{
 
                 /*

@@ -87,23 +87,22 @@ function controlLogin() {
     register.style.display = "none";
 }
 
-function controlRegister() {
-
-    var login = document.getElementById("login");
+function controlRegister(event) {
+   /* var login = document.getElementById("login");
     login.style.display = "block";
     var register = document.getElementById("register");
-    register.style.display = "none";
-
+    register.style.display = "none";*/
     //comprovacions registre
 
-    var name = document.getElementById("name");
-    var username = document.getElementById("username");
-    var surname = document.getElementById("surname");
-    var email = document.getElementById("email");
-    var psw = document.getElementById("psw");
-    var confirmPsw = document.getElementById("confirmPsw");
+    var name = document.getElementById("name").value;
+    var username = document.getElementById("username").value;
+    var surname = document.getElementById("surname").value;
+    var email = document.getElementById("email").value;
+    var psw = document.getElementById("psw").value;
+    var confirmPsw = document.getElementById("confirmPsw").value;
     var birth = document.getElementById("birth");
     var image = document.getElementById("image");
+
 
     var errorName = false;
     var errorUsername = false;
@@ -120,16 +119,31 @@ function controlRegister() {
 
     //ERRORS REGISTRE
 
+
+
     if (name == null){
         errorName = true;
+        var spanName = document.getElementById("spanName");
+        spanName.style.display = "block";
+
     }
 
-    if((username == null) || (length(username) > 20) || (username.value.match("/^[0-9a-zA-Z]+$/")) ){
+    if((username == null) || (username.length > 20) || (username.match("/^[0-9a-zA-Z]+$/")) ){
         errorUsername = true;
+        var spanUsername = document.getElementById("spanUsername");
+        spanUsername.style.display = "block";
+    }
+
+    if(surname == null){
+        errorSurname = true;
+        var spanSurname = document.getElementById("spanSurname");
+        spanSurname.style.display = "block";
     }
 
     if (!validateEmail(email)){
         errorEmail = true;
+       // var spanEmail = document.getElementById("spanEmail");
+       // spanEmail.style.display = block;
     }
 
     function validateEmail(email) {
@@ -138,35 +152,64 @@ function controlRegister() {
     }
 
     var pattern =/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+    var spanBirth = document.getElementById("spanBirth");
     if(!pattern.test(birth)){
         errorBirth = true;
+        spanBirth.style.display = "block";
     }
 
     var upperCaseLetters = /[A-Z]/g;
     var numbers = /[0-9]/g;
 
-    if((length(psw) < 6) || (length(psw) > 12) || (!(psw.value.match(numbers))) || (!psw.value.match(upperCaseLetters))) {
+    if((psw.length < 6) || (psw.length > 12) || (!(psw.value.match(numbers))) || (!psw.value.match(upperCaseLetters))) {
         errorPsw = true;
+        var spanPsw = document.getElementById("spanPsw");
+        spanPsw.style.display = "block";
     }else{
         if(psw != confirmPsw){
             errorConfirmPsw = true;
+            var spanCpsw = document.getElementById("spanCpsw");
+            spanCpsw.style.display = "block";
         }else{
             var msg2 = document.getElementById("message2");
             msg2.style.display = "block";
         }
     }
 
+    //event.preventDefault();
+    var path = "assets/resources/perfils/";
+    //event.preventDefault();
+    if((errorName) || (errorSurname) || (errorUsername) || (errorPsw) || (errorConfirmPsw) || (errorEmail) || (errorBirth) || (errorImage)){
+       // event.preventDefault();
+
+       //dona error
+        console.log("buu");
+        console.log(errorName);
+        console.log(errorSurname);
+        console.log(errorUsername);
+        console.log(errorPsw);
+        console.log(errorConfirmPsw);
+        console.log(confirmPsw);
+        console.log(psw);
+        console.log(errorEmail);
+        console.log(errorEmail);
+        console.log(errorBirth);
+        console.log(errorImage);
+
+
+        //return false;
+    }else{
+       console.log("hey");
+        var register = document.getElementById("register");
+        register.style.display = "none";
+         var login = document.getElementById("login");
+         login.style.display = "block";
+
+        //return true;
+    }
 }
 
 function readURL(input) {
-    var login = document.getElementById("imageUser");
-    login.style.display = "block";
-    var buttonL = document.getElementById("buttonLogin");
-    buttonL.style.display = "none";
-    var buttonR = document.getElementById("buttonRegister");
-    buttonR.style.display = "none";
-    var buttonLout = document.getElementById("buttonLogout");
-    buttonLout.style.display = "none";
 
     if (input.files && input.files[0]) {
         var reader = new FileReader();
