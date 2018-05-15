@@ -78,6 +78,9 @@
 
              }
 
+         $target_file = $target_dir."/".$username."/root/".$name;
+
+       move_uploaded_file( $_FILES["uploadFile"]["tmp_name"], $target_file);
 
 
 
