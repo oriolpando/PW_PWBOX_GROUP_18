@@ -46,16 +46,18 @@ class DashboardController
             foreach ($showItems as $item){
 
 
-
-
                 if ($item['type'] == 0){
                     $html = $html.'<div>';
-                    $html = $html.'<label>'.$item['nom'].'</label><a class="CMove" ondblclick = "enterFolder()"><img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>';
+                    $html = $html.'<label>'.$item['nom'].'</label><a class="CMove" ondblclick = "enterFolder()">
+                        <img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>';
                     $html = $html.'</div>';
                 }else{
                     $html = $html.'<div>';
                     $html = $html.'<label>'.$item['nom'].'</label><img src="/assets/resources/file.png" name="'.$item['id'].'" width = 60px height = 60px>'
-                        .'<button type="button" class="btn btn-danger" onclick="enterFolder('.$item['id'].')">Enter</button>';
+                        .'<button type="button" class="btn btn-danger" onclick="downloadItem('.$item['id'].')">Download</button>'
+                        .'<button type="button" class="btn btn-danger" onclick="shareItem('.$item['id'].')">Share</button>'
+                        .'<button type="button" class="btn btn-danger" onclick="renameItem('.$item['id'].')">Rename</button>'
+                        .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$item['id'].')">Delete</button>';
                     $html = $html.'</div>';
                 }
 

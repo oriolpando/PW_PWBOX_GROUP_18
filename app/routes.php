@@ -40,6 +40,11 @@ $app->get('/activate?id={id}', 'PwBox\Controller\PostUserController:activate');
 
 $app->post('/addFile', 'PwBox\Controller\FolderController:addFile');
 
+$app->get('/download/{id}', 'PwBox\Controller\FolderController:downloadItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
+$app->get('/delete/{id}', 'PwBox\Controller\FolderController:deleteItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
+
 
 
 
