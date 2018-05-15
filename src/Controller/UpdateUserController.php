@@ -102,8 +102,7 @@ class UpdateUserController
 
         echo 'User deleted';
         session_destroy();
-        return $this->container->get('view')
-            ->render($response,'home.twig');
+        return $response->withStatus(302)->withHeader('Location','/dashboard');
 
     }
 

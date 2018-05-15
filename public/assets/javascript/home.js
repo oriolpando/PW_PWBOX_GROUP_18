@@ -159,9 +159,9 @@ function controlRegister(event) {
     }
 
     var upperCaseLetters = /[A-Z]/g;
-    var numbers = /[0-9]/g;
 
-    if((psw.length < 6) || (psw.length > 12) || (!(psw.value.match(numbers))) || (!psw.value.match(upperCaseLetters))) {
+    var numbers = /[0-9]/g;
+    if((psw.length < 6) || (psw.length > 12) || (!(psw.value.match(numbers))) || (!(psw.value.match(upperCaseLetters)))) {
         errorPsw = true;
         var spanPsw = document.getElementById("spanPsw");
         spanPsw.style.display = "block";
@@ -230,6 +230,6 @@ function focusFunction() {
 }
 
 function blurFunction() {
-    document.getElementById("message").style.display = "none"
+    document.getElementById("message").style.display = "none";
     document.getElementById("message2").style.display = "none";
 }

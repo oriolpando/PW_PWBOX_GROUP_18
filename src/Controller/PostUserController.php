@@ -82,13 +82,12 @@ class PostUserController
 
         $target_dir = "assets/resources/perfils";
 
-        if( !empty($_FILES["image"])){
-
+        if( !empty($_FILES['image'])){
 
             $errors =[];
 
             $allowed_types =array('jpg','png' );
-            $name = $_FILES['uploadFile']['name'];
+            $name = $_FILES['image']['name'];
             $error = null;
 
             // Get the file extensions
@@ -137,6 +136,20 @@ class PostUserController
             $this->container->get('user_repository')->save($user);
             $_SESSION['id'] = $this->container->get('user_repository')->getId($username);
 
+            $id = $_SESSION['id'];
+
+            $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
+
+
+            $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
+
+
+            $messages = $this->container->get('flash')->getMessages();
+            $registerMessages = isset($messages['register'])?$messages['register']:[];
+
+            $_SESSION['currentFolder'] = $id_motherfolder;
+            $_SESSION['motherFolder'] = $id_motherfolder;
+
 
 
             //Si tot està bé, enviem missatge
@@ -149,7 +162,7 @@ class PostUserController
             $mailer = new Swift_Mailer($transport);
 
 
-            $id = $_SESSION['id'];
+
             // Create a message
             $message = (new Swift_Message('Activation mail'))
                 ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
@@ -169,21 +182,10 @@ class PostUserController
 
 
 
-            $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
+           // return $this->container->get('view')->render($response,'dashboard.twig',['messages'=> $registerMessages]);
+            return $response->withStatus(302)->withHeader('Location','/dashboard');
 
-            $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
-
-
-            $messages = $this->container->get('flash')->getMessages();
-            $registerMessages = isset($messages['register'])?$messages['register']:[];
-
-            $_SESSION['currentFolder'] = $id_motherfolder;
-            $_SESSION['motherFolder'] = $id_motherfolder;
-
-
-            return $this->container->get('view')
-                ->render($response,'dashboard.twig',['messages'=> $registerMessages]);
         }catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -219,7 +221,6 @@ class PostUserController
         }
 
         $errors = [];
-        var_dump($_POST);
 
         $id = [];
         $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
