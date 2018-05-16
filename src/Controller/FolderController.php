@@ -23,7 +23,6 @@
      public function addFolder (Request $request, Response $response){
 
          /** @var FileRepository $fileRepo **/
-         var_dump($_SESSION);
         $item = new Item (null, $_POST['nom'],$_SESSION['currentFolder'],0);
         $ok = $this->container->get('file_repository')->saveItem($item);
 
@@ -41,8 +40,6 @@
 
         $_SESSION['currentFolder'] = $id;
 
-        var_dump($_SESSION);
-
         return $response->withStatus(302)->withHeader('Location','/dashboard');
 
      }
@@ -51,8 +48,6 @@
          $id = $arg['id'];
 
          $_SESSION['currentSharedFolder'] = $id;
-
-         var_dump($_SESSION);
 
          return $response->withStatus(302)->withHeader('Location','/dashboard');
 
@@ -140,12 +135,6 @@
          foreach ($files as $file) {
 
              $nom = explode("&",$file);
-             var_dump($filename);
-             var_dump($file);
-             var_dump($nom);
-             var_dump(basename($path.$nom[1]));
-             var_dump(basename($path.$nom[1]));
-
              if ($nom[0] != '.' && $nom[0] != '..'){
                  if (strcmp($nom[1],$filename['nom']) == 0){
                      var_dump($filename);

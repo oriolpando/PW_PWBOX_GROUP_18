@@ -173,7 +173,7 @@ class PostUserController
                     '<html>' .
                     ' <head></head>' .
                     ' <body>' .
-                    '<a href="pwbox.test/activate?id=' . $id.'">Sign in</a>'.
+                    '<a href="pwbox.test/activate/id=' . $id.'">Sign in</a>'.
                     ' </body>' .
                     '</html>',
                     'text/html' // Mark the content-type as HTML
@@ -183,7 +183,7 @@ class PostUserController
             $result = $mailer->send($message);
 
 
-
+            session_destroy();
 
            // return $this->container->get('view')->render($response,'dashboard.twig',['messages'=> $registerMessages]);
             return $response->withStatus(302)->withHeader('Location','/dashboard');
@@ -247,8 +247,8 @@ class PostUserController
                 $_SESSION['id'] = $id[0];
 
                 $_SESSION['motherFolder'] = $id[1];
-                $_SESSION['currentSharedFolder'] = $id[1];
 
+                $_SESSION['currentSharedFolder'] = $id[1];
 
 
                 $id = $_SESSION['id'];
@@ -257,23 +257,32 @@ class PostUserController
 
                 $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
 
-                return $this->container->get('view')
-                    ->render($response,'dashboard.twig',
-                        ['srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
-                }
+                return $response->withStatus(302)->withHeader('Location','/');
+            }
         }
     }
 
     public function logOut(Request $request, Response $response)
     {
-
         session_destroy();
         return $response->withStatus(302)->withHeader('Location','/');
     }
 
+    public function activate(Request $request, Response $response, array $arg){
 
-    public function activate(Request $request, Response $response)
-    {
+        $ok = $arg['id'];
+
+        $id = $this->container->get('user_repository')->validateUser($ok);
+
+
+        $_SESSION['currentFolder'] = $id[1];
+
+        $_SESSION['id'] = $id[0];
+
+        $_SESSION['motherFolder'] = $id[1];
+
+        $_SESSION['currentSharedFolder'] = $id[1];
+
 
         return $response->withStatus(302)->withHeader('Location','/');
     }

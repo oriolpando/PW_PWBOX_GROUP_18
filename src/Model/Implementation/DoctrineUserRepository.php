@@ -44,7 +44,7 @@ class DoctrineUserRepository implements UserRepository
         $pswUser = $user->getPassword();
         $psw = password_hash($pswUser, PASSWORD_DEFAULT);
         $motherfolder = $user->getMotherFolder();
-        var_dump($user);
+        ($user);
 
         $sql = "INSERT INTO User(nom, surname, username, birth_date, email, pswUser, id_motherfolder) VALUES(?,?,?,?,?,?,?)";
         $stmt = $this->connection->prepare($sql);
@@ -89,7 +89,7 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-       // var_dump($result);
+       // ($result);
         if (!empty($result)){
             return $result[0]['id'];;
         }else{
@@ -109,7 +109,7 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-        //var_dump($result);
+        //($result);
         if (!empty($result)){
             if (password_verify($password, $result[0]['pswUser'])){
                 $results = [];
@@ -145,7 +145,6 @@ class DoctrineUserRepository implements UserRepository
 
         $id = $_SESSION['id'];
 
-        var_dump($email);
         $sql = "UPDATE User SET email = ?, pswUser = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
@@ -197,6 +196,37 @@ class DoctrineUserRepository implements UserRepository
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         $stmt->execute();
+
+    }
+
+    public function validateUser($id){
+
+
+        $sql = "UPDATE User SET validat = 1 WHERE id = ? AND validat = 0";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $sql = "SELECT * FROM User WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        //($result);
+        if (!empty($result)){
+            $results = [];
+            $results[0] =  $result[0]['id'];
+            $results[1] =  $result[0]['id_motherfolder'];
+
+            return $results;
+        }else{
+            return -1;
+        }
 
     }
 }

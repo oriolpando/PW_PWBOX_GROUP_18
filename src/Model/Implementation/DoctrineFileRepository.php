@@ -76,7 +76,6 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
-
     public function saveItem($item, $size)
     {
         /**
@@ -131,7 +130,6 @@ class DoctrineFileRepository implements FileRepository
 
             }else{
                 echo "<script type='text/javascript'>alert('El teu usuari ha excedit el que pot fer');</script>";
-
 
                return false;
             }
@@ -201,7 +199,6 @@ class DoctrineFileRepository implements FileRepository
 
     public function getFileNameFromId($id)
     {
-        var_dump($id);
 
         $sql = "SELECT nom FROM Item WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
@@ -218,7 +215,6 @@ class DoctrineFileRepository implements FileRepository
 
     public function getRoleFromId($id)
     {
-        var_dump($id);
 
         $sql = "SELECT role FROM Share WHERE id_folder = ?";
         $stmt = $this->connection->prepare($sql);
@@ -229,7 +225,6 @@ class DoctrineFileRepository implements FileRepository
 
         $stmt->execute();
         $result = $stmt->fetchAll();
-        var_dump($result);
         return $result[0];
 
     }

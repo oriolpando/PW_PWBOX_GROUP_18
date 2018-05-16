@@ -24,8 +24,6 @@ class DashboardController
         $this->container = $container;
     }
 
-
-
     public function dashboardPage(Request $request, Response $response)
     {
 
@@ -70,16 +68,13 @@ class DashboardController
 
         $html2 = '<p>You don\'t have any shared file</p>';
         $folderName = $this->container->get('file_repository')->getFileNameFromId($_SESSION['currentSharedFolder']);
-        var_dump($folderName);
         if (!empty($folderName)){
             if (strcmp('root', $folderName['nom'])== 0){
                 $showItems2 = $this->container->get('file_repository')->getRootSharedItems();
-                var_dump($showItems2);
 
                 if (!empty($showItems2)){
                     $html2 = '<div id = "sharedItems">';
                     foreach ($showItems2 as $item2){
-                        var_dump($item2);
                         $role = $this->container->get('file_repository')->getRoleFromId($item2['id_folder']);
                         $idShared = $this->container->get('file_repository')->getFileNameFromId($item2['id_folder']);
                         if (strcmp('Admin', $role['role']) == 0){
@@ -103,7 +98,6 @@ class DashboardController
             }else{
                 $html2 = '<div id = "sharedItems">';
                 $showItems2 = $this->container->get('file_repository')->getCurrentSharedItems();
-                var_dump($showItems2);
 
                 if (!empty($showItems2)){
 
@@ -153,7 +147,6 @@ class DashboardController
         $userSend = $this->container->get('user_repository')->getUser($idSend);
 
         $pathSend = 'assets/resources/perfils/'.$userSend->getUsername().'/profile.png';
-        var_dump($html2);
 
         return $this->container->get('view')
             ->render($response,'dashboard.twig',
