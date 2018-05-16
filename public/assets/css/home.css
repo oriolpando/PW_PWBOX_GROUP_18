@@ -99,6 +99,7 @@ input[type="submit"]:hover {
 }
 
 .buttons {
+
     background: rgba(190,30,4,1);
     max-width: 450px;
     border-radius: 2px;
@@ -441,19 +442,6 @@ h2 { color: #ffffff;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #principalPage {
     position: relative;
     width: 100%;
@@ -514,4 +502,13 @@ h2 { color: #ffffff;
 .btn-xl {
     font-size: 11px;
     padding: 15px 45px;
+}
+
+.buttonsLogReg{
+    float: right;
+    margin-left: 50px;
+    position: absolute;
+    top: 15px;
+    right: 100px;
+    height: 30px;
 }

@@ -34,6 +34,12 @@ class ProfileController
 
         $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
 
+        if (file_exists($path)) {
+            echo "The file $path exists";
+        } else {
+            echo "The file $path does not exist";
+        }
+
         return $this->container->get('view')
             ->render($response,'profile.twig',
                 ['srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);

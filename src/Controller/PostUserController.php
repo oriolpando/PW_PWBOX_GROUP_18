@@ -257,9 +257,7 @@ class PostUserController
                 return $this->container->get('view')
                     ->render($response,'dashboard.twig',
                         ['srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
-
-                //return $response->withStatus(302)->withHeader('Location','/dashboard');
-            }
+                }
         }
     }
 

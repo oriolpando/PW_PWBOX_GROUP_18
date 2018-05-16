@@ -39,9 +39,6 @@ function updateDb() {
         }
     }
 
-
-    location.reload();
-
 }
 
 function editInformation() {

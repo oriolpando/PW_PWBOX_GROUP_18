@@ -70,7 +70,9 @@ class DashboardController
 
         $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
 
-        return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$html, 'srcProfileImg' =>$path] );
-    }
+        return $this->container->get('view')
+            ->render($response,'dashboard.twig',
+                ['srcProfileImg' =>$path, 'folders'=>$html, 'user' => $user->getNom(),'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
+        }
 
 }
