@@ -63,10 +63,14 @@ class DashboardController
 
             }
         }
-        $html = $html.'</div>';
 
+        $id = $_SESSION['id'];
 
-        return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$html]);
+        $user = $this->container->get('user_repository')->getUser($id);
+
+        $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
+
+        return $this->container->get('view')->render($response,'dashboard.twig', ['folders'=>$html, 'srcProfileImg' =>$path] );
     }
 
 }

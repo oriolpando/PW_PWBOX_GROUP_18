@@ -18,10 +18,9 @@ input:focus {
 }
 
 form {
-
     background: #fff;
     padding: 2em 2em 2em;
-    max-width: 750px;
+    max-width: 800px;
     margin: 20px auto 0;
     box-shadow: 0 0 1em #222;
     border-radius: 2px;
@@ -217,22 +216,25 @@ input[type="submit"]:hover {
 }
 
 #contentProfile{
-    margin-top: 130px;
+    margin-top: 50px;
     margin-left: 8em;
     margin-right: 0em;
 }
 
 .buttonsEdit{
     margin-right: 50px;
-    margin-top: 60px;
+    margin-top: 140px;
 }
 
 #buttonProfile{
-    margin-top: 1.6em;
+    margin-top: 1em;
+    margin-left: 0em;
+    margin-right: 0em;
+    margin-bottom: 0em;
 }
 
 
-#addF, #returntF, #uploadF{
+#addF, #returntF, #uploadF, #personal, #share{
     padding-top: 6px;
     padding-bottom: 6px;
     font-size: 15px;
@@ -254,4 +256,262 @@ input[type="submit"]:hover {
 
 .CMove{
     cursor: pointer;
+}
+
+#sizeFolders{
+    width: 60px;
+    height: 60px;
+}
+
+
+.nameFolder{
+    font-size: 12px;
+
+}
+
+#foldersFiles{
+    margin-top: 0em;
+    margin-right: 0em;
+    margin-left: 0em;
+
+}
+
+.iep{
+    vertical-align: middle;
+    text-align:center;
+    margin:auto;
+    padding: 0px;
+}
+
+
+.bttn-minimal {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-color: transparent;
+    background: transparent;
+    font-weight: 400;
+    cursor: pointer;
+    position: relative;
+    font-size: 15px;
+    font-family: inherit;
+    padding: 5px 12px;
+    overflow: hidden;
+    border-width: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: black;
+    -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+.bttn-minimal:after {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 1px;
+    background: currentColor;
+    content: '';
+    opacity: 0.65;
+    -webkit-transition: opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+.bttn-minimal:before {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 1px;
+    background: currentColor;
+    content: '';
+    opacity: 0.65;
+    -webkit-transition: opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+.bttn-minimal:hover,
+.bttn-minimal:focus {
+    opacity: 0.9;
+}
+.bttn-minimal:hover:after,
+.bttn-minimal:focus:after {
+    opacity: 1;
+    -webkit-transform: translateX(-10px) rotate(0.001deg);
+    transform: translateX(-10px) rotate(0.001deg);
+}
+.bttn-minimal:hover:before,
+.bttn-minimal:focus:before {
+    opacity: 1;
+    -webkit-transform: translateX(10px) rotate(0.001deg);
+    transform: translateX(10px) rotate(0.001deg);
+}
+
+
+.bttn-minimal.bttn-xs {
+    padding: 3px 8px;
+    font-size: 12px;
+    font-family: inherit;
+}
+.bttn-minimal.bttn-sm {
+    padding: 4px 10px;
+    font-size: 16px;
+    font-family: inherit;
+}
+.bttn-minimal.bttn-md {
+    font-size: 20px;
+    font-family: inherit;
+    padding: 5px 12px;
+}
+.bttn-minimal.bttn-lg {
+    padding: 8px 15px;
+    font-size: 24px;
+    font-family: inherit;
+}
+.bttn-minimal.bttn-default {
+    color: #fff;
+}
+.bttn-minimal.bttn-primary {
+    color: #1d89ff;
+}
+.bttn-minimal.bttn-warning {
+    color: #feab3a;
+}
+.bttn-minimal.bttn-danger {
+    color: #ff5964;
+}
+.bttn-minimal.bttn-success {
+    color: #28b78d;
+}
+.bttn-minimal.bttn-royal {
+    color: #bd2df5;
+}
+
+.carpeta{
+    margin-left: 0em;
+    padding-left: 0em;
+}
+
+#files{
+    margin-left: 0em;
+    margin-right: 0em;
+    margin-bottom: 10px;
+    border: 0.5px solid darkgray;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+#folders{
+    margin-left: 0em;
+    margin-right: 0em;
+    margin-bottom: 10px;
+    border: 0.5px solid darkgray;
+    padding: 10px;
+    border-radius: 25px;
+
+}
+/*
+#folders{
+    border-bottom: 2px solid black;
+    margin-bottom: 10px;
+
+}*/
+
+.sizeF{
+    width: 124px;
+}
+
+h2 { color: #ffffff;
+    font-family: 'Raleway',sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 72px;
+    margin: 0 0 24px;
+    text-align: center;
+}
+
+.center{
+    text-align: center;
+}
+
+.nonButton{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#principalPage {
+    position: relative;
+    width: 100%;
+    color: white;
+    border-radius: 3px;
+    height: 100vh;
+    min-height: 775px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    text-align: left;
+    padding-top: 150px;
+
+
+}
+
+#principalPage .header-content {
+    max-width: 500px;
+    text-align: center;
+}
+
+#principalPage .header-content h1 {
+    font-size: 30px;
+}
+
+#principalPage .device-container {
+    max-width: 325px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#principalPage .header-content h1 {
+    font-size: 50px;
+}
+
+.device-container {
+    max-width: 325px;
+}
+
+.btn-outline {
+    color: white;
+    border: 1px solid;
+    border-color: white;
+}
+
+.btn-outline:hover, .btn-outline:focus, .btn-outline:active, .btn-outline.active {
+    color: white;
+    border-color: #fdcc52;
+    background-color: #fdcc52;
+}
+
+.btn1 {
+    border-radius: 300px;
+    font-family: 'Lato', 'Helvetica', 'Arial', 'sans-serif';
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.btn-xl {
+    font-size: 11px;
+    padding: 15px 45px;
 }

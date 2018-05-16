@@ -17,7 +17,7 @@
                 <div class="dropdown-content">
                     <a href="/profile">My profile</a>
                     <a href="#">Notifications</a>
-                    <a href="#">Logout</a>
+                    <a href="/logOut">Logout</a>
                 </div>
             </div>
         </div>
@@ -127,8 +127,7 @@
                                 <div class="col">
                                     <div class="form-group" id="imageUserEditProfile">
                                         <img src="{{ srcProfileImg }}" id="NewImageUser" width="100" height="100">
-                                        <img src="{{ srcProfileImg }}" id="imageUser"/>
-                                        <input id="buttonChange" src="{{ srcProfileImg }}" accept="image/*" type='file' name="image" onchange="readURL(this)" />
+                                       <input id="buttonChange" accept="image/*" type='file' name="image" onchange="readURL(this)" />
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +185,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <p>Deleting your account will erase all folders and files that you have uploaded, including thos that are shared with other users!<p>
+                    <p>Deleting your account will erase all folders and files that you have uploaded, including this that are shared with other users!<p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

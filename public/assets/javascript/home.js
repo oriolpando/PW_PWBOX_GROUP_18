@@ -58,9 +58,13 @@ function showLogin() {
     login.style.display = "block";
     var register = document.getElementById("register");
     register.style.display = "none";
+    var landingPage = document.getElementById("principalPage");
+    landingPage.style.display = "none";
 
 }
 function showRegister() {
+    var landingPage = document.getElementById("principalPage");
+    landingPage.style.display = "none";
     var login = document.getElementById("login");
     login.style.display = "none";
     var register = document.getElementById("register");
@@ -69,6 +73,7 @@ function showRegister() {
     var dd = today.getDate();
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
+
     if(dd<10){
         dd='0'+dd
     }
@@ -81,28 +86,63 @@ function showRegister() {
 }
 
 function controlLogin() {
-    var login = document.getElementById("login");
-    login.style.display = "block";
-    var register = document.getElementById("register");
-    register.style.display = "none";
+
+    var nameEmailU = document.getElementById("nameEmailU").value;
+    var pswU = document.getElementById("pswU").value;
+
+    var errorNameEmail = false;
+    var errorPsw = false;
+
+    var spanNameEmail = document.getElementById("spanNameU");
+    spanNameEmail.style.display = "none";
+    var spanNameEmailE = document.getElementById("spanNameUNotExists");
+    spanNameEmailE.style.display = "none";
+    var spanPsw = document.getElementById("spanPswU");
+    spanPsw.style.display = "none";
+
+    /*
+    if (nameEmailU == ""){
+        errorNameEmail = true;
+        spanNameEmail.style.display = "block";
+    }else{
+        if (!existsInDatabase(nameEmailU)){
+            errorNameEmail = true;
+            spanNameEmailE.style.display = "block";
+        }else{
+            //totOk
+        }
+    }*/
+
+   /* if((pswU == "") || (!correctPswUser(pswU))){
+        errorPsw = true;
+        spanPsw.style.display = true;
+    }
+
+    if(errorNameEmail || errorPsw){
+        event.preventDefault();
+    }else{
+        var register = document.getElementById("login");
+        register.style.display = "none";
+        return true;
+    }
+    */
+
+
+    return true;
 }
 
 function controlRegister(event) {
-   /* var login = document.getElementById("login");
-    login.style.display = "block";
-    var register = document.getElementById("register");
-    register.style.display = "none";*/
+
     //comprovacions registre
 
-    var name = document.getElementById("name").value;
+    var name = document.getElementById("nameR").value;
     var username = document.getElementById("username").value;
     var surname = document.getElementById("surname").value;
     var email = document.getElementById("email").value;
     var psw = document.getElementById("psw").value;
     var confirmPsw = document.getElementById("confirmPsw").value;
-    var birth = document.getElementById("birth");
+    var birth = document.getElementById("birth").value;
     var image = document.getElementById("image");
-
 
     var errorName = false;
     var errorUsername = false;
@@ -113,37 +153,47 @@ function controlRegister(event) {
     var errorBirth = false;
     var errorImage = false;
 
-    psw.onfocus = function() {
+    var spanName = document.getElementById("spanName");
+    spanName.style.display = "none";
+    var spanUsername = document.getElementById("spanUsername");
+    spanUsername.style.display = "none";
+    var spanSurname = document.getElementById("spanSurname");
+    spanSurname.style.display = "none";
+    var spanEmail = document.getElementById("spanEmail");
+    spanEmail.style.display = "none";
+    var spanBirth = document.getElementById("spanBirth");
+    spanBirth.style.display = "none";
+    var spanPsw = document.getElementById("spanPsw");
+    spanPsw.style.display = "none";
+    var spanCpsw = document.getElementById("spanCpsw");
+    spanCpsw.style.display = "none";
+    var msg2 = document.getElementById("message2");
+    msg2.style.display = "none";
+
+    psw.onfocus = function () {
         document.getElementById("message").style.display = "block";
     }
 
     //ERRORS REGISTRE
 
-
-
-    if (name == null){
+    if (name == "") {
         errorName = true;
-        var spanName = document.getElementById("spanName");
         spanName.style.display = "block";
-
     }
 
-    if((username == null) || (username.length > 20) || (username.match("/^[0-9a-zA-Z]+$/")) ){
+    if ((username == "") || (username.length > 20) || (username.match("/^[0-9a-zA-Z]+$/"))) {
         errorUsername = true;
-        var spanUsername = document.getElementById("spanUsername");
         spanUsername.style.display = "block";
     }
 
-    if(surname == null){
+    if (surname == "") {
         errorSurname = true;
-        var spanSurname = document.getElementById("spanSurname");
         spanSurname.style.display = "block";
     }
 
-    if (!validateEmail(email)){
+    if (!validateEmail(email)) {
         errorEmail = true;
-       // var spanEmail = document.getElementById("spanEmail");
-       // spanEmail.style.display = block;
+        spanEmail.style.display = "block";
     }
 
     function validateEmail(email) {
@@ -151,62 +201,47 @@ function controlRegister(event) {
         return re.test(String(email).toLowerCase());
     }
 
-    var pattern =/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-    var spanBirth = document.getElementById("spanBirth");
-    if(!pattern.test(birth)){
+
+    var dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+    // Match the date format through regular expression
+    if(birth.match(dateformat) || (birth == "")){
         errorBirth = true;
         spanBirth.style.display = "block";
+
     }
 
     var upperCaseLetters = /[A-Z]/g;
 
     var numbers = /[0-9]/g;
-    if((psw.length < 6) || (psw.length > 12) || (!(psw.value.match(numbers))) || (!(psw.value.match(upperCaseLetters)))) {
+
+    if ((psw.length < 6) || (psw.length > 12) || (!(psw.match(numbers))) || (!psw.match(upperCaseLetters))) {
         errorPsw = true;
-        var spanPsw = document.getElementById("spanPsw");
         spanPsw.style.display = "block";
-    }else{
-        if(psw != confirmPsw){
-            errorConfirmPsw = true;
-            var spanCpsw = document.getElementById("spanCpsw");
+    }
+    if (confirmPsw == "") {
+        errorConfirmPsw = true;
+        spanCpsw.style.display = "block";
+    }
+
+    if ((!errorPsw && !errorConfirmPsw)) {
+
+        if (psw != confirmPsw) {
             spanCpsw.style.display = "block";
-        }else{
-            var msg2 = document.getElementById("message2");
+        } else {
             msg2.style.display = "block";
         }
+
     }
+    /*
 
-    //event.preventDefault();
-    var path = "assets/resources/perfils/";
-    //event.preventDefault();
     if((errorName) || (errorSurname) || (errorUsername) || (errorPsw) || (errorConfirmPsw) || (errorEmail) || (errorBirth) || (errorImage)){
-       // event.preventDefault();
-
-       //dona error
-        console.log("buu");
-        console.log(errorName);
-        console.log(errorSurname);
-        console.log(errorUsername);
-        console.log(errorPsw);
-        console.log(errorConfirmPsw);
-        console.log(confirmPsw);
-        console.log(psw);
-        console.log(errorEmail);
-        console.log(errorEmail);
-        console.log(errorBirth);
-        console.log(errorImage);
-
-
-        //return false;
+        event.preventDefault();
     }else{
-       console.log("hey");
         var register = document.getElementById("register");
         register.style.display = "none";
-         var login = document.getElementById("login");
-         login.style.display = "block";
-
-        //return true;
-    }
+        var login = document.getElementById("login");
+        login.style.display = "block";
+    }*/
 }
 
 function readURL(input) {

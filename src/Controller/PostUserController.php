@@ -246,7 +246,19 @@ class PostUserController
 
                 $_SESSION['motherFolder'] = $id[1];
 
-                return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+
+                $id = $_SESSION['id'];
+
+                $user = $this->container->get('user_repository')->getUser($id);
+
+                $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
+
+                return $this->container->get('view')
+                    ->render($response,'dashboard.twig',
+                        ['srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
+
+                //return $response->withStatus(302)->withHeader('Location','/dashboard');
             }
         }
     }

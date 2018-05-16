@@ -89,7 +89,7 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-        var_dump($result);
+       // var_dump($result);
         if (!empty($result)){
             return $result[0]['id'];;
         }else{
@@ -109,7 +109,7 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-        var_dump($result);
+        //var_dump($result);
         if (!empty($result)){
             if (password_verify($password, $result[0]['pswUser'])){
                 $results = [];

@@ -6,8 +6,7 @@ function updateDb() {
     var mail = document.getElementById("mailUp").value;
     var psw = document.getElementById("passUp").value;
     var confPsw = document.getElementById("passConfUp").value;
-
-
+    var im = document.getElementById("newImageUser").src;
 
     if (psw != confPsw){
         console.log("fuck2");
@@ -40,6 +39,9 @@ function updateDb() {
         }
     }
 
+
+    location.reload();
+
 }
 
 function editInformation() {
@@ -49,6 +51,7 @@ function editInformation() {
 
 function deleteUs(){
     location.href = "/deleteUser";
+    alert("The user has deleted!");
 }
 
 function readURL(input) {
