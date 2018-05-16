@@ -136,5 +136,21 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
+    public function getFileNameFromId($id)
+    {
+
+        $sql = "SELECT nom FROM Item WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_STR);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result[0];
+
+    }
+
 
 }

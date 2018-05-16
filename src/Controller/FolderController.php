@@ -121,30 +121,49 @@
          $id = $arg['id'];
 
          $username = $this->container->get('file_repository')->getUsernameFromId($_SESSION['id']);
-
-
-         $path    = "assets/resources/perfils/".$username."/root/";
+         $filename = $this->container->get('file_repository')->getFileNameFromId($id);
+         $path = "assets/resources/perfils/".$username."/root/";
 
          $files = scandir($path);
 
 
-         foreach ($files as $file)
-         {
+         foreach ($files as $file) {
+
              $nom = explode("&",$file);
-             if (strcmp($nom[1],"Relacional.png") == 0){
-                 header('Content-Description: File Transfer');
-                 header('Content-Type: application/octet-stream');
-                 header('Content-Disposition: attachment; filename="'.$nom[1].'"');
-                 header('Expires: 0');
-                 header('Cache-Control: must-revalidate');
-                 header('Pragma: public');
-                 header('Content-Length: ' . filesize($file));
-                 readfile($file);
+             var_dump($filename);
+             var_dump($file);
+             var_dump($nom);
+             var_dump(basename($path.$nom[1]));
+             var_dump(basename($path.$nom[1]));
+
+             if ($nom[0] != '.' && $nom[0] != '..'){
+                 if (strcmp($nom[1],$filename['nom']) == 0){
+                     var_dump($filename);
+                     var_dump($file);
+                     var_dump($nom);
+                     var_dump(basename($path.$nom[1]));
+                     var_dump(basename($path.$nom[1]));
+
+                     rename( $path.$file, $path.$nom[1]);
+
+                     header('Content-Description: File Transfer');
+                     header('Content-Type: application/octet-stream');
+                     header('Content-Disposition: attachment; filename="'.basename($path.$nom[1]).'"');
+                     header('Expires: 0');
+                     header('Cache-Control: must-revalidate');
+                     header('Pragma: public');
+                     header('Content-Length: ' . filesize($path.$nom[1]));
+                     var_dump($path.$nom[1]);
+                     readfile($path.$nom[1]);
+
+                     //rename( $path.$nom[1], $path.$file);
+
+                 }
              }
+
          }
 
-
-
+         echo "AAA";
      }
 
  }
