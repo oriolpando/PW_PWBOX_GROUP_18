@@ -232,16 +232,11 @@ function controlRegister(event) {
         }
 
     }
-    /*
+
 
     if((errorName) || (errorSurname) || (errorUsername) || (errorPsw) || (errorConfirmPsw) || (errorEmail) || (errorBirth) || (errorImage)){
         event.preventDefault();
-    }else{
-        var register = document.getElementById("register");
-        register.style.display = "none";
-        var login = document.getElementById("login");
-        login.style.display = "block";
-    }*/
+    }
 }
 
 function readURL(input) {

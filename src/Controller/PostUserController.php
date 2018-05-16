@@ -117,6 +117,8 @@ class PostUserController
             $target_file = $target_dir."/".$username."/"."profile.png";
 
             move_uploaded_file( "assets/resources/user.png", $target_file);
+            echo "The file el NOU has been uploaded. ";
+
         }
 
 
