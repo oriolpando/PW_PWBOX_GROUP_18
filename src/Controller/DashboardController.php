@@ -39,10 +39,11 @@ class DashboardController
         $showItems = [];
 
         $showItems = $this->container->get('file_repository')->getCurrentItems();
-        $html = '<div id = "items">';
+        $html = '<p>You don\'t have any owned file</p>';
 
 
         if (!empty($showItems)){
+            $html = '<div id = "items">';
             foreach ($showItems as $item){
 
 
@@ -50,7 +51,9 @@ class DashboardController
                     $html = $html.'<div>';
                     $html = $html.'<label>'.$item['nom'].'</label><a class="CMove" ondblclick = "enterFolder('.$item['id'].')">
                         <img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>'
-                        .'<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ModalShare" >Share</button>';
+                        .'<button type="button" class="btn btn-danger" onclick="shareItem('.$item['id'].')">Share</button>'
+                        .'<button type="button" class="btn btn-danger" onclick="renameItem('.$item['id'].')">Rename</button>'
+                        .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$item['id'].')">Delete</button>';
                     $html = $html.'</div>';
                 }else{
                     $html = $html.'<div>';
@@ -62,17 +65,99 @@ class DashboardController
                 }
 
             }
+            $html = $html.'</div>';
         }
 
-        $id = $_SESSION['id'];
+        $html2 = '<p>You don\'t have any shared file</p>';
+        $folderName = $this->container->get('file_repository')->getFileNameFromId($_SESSION['currentSharedFolder']);
+        var_dump($folderName);
+        if (!empty($folderName)){
+            if (strcmp('root', $folderName['nom'])== 0){
+                $showItems2 = $this->container->get('file_repository')->getRootSharedItems();
+                var_dump($showItems2);
 
-        $user = $this->container->get('user_repository')->getUser($id);
+                if (!empty($showItems2)){
+                    $html2 = '<div id = "sharedItems">';
+                    foreach ($showItems2 as $item2){
+                        var_dump($item2);
+                        $role = $this->container->get('file_repository')->getRoleFromId($item2['id_folder']);
+                        $idShared = $this->container->get('file_repository')->getFileNameFromId($item2['id_folder']);
+                        if (strcmp('Admin', $role['role']) == 0){
+                            $html2 = $html2.'<div>';
+                            $html2 = $html2.'<label>'.$idShared['nom'].'</label><a class="CMove" ondblclick = "enterSharedFolder('.$item2['id_folder'].')">
+                            <img src="/assets/resources/folder.png" name="'.$item2['id_folder'].'" width = 60px height = 60px></a>'
+                                .'<button type="button" class="btn btn-danger" onclick="shareItem('.$item2['id_folder'].')">Share</button>'
+                                .'<button type="button" class="btn btn-danger" onclick="renameItem('.$item2['id_folder'].')">Rename</button>'
+                                .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$item2['id_folder'].')">Delete</button>';
+                            $html2 = $html2.'</div>';
+                        }else{
+                            $html2 = $html2.'<div>';
+                            $html2 = $html2.'<label>'.$idShared['nom'].'</label><a class="CMove" ondblclick = "enterSharedFolder('.$item2['id_folder'].')">
+                            <img src="/assets/resources/folder.png" name="'.$item2['id_folder'].'" width = 60px height = 60px></a>';
+                            $html2 = $html2.'</div>';
+                        }
+                    }
+                    $html2 = $html2.'</div>';
 
-        $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
+                }
+            }else{
+                $html2 = '<div id = "sharedItems">';
+                $showItems2 = $this->container->get('file_repository')->getCurrentSharedItems();
+                var_dump($showItems2);
+
+                if (!empty($showItems2)){
+
+                    foreach ($showItems2 as $itemFull){
+                        if($itemFull['type'] == 0){
+                            $role = $this->container->get('file_repository')->getRoleFromId($itemFull['id']);
+                            if (strcmp('Admin', $role['role']) == 0){
+                                $html2 = $html2.'<div>';
+                                $html2 = $html2.'<label>'.$itemFull['nom'].'</label><a class="CMove" ondblclick = "enterSharedFolder('.$itemFull['id'].')">
+                                <img src="/assets/resources/folder.png" name="'.$itemFull['id'].'" width = 60px height = 60px></a>'
+                                    .'<button type="button" class="btn btn-danger" onclick="shareItem('.$itemFull['id'].')">Share</button>'
+                                    .'<button type="button" class="btn btn-danger" onclick="renameItem('.$itemFull['id'].')">Rename</button>'
+                                    .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$itemFull['id'].')">Delete</button>';
+                                $html2 = $html2.'</div>';
+                            }else{
+                                $html2 = $html2.'<div>';
+                                $html2 = $html2.'<label>'.$itemFull['nom'].'</label><a class="CMove" ondblclick = "enterSharedFolder('.$itemFull['id'].')">
+                                <img src="/assets/resources/folder.png" name="'.$itemFull['id'].'" width = 60px height = 60px></a>';
+                                $html2 = $html2.'</div>';
+                            }
+                        }else{
+                            $role = $this->container->get('file_repository')->getRoleFromId($itemFull['id']);
+                            if (strcmp('Admin', $role['role']) == 0){
+                                $html2 = $html2.'<div>';
+                                $html2 = $html2.'<label>'.$itemFull['nom'].'</label><img src="/assets/resources/file.png" name="'.$itemFull['id'].'" width = 60px height = 60px>'
+                                    .'<button type="button" class="btn btn-danger" onclick="downloadItem('.$itemFull['id'].')">Download</button>'
+                                    .'<button type="button" class="btn btn-danger" onclick="renameItem('.$itemFull['id'].')">Rename</button>'
+                                    .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$itemFull['id'].')">Delete</button>';
+                                $html2 = $html2.'</div>';
+                            }else{
+                                $html2 = $html2.'<div>';
+                                $html2 = $html2.'<label>'.$itemFull['nom'].'</label><img src="/assets/resources/file.png" name="'.$itemFull['id'].'" width = 60px height = 60px>'
+                                    .'<button type="button" class="btn btn-danger" onclick="downloadItem('.$itemFull['id'].')">Download</button>';
+                                $html2 = $html2.'</div>';
+                            }
+
+                        }
+
+                    }
+                }
+                $html2 = $html2.'</div>';
+            }
+        }
+
+        $idSend = $_SESSION['id'];
+
+        $userSend = $this->container->get('user_repository')->getUser($idSend);
+
+        $pathSend = 'assets/resources/perfils/'.$userSend->getUsername().'/profile.png';
+        var_dump($html2);
 
         return $this->container->get('view')
             ->render($response,'dashboard.twig',
-                ['srcProfileImg' =>$path, 'folders'=>$html, 'user' => $user->getNom(),'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
-        }
+                ['srcProfileImg' =>$pathSend, 'folders'=>$html, 'sharedFolders' => $html2, 'user' => $userSend->getNom(),'name'=> $userSend->getNom(),'username'=> $userSend->getUsername(),'surname'=> $userSend->getSurname(), 'email'=> $userSend->getEmail(), 'birthDate'=> $userSend->getBirthDate()]);
+    }
 
 }

@@ -47,6 +47,17 @@
 
      }
 
+     public function enterSharedFolder (Request $request, Response $response, array $arg){
+         $id = $arg['id'];
+
+         $_SESSION['currentSharedFolder'] = $id;
+
+         var_dump($_SESSION);
+
+         return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+     }
+
      public function toRoot (Request $request, Response $response){
 
          $_SESSION['currentFolder'] = $_SESSION['motherFolder'];
@@ -107,7 +118,6 @@
          }
      }
 
-
      public function deleteItem (Request $request, Response $response, array $arg){
          $id = $arg['id'];
 
@@ -164,6 +174,17 @@
          }
 
          echo "AAA";
+     }
+
+     public function shareFolder (Request $request, Response $response){
+
+         $idFolder = $_POST['idFolder'];
+         $email = $_POST['email'];
+         $role = $_POST['role'];
+
+         $ok = $this->container->get('file_repository')->shareFolder($idFolder, $email, $role, 0);
+
+         return $response->withStatus(302)->withHeader('Location','/dashboard');
      }
 
  }

@@ -76,7 +76,6 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
-
     public function saveItem($item)
     {
         /**
@@ -118,6 +117,7 @@ class DoctrineFileRepository implements FileRepository
         }
 
     }
+
     public function getCurrentItems()
     {
 
@@ -126,7 +126,7 @@ class DoctrineFileRepository implements FileRepository
         $sql = "SELECT * FROM Item WHERE parent = ?";
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+        $stmt->bindParam(1, $parent, PDO::PARAM_INT);
 
 
 
@@ -136,13 +136,50 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
+    public function getRootSharedItems()
+    {
+
+        $id = $_SESSION['id'];
+
+        $sql = "SELECT id_folder FROM Share WHERE id_user = ? && parent = 0";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+
+    }
+
+    public function getCurrentSharedItems()
+    {
+        $parent = $_SESSION['currentSharedFolder'];
+
+        $sql = "SELECT * FROM Item WHERE parent = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $parent, PDO::PARAM_INT);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+
+
+    }
+
     public function getFileNameFromId($id)
     {
+        var_dump($id);
 
         $sql = "SELECT nom FROM Item WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(1, $id, PDO::PARAM_STR);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
 
 
@@ -152,5 +189,110 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
+    public function getRoleFromId($id)
+    {
+        var_dump($id);
+
+        $sql = "SELECT role FROM Share WHERE id_folder = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        var_dump($result);
+        return $result[0];
+
+    }
+
+    public function getSharedId($nom)
+    {
+
+        $sql = "SELECT id FROM Item WHERE nom = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result[0];
+
+    }
+
+    public function shareFolder($idFolder, $email, $role, $parent){
+
+        $sql = "SELECT id_propietari FROM Item WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $idFolder, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $resultId = $stmt->fetchAll();
+        $id = $resultId[0]['id_propietari'];
+
+        $sql = "SELECT email FROM User WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+
+        $user = $result[0];
+
+
+
+        if (strcmp($email,$user['email']) != 0){
+            $sql = "SELECT id FROM User WHERE email LIKE ? ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(1, $email, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll();
+            if (!empty($result)){
+                try{
+
+                $sql = "INSERT INTO Share(id_user, role, id_propietari, id_folder, parent) VALUES(?, ?, ?, ?, ?)";
+                $stmt = $this->connection->prepare($sql);
+
+                $stmt->bindParam(1, $result[0]['id'], PDO::PARAM_INT);
+                $stmt->bindParam(2, $role, PDO::PARAM_STR);
+                $stmt->bindParam(3, $id, PDO::PARAM_INT);
+                $stmt->bindParam(4, $idFolder, PDO::PARAM_INT);
+                $stmt->bindParam(5, $parent, PDO::PARAM_INT);
+
+
+
+                $stmt->execute();
+
+
+                $sql = "SELECT id FROM Item WHERE parent = ? ";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bindParam(1, $idFolder, PDO::PARAM_INT);
+                $stmt->execute();
+
+                $resultsRec = $stmt->fetchAll();
+                if (!empty($resultsRec)){
+
+                    foreach ($resultsRec as $resultRec){
+
+                        $ok = $this->shareFolder($resultRec['id'],$email, $role, 1);
+                    }
+                }
+
+                return true;
+                }catch (\Exception $e){
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
 
 }

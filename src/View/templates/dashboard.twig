@@ -175,14 +175,15 @@
                     <h4 class="modal-title">Share Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" enctype="multipart/form-data" action="/shareFile">
+                    <form method="POST" enctype="multipart/form-data" action="/shareFolder">
                         <div class="container">
                             <div class="form-group">
+                                <input type="number" id="idFolder" name="idFolder" placeholder="" style="display: none">
                                 <label class="floatLabel">Share with (email):</label>
                                 <input type="email" id="email" name="email" placeholder="">
                                 <br><br>
                                 <label class="floatLabel">Role:</label>
-                                <select name="Role">
+                                <select name="role">
                                     <option value="Admin">Admin</option>
                                     <option value="Reader">Reader</option>
                                 </select>
@@ -201,5 +202,8 @@
 
     <div>
         {{ folders|raw }}
+
+        <p>Shared</p>
+        {{ sharedFolders|raw }}
     </div>
 {% endblock %}

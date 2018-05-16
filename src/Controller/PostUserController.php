@@ -149,6 +149,8 @@ class PostUserController
 
             $_SESSION['currentFolder'] = $id_motherfolder;
             $_SESSION['motherFolder'] = $id_motherfolder;
+            $_SESSION['currentSharedFolder'] = $id_motherfolder;
+
 
 
 
@@ -245,6 +247,7 @@ class PostUserController
                 $_SESSION['id'] = $id[0];
 
                 $_SESSION['motherFolder'] = $id[1];
+                $_SESSION['currentSharedFolder'] = $id[1];
 
 
 

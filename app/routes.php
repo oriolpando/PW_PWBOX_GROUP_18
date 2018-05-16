@@ -20,7 +20,7 @@ $app->post('/register', 'PwBox\Controller\PostUserController:register');
 
 $app->get('/register', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage');
+$app->get('/dashboard', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
 $app->post('/profile', 'PwBox\Controller\ProfileController:profilePage');
 
@@ -39,6 +39,11 @@ $app->get('/toRoot', 'PwBox\Controller\FolderController:toRoot')->add('PwBox\Con
 $app->get('/activate?id={id}', 'PwBox\Controller\PostUserController:activate');
 
 $app->post('/addFile', 'PwBox\Controller\FolderController:addFile');
+
+$app->post('/shareFolder', 'PwBox\Controller\FolderController:shareFolder');
+
+$app->get('/enterSharedFolder/{id}', 'PwBox\Controller\FolderController:enterSharedFolder')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
 
 $app->get('/download/{id}', 'PwBox\Controller\FolderController:downloadItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
 

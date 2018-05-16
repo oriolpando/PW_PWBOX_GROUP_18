@@ -175,6 +175,14 @@ class DoctrineUserRepository implements UserRepository
     {
         $id = $_SESSION['id'];
 
+        $sql = "DELETE FROM Share WHERE id_propietari = ? OR id_user = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+
+
+        $stmt->execute();
 
         $sql = "DELETE FROM Item WHERE id_propietari = ?";
         $stmt = $this->connection->prepare($sql);
