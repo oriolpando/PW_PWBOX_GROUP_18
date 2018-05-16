@@ -15,8 +15,12 @@ CREATE TABLE `User` (
   `email` varchar(200) NOT NULL,
   `pswUser` varchar(100) NOT NULL,
   `id_motherfolder` int(11),
+  `total_bytes` int(11) NOT NULL DEFAULT '0',
+  `validat` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
 
 
 CREATE TABLE `Item` (

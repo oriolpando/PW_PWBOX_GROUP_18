@@ -11,7 +11,7 @@ namespace PwBox\Model;
 
 interface FileRepository
 {
-public function saveItem($item);
+public function saveItem($item, $size);
 public function iniciaFolder();
 
 }

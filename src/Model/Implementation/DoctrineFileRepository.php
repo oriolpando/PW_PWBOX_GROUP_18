@@ -76,7 +76,8 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
-    public function saveItem($item)
+
+    public function saveItem($item, $size)
     {
         /**
          * @param php $item
@@ -111,7 +112,33 @@ class DoctrineFileRepository implements FileRepository
 
             $stmt->execute();
 
-            return true;
+            $sql = "SELECT total_bytes FROM User WHERE id = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(1, $id, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $result = $stmt->fetchAll();
+            $total = $result[0]['total_bytes'] + $size;
+
+            if ($total<1073741824){
+                $sql = "UPDATE User SET total_bytes = ? WHERE id = ?";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bindParam(1, $total, PDO::PARAM_INT);
+                $stmt->bindParam(2, $id, PDO::PARAM_INT);
+                $stmt->execute();
+                return true;
+
+            }else{
+                echo "<script type='text/javascript'>alert('El teu usuari ha excedit el que pot fer');</script>";
+
+
+               return false;
+            }
+
+
+
+
         }else{
             return false;
         }

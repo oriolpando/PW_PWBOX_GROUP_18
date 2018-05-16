@@ -91,7 +91,7 @@
 
 
 
-         if($_FILES["uploadFile"]["size"]>2000000){
+         if($_FILES["uploadFile"]["size"]>2097152){
              $errors['file'] = 'file too big';
 
          }
@@ -107,7 +107,7 @@
 
          /** @var FileRepository $fileRepo **/
          $item = new Item (null, $name , $_SESSION['currentFolder'],1);
-         $ok = $this->container->get('file_repository')->saveItem($item);
+         $ok = $this->container->get('file_repository')->saveItem($item, $_FILES["uploadFile"]["size"]);
 
          if ($ok){
              return $response->withStatus(302)->withHeader('Location','/dashboard');
