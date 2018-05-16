@@ -54,58 +54,14 @@
                 </div>
             </div>
             <div class="col" id="buttonProfile">
-                <div id="nomCarpeta">
-                    <h2 >AQUÍ POSEU EL QUE US DONGUI LA GANA</h2>
-                </div>
                 <form id="foldersFiles">
-
+                    <h3>Own Folders</h3>
                     <div class="container ara">
-                        <div class="row" id="folders">
-                            <div class="col-sm carpeta">
-                                <div class="col center">
-                                    <img id="sizeFolders" src="/assets/resources/folder.png">
-                                </div>
-                                <div class="col center">
-                                    <label class="nameFolder">Name folder</label>
-                                </div>
-                            </div>
-                            <div class="col-sm iep sizeF">
-                                <button class="bttn-minimal ">Share</button>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal ">Rename</button>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal ">Delete</button>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal nonButton" disabled></button>
-                            </div>
-                        </div>
-                        <div class="row" id="files">
-                            <div class="col-sm carpeta">
-                                <div class="col center">
-                                    <img id="sizeFolders" src="/assets/resources/file.png">
-                                </div>
-                                <div class="col center">
-                                    <label class="nameFolder">File name</label>
-                                </div>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal">Share</button>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal">Rename</button>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal">Delete</button>
-                            </div>
-                            <div class="col-sm iep">
-                                <button class="bttn-minimal">Download</button>
-                            </div>
-                        </div>
+                        {{ folders|raw }}
+
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -140,7 +96,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Modal -->
     <div id="ModalFile" class="modal fade" role="dialog">
@@ -204,9 +159,33 @@
     </div>
 
     <div>
-        {{ folders|raw }}
+
 
         <p>Shared</p>
         {{ sharedFolders|raw }}
     </div>
+
+    <!--
+    <div class="row" id="files">
+        <div class="col-sm carpeta">
+            <div class="col center">
+                <img id="sizeFolders" src="/assets/resources/file.png">
+            </div>
+            <div class="col center">
+                <label class="nameFolder">File name</label>
+            </div>
+        </div>
+        <div class="col-sm iep">
+            <button class="bttn-minimal">Share</button>
+        </div><div class="col-sm iep">
+            <button class="bttn-minimal">Rename</button>
+        </div>
+        <div class="col-sm iep">
+            <button class="bttn-minimal">Delete</button>
+        </div>
+        <div class="col-sm iep">
+            <button class="bttn-minimal">Download</button>
+        </div>
+    </div>
+    -->
 {% endblock %}

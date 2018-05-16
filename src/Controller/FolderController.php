@@ -24,7 +24,7 @@
 
          /** @var FileRepository $fileRepo **/
         $item = new Item (null, $_POST['nom'],$_SESSION['currentFolder'],0);
-        $ok = $this->container->get('file_repository')->saveItem($item);
+        $ok = $this->container->get('file_repository')->saveItem($item, null);
 
         if ($ok){
             return $response->withStatus(302)->withHeader('Location','/dashboard');

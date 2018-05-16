@@ -37,33 +37,34 @@ class DashboardController
         $showItems = [];
 
         $showItems = $this->container->get('file_repository')->getCurrentItems();
-        $html = '<p>You don\'t have any owned file</p>';
 
 
+        $html = '';
         if (!empty($showItems)){
-            $html = '<div id = "items">';
             foreach ($showItems as $item){
 
 
                 if ($item['type'] == 0){
-                    $html = $html.'<div>';
-                    $html = $html.'<label>'.$item['nom'].'</label><a class="CMove" ondblclick = "enterFolder('.$item['id'].')">
-                        <img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>'
-                        .'<button type="button" class="btn btn-danger" onclick="shareItem('.$item['id'].')">Share</button>'
-                        .'<button type="button" class="btn btn-danger" onclick="renameItem('.$item['id'].')">Rename</button>'
-                        .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$item['id'].')">Delete</button>';
-                    $html = $html.'</div>';
+                    $html = $html.'<div class="row" id="files"><div class="col-sm carpeta"><div class="col center">';
+                    $html = $html.'<a class="CMove" ondblclick = "enterFolder('.$item['id'].')"><img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>'
+                        .'</div><div class="col center"><label class="nameFolder">'.$item['nom'].'</label></div></div><div class="col-sm iep sizeF">'
+                        .'<button class="bttn-minimal" type="button" onclick="shareItem('.$item['id'].')">Share</button></div><div class="col-sm iep sizeF">'
+                        .'<button class="bttn-minimal" type="button"  onclick="renameItem('.$item['id'].')">Rename</button></div><div class="col-sm iep sizeF">'
+                        .'<button class="bttn-minimal" type="button"  onclick="deleteItem('.$item['id'].')">Delete</button></div><div class="col-sm iep sizeF">'
+                        .'<div class="col-sm iep">
+                    .<button class="bttn-minimal nonButton" disabled></button></div></div></div>';
                 }else{
-                    $html = $html.'<div>';
-                    $html = $html.'<label>'.$item['nom'].'</label><img src="/assets/resources/file.png" name="'.$item['id'].'" width = 60px height = 60px>'
-                        .'<button type="button" class="btn btn-danger" onclick="downloadItem('.$item['id'].')">Download</button>'
-                        .'<button type="button" class="btn btn-danger" onclick="renameItem('.$item['id'].')">Rename</button>'
-                        .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$item['id'].')">Delete</button>';
-                    $html = $html.'</div>';
+                    $html = $html.'<div class="row" id="files"><div class="col-sm carpeta"><div class="col center">';
+                    $html = $html.'<img src="/assets/resources/file.png" name="'.$item['id'].'" width = 60px height = 60px></div><div class="col center">'
+                        .'<label class="nameFolder">'.$item['nom'].'</label></div></div><div class="col-sm iep">'
+                        .'<button type="button" class="bttn-minimal" onclick="downloadItem('.$item['id'].')">Download</button></div><div class="col-sm iep">'
+                        .'<button type="button" class="bttn-minimal" onclick="renameItem('.$item['id'].')">Rename</button></div><div class="col-sm iep">'
+                        .'<button type="button" class="bttn-minimal" onclick="deleteItem('.$item['id'].')">Delete</button></div><div class="col-sm iep">'
+                        .'</div>';
                 }
-
             }
-            $html = $html.'</div>';
+        }else{
+            $html = '<h5>You don\'t have any owned file</h5>';
         }
 
         $html2 = '<p>You don\'t have any shared file</p>';
@@ -78,13 +79,14 @@ class DashboardController
                         $role = $this->container->get('file_repository')->getRoleFromId($item2['id_folder']);
                         $idShared = $this->container->get('file_repository')->getFileNameFromId($item2['id_folder']);
                         if (strcmp('Admin', $role['role']) == 0){
-                            $html2 = $html2.'<div>';
-                            $html2 = $html2.'<label>'.$idShared['nom'].'</label><a class="CMove" ondblclick = "enterSharedFolder('.$item2['id_folder'].')">
-                            <img src="/assets/resources/folder.png" name="'.$item2['id_folder'].'" width = 60px height = 60px></a>'
-                                .'<button type="button" class="btn btn-danger" onclick="shareItem('.$item2['id_folder'].')">Share</button>'
-                                .'<button type="button" class="btn btn-danger" onclick="renameItem('.$item2['id_folder'].')">Rename</button>'
-                                .'<button type="button" class="btn btn-danger" onclick="deleteItem('.$item2['id_folder'].')">Delete</button>';
-                            $html2 = $html2.'</div>';
+                            $html2 = $html2.'<div class="row" id="files"><div class="col-sm carpeta"><div class="col center">';
+                            $html2 = $html2.'<a class="CMove" ondblclick = "enterFolder('.$item2['id_folder'].')"><img src="/assets/resources/folder.png" name="'.$item2['id_folder'].'" width = 60px height = 60px></a>'
+                                .'</div><div class="col center"><label class="nameFolder">'.$idShared['nom'].'</label></div></div><div class="col-sm iep sizeF">'
+                                .'<button class="bttn-minimal" type="button" onclick="shareItem('.$item2['id_folder'].')">Share</button></div><div class="col-sm iep sizeF">'
+                                .'<button class="bttn-minimal" type="button"  onclick="renameItem('.$item2['id_folder'].')">Rename</button></div><div class="col-sm iep sizeF">'
+                                .'<button class="bttn-minimal" type="button"  onclick="deleteItem('.$item2['id_folder'].')">Delete</button></div><div class="col-sm iep sizeF">'
+                                .'<div class="col-sm iep">
+                                .<button class="bttn-minimal nonButton" disabled></button></div></div></div>';
                         }else{
                             $html2 = $html2.'<div>';
                             $html2 = $html2.'<label>'.$idShared['nom'].'</label><a class="CMove" ondblclick = "enterSharedFolder('.$item2['id_folder'].')">
