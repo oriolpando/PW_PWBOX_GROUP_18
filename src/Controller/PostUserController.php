@@ -16,8 +16,7 @@ use PwBox\Model\User;
 
 use PwBox\Model\UserRepository;
 use PwBox\Model\FileRepository;
-class PostUserController
-{
+class PostUserController{
     /** @var ContainerInterface */
     private $container;
 

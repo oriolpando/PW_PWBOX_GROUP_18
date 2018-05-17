@@ -28,8 +28,16 @@ class NotificationsController
     public function getNotifications(Request $request, Response $response)
     {
 
+        $idSend = $_SESSION['id'];
+
+        $userSend = $this->container->get('user_repository')->getUser($idSend);
+
+        $pathSend = 'assets/resources/perfils/'.$userSend->getUsername().'/profile.png';
+
         return $this->container->get('view')
-            ->render($response,'notifications.twig');
+            ->render($response,'notifications.twig',
+                ['srcProfileImg' =>$pathSend,  'user' => $userSend->getNom(),'name'=> $userSend->getNom(),'username'=> $userSend->getUsername(),'surname'=> $userSend->getSurname(), 'email'=> $userSend->getEmail(), 'birthDate'=> $userSend->getBirthDate()]);
+
     }
 
 }

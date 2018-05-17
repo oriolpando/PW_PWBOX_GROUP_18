@@ -1,8 +1,25 @@
 {% extends "base.twig" %}
 {% block title %}Notifications{% endblock %}
-{% block css_file %}styles.css{% endblock %}
+{% block css_file %}home.css{% endblock %}
 {% block header %}
 
+    <nav id="logoDropdown" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a href="/profile">
+            <img src="{{ srcProfileImg }}" id="imageUser"/>
+        </a>
+        <div class="navbar">
+            <div class="dropdown" id="positionNameProfile">
+                <button class="dropbtn" id="nameProfile">{{ username }}
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/profile">My profile</a>
+                    <a href="/notifications">Notifications</a>
+                    <a href="/logOut">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 {% endblock %}
 
 {% block content %}
