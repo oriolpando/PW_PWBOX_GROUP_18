@@ -68,7 +68,6 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-
         return $result[0]['validat'];
 
 
