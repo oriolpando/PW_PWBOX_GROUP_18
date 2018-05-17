@@ -26,11 +26,12 @@ function shareItem(id) {
 }
 function renameItem(id) {
     $('#Rename').modal("show");
-    $("#renameIt").val(id);
+    $("#renameId").val(id);
+    console.log($("#renameId").val());
 }
 function renameItemFin() {
     var name = document.getElementById("rename").value;
-    var id = $("#renameIt").val(id);
+    var id = $("#renameId").val();
     console.log(name);
     console.log(id);
     location.href = "/rename/" + id + "/" + name;
