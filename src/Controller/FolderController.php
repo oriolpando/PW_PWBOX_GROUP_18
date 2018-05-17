@@ -349,7 +349,7 @@
      public function downloadItem (Request $request, Response $response, array $arg){
          $id = $arg['id'];
 
-         $username = $this->container->get('file_repository')->getUsernameFromId($_SESSION['id']);
+         $username = $this->container->get('file_repository')->getUsernameFromSharedFolder($id);
          $filename = $this->container->get('file_repository')->getFileNameFromId($id);
          $path = "assets/resources/perfils/".$username."/root/";
 
@@ -358,14 +358,9 @@
 
          foreach ($files as $file) {
 
-             $nom = explode("&",$file);
+             $nom = explode("¿",$file);
              if ($nom[0] != '.' && $nom[0] != '..'){
                  if (strcmp($nom[1],$filename['nom']) == 0){
-                     var_dump($filename);
-                     var_dump($file);
-                     var_dump($nom);
-                     var_dump(basename($path.$nom[1]));
-                     var_dump(basename($path.$nom[1]));
 
                      rename( $path.$file, $path.$nom[1]);
 
@@ -376,17 +371,13 @@
                      header('Cache-Control: must-revalidate');
                      header('Pragma: public');
                      header('Content-Length: ' . filesize($path.$nom[1]));
-                     var_dump($path.$nom[1]);
                      readfile($path.$nom[1]);
 
-                     //rename( $path.$nom[1], $path.$file);
-
+                     rename( $path.$nom[1],$path.$file);
                  }
              }
 
          }
-
-         echo "AAA";
      }
 
      public function shareFolder (Request $request, Response $response){
