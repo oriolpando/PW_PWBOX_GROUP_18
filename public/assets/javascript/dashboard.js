@@ -60,7 +60,6 @@ function plusFitxer() {
 
 
     var nom = document.getElementById("formFitxer").lastElementChild.name;
-alert(nom);
     var i = document.createElement("input");
     i.setAttribute('accept',".jpg,.png,.gif,.pdf,.md,.txt");
     i.setAttribute('type',"file");
