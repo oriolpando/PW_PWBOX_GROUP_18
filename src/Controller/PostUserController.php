@@ -13,9 +13,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PwBox\Model\User;
-use Swift_SmtpTransport;
-use Swift_Mailer;
-use Swift_Message;
+
 use PwBox\Model\UserRepository;
 use PwBox\Model\FileRepository;
 class PostUserController
@@ -33,8 +31,8 @@ class PostUserController
     }
 
 
-
-    public function register(Request $request, Response $response){
+    public function register(Request $request, Response $response)
+    {
 
         $name = $_POST['name'];
         $username = $_POST['username'];
@@ -44,57 +42,57 @@ class PostUserController
         $confirmPassword = $_POST['confirmPassword'];
         $errors = [];
 
-        if($this->container->get('user_repository')->checkIfUsernameExists($username)){
+        if ($this->container->get('user_repository')->checkIfUsernameExists($username)) {
             $errors['usernameExists'] = 'the username already exist';
         }
-        if($this->container->get('user_repository')->checkIfEmailExists($email)){
+        if ($this->container->get('user_repository')->checkIfEmailExists($email)) {
             $errors['emailExists'] = 'the email already exist';
         }
 
-        if (empty($name)){
+        if (empty($name)) {
             $errors['name'] = 'invalid user';
         }
 
-        if (empty($username)||strlen($username)>20||!ctype_alnum($username)){
+        if (empty($username) || strlen($username) > 20 || !ctype_alnum($username)) {
             $errors['username'] = 'invalid user';
         }
 
-        if (empty($password)||strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
+        if (empty($password) || strlen($password) > 12 || strlen($password) < 6 || !preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/', $password)) {
             $errors['password'] = 'invalid password';
         }
 
-        if (empty($confirmPassword)||strlen($confirmPassword)>12||strlen($confirmPassword)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
+        if (empty($confirmPassword) || strlen($confirmPassword) > 12 || strlen($confirmPassword) < 6 || !preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/', $password)) {
             $errors['confirmPassword'] = 'invalid confirmPassword';
         }
 
-        if(strcmp($confirmPassword, $password) != 0){
+        if (strcmp($confirmPassword, $password) != 0) {
             echo($password);
             echo($confirmPassword);
-            echo(" ".strcmp($confirmPassword, $password));
+            echo(" " . strcmp($confirmPassword, $password));
             $errors['notSamePassword'] = 'Confirm password field does not match up';
 
         }
 
-        if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)) {
+        if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
             $errors['birth'] = 'wrong birth';
         }
 
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'invalid email';
         }
 
         if (!empty($errors)) {
             return $this->container->get('view')
-                ->render($response,'home.twig',['errors'=> $errors]);
-        }else{
+                ->render($response, 'home.twig', ['errors' => $errors]);
+        } else {
 
             $target_dir = "assets/resources/perfils";
 
-            if( !empty($_FILES['image'])){
+            if (!empty($_FILES['image'])) {
 
-                $errors =[];
+                $errors = [];
 
-                $allowed_types =array('jpg','png' );
+                $allowed_types = array('jpg', 'png');
                 $name = $_FILES['image']['name'];
                 $error = null;
 
@@ -106,25 +104,25 @@ class PostUserController
                     $errors['extension'] = "Extension not allowed";
                 }
 
-                if($_FILES["image"]["size"]>500000){
+                if ($_FILES["image"]["size"] > 500000) {
                     $errors['image'] = 'image too big';
 
-                }else{
+                } else {
 
-                    mkdir($target_dir."/".$username, 0777, TRUE);
-                    mkdir($target_dir."/".$username."/root", 0777, TRUE);
-                    $target_file = $target_dir."/".$username."/"."profile.png";
+                    mkdir($target_dir . "/" . $username, 0777, TRUE);
+                    mkdir($target_dir . "/" . $username . "/root", 0777, TRUE);
+                    $target_file = $target_dir . "/" . $username . "/" . "profile.png";
 
-                    if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
-                        echo "The file ". basename( $name). " has been uploaded. ";
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                        echo "The file " . basename($name) . " has been uploaded. ";
                     }
 
                 }
 
-            }else{
-                $target_file = $target_dir."/".$username."/"."profile.png";
+            } else {
+                $target_file = $target_dir . "/" . $username . "/" . "profile.png";
 
-                move_uploaded_file( "assets/resources/user.png", $target_file);
+                move_uploaded_file("assets/resources/user.png", $target_file);
                 echo "The file el NOU has been uploaded. ";
 
             }
@@ -133,7 +131,7 @@ class PostUserController
             (null,
                 $_POST['name'],
                 $_POST['surname'],
-                $username,$email,
+                $username, $email,
                 $_POST['password'],
                 $_POST['birth'],
                 null
@@ -152,154 +150,122 @@ class PostUserController
 
 
                 $messages = $this->container->get('flash')->getMessages();
-                $registerMessages = isset($messages['register'])?$messages['register']:[];
+                $registerMessages = isset($messages['register']) ? $messages['register'] : [];
 
                 $_SESSION['currentFolder'] = $id_motherfolder;
                 $_SESSION['motherFolder'] = $id_motherfolder;
                 $_SESSION['currentSharedFolder'] = $id_motherfolder;
 
 
-
-
-                //Si tot està bé, enviem missatge
-                $transport = (new Swift_SmtpTransport('smtp.live.com', 587, 'tls'))
-                    ->setUsername('projectesweb2@hotmail.com')
-                    ->setPassword('MiqPanCar96')
-                ;
-
-                // Create the Mailer using your created Transport
-                $mailer = new Swift_Mailer($transport);
-
-
-
-                // Create a message
-                $message = (new Swift_Message('Activation mail'))
-                    ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
-                    ->setTo([$email, $email => $name])
-                    ->setBody(
-                        '<html>' .
-                        ' <head></head>' .
-                        ' <body>' .
-                        '<a href="pwbox.test/activate/id=' . $id.'">Sign in</a>'.
-                        ' </body>' .
-                        '</html>',
-                        'text/html' // Mark the content-type as HTML
-                    );
-
-                // Send the message
-                $result = $mailer->send($message);
-
+                $this->container->get('mail_repository')->sendValidate($id, $name, $email);
 
                 session_destroy();
 
                 // return $this->container->get('view')->render($response,'dashboard.twig',['messages'=> $registerMessages]);
-                return $response->withStatus(302)->withHeader('Location','/dashboard');
+                return $response->withStatus(302)->withHeader('Location', '/dashboard');
 
-            }catch (\Exception $e) {
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
-
-
-
-        }
-
-
-    }
-
-
-    public function loginCheck(Request $request, Response $response)
-    {
-
-        $username = $_POST['title'];
-        $password = $_POST['passwordLogin'];
-
-        $erroUs = 0;
-        $erroMail = 0;
-
-        if (empty($username)||strlen($username)>20||!ctype_alnum($username)){
-            $erroUs = 1;
-        }
-
-        if (empty($password)||strlen($password)>12||strlen($password)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
-            $errors['password'] = 'invalid password';
-        }
-
-        if (strpos($username, '@' ) == true){
-            if(!filter_var($username, FILTER_VALIDATE_EMAIL)){
-                $erroMail = 1;
             }
         }
 
-        if ($erroMail == 1 || $erroUs == 1){
-            $errors['user&mail'] = 'invalid username or mail';
-        }
 
-        if (!empty($errors)) {
-            return $this->container->get('view')
-                ->render($response,'home.twig',['errors'=> $errors]);
-        }
+        public function loginCheck(Request $request, Response $response)
+        {
 
-        $errors = [];
-        $id = [];
-        $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
+            $username = $_POST['title'];
+            $password = $_POST['passwordLogin'];
 
-        if ($id[0] == -1){
-            //Username o email no existeix a bbdd
-            $errors['notexistent'] = 'The username or the email do not exist';
-            return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
-        }else{
-            if ($id[0] == -2){
-                //Contrasenya incorrecta
+            $erroUs = 0;
+            $erroMail = 0;
 
-                $errors['password'] = 'Incorrect password';
-                return $this->container->get('view')->render($response,'home.twig',['errors'=> $errors]);
+            if (empty($username) || strlen($username) > 20 || !ctype_alnum($username)) {
+                $erroUs = 1;
+            }
 
-            }else{
+            if (empty($password) || strlen($password) > 12 || strlen($password) < 6 || !preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/', $password)) {
+                $errors['password'] = 'invalid password';
+            }
 
-                /** @var FileRepository $fileRepo **/
+            if (strpos($username, '@') == true) {
+                if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+                    $erroMail = 1;
+                }
+            }
 
-                $_SESSION['currentFolder'] = $id[1];
+            if ($erroMail == 1 || $erroUs == 1) {
+                $errors['user&mail'] = 'invalid username or mail';
+            }
 
-                $_SESSION['id'] = $id[0];
+            if (!empty($errors)) {
+                return $this->container->get('view')
+                    ->render($response, 'home.twig', ['errors' => $errors]);
+            }
 
-                $_SESSION['motherFolder'] = $id[1];
+            $errors = [];
+            $id = [];
+            $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
-                $_SESSION['currentSharedFolder'] = $id[1];
+            if ($id[0] == -1) {
+                //Username o email no existeix a bbdd
+                $errors['notexistent'] = 'The username or the email do not exist';
+                return $this->container->get('view')->render($response, 'home.twig', ['errors' => $errors]);
+            } else {
+                if ($id[0] == -2) {
+                    //Contrasenya incorrecta
+
+                    $errors['password'] = 'Incorrect password';
+                    return $this->container->get('view')->render($response, 'home.twig', ['errors' => $errors]);
+
+                } else {
+
+                    /** @var FileRepository $fileRepo * */
+
+                    $_SESSION['currentFolder'] = $id[1];
+
+                    $_SESSION['id'] = $id[0];
+
+                    $_SESSION['motherFolder'] = $id[1];
+
+                    $_SESSION['currentSharedFolder'] = $id[1];
 
 
-                $id = $_SESSION['id'];
+                    $id = $_SESSION['id'];
 
-                $user = $this->container->get('user_repository')->getUser($id);
+                    $user = $this->container->get('user_repository')->getUser($id);
 
-                $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
+                    $path = 'assets/resources/perfils/' . $user->getUsername() . '/profile.png';
 
-                return $response->withStatus(302)->withHeader('Location','/profile');
+                    return $response->withStatus(302)->withHeader('Location', '/profile');
                 }
             }
         }
 
-    public function logOut(Request $request, Response $response)
-    {
-        session_destroy();
-        return $response->withStatus(302)->withHeader('Location','/');
-    }
+        public function logOut(Request $request, Response $response)
+        {
+            session_destroy();
+            return $response->withStatus(302)->withHeader('Location', '/');
+        }
 
-    public function activate(Request $request, Response $response, array $arg){
+        public function activate(Request $request, Response $response, array $arg)
+        {
 
-        $ok = $arg['id'];
+            $ok = $arg['id'];
 
-        $id = $this->container->get('user_repository')->validateUser($ok);
+            $id = $this->container->get('user_repository')->validateUser($ok);
 
-        $_SESSION['currentFolder'] = $id[1];
+            $_SESSION['currentFolder'] = $id[1];
 
-        $_SESSION['id'] = $id[0];
+            $_SESSION['id'] = $id[0];
 
-        $_SESSION['motherFolder'] = $id[1];
+            $_SESSION['motherFolder'] = $id[1];
 
-        $_SESSION['currentSharedFolder'] = $id[1];
+            $_SESSION['currentSharedFolder'] = $id[1];
 
 
-        return $response->withStatus(302)->withHeader('Location','/');
-    }
+            return $response->withStatus(302)->withHeader('Location', '/');
+        }
+
 
 }

@@ -34,6 +34,26 @@ class DoctrineUserRepository implements UserRepository
      * @param User $user
      * @throws \Doctrine\DBAL\DBALException
      */
+
+    public function getInfoValidate ($id){
+        $sql = "SELECT nom,email FROM User WHERE id LIKE ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        $torna = [];
+        $torna[0] = $result[0]['nom'];
+        $torna[1] = $result[0]['email'];
+
+
+
+
+        return $torna;
+
+
+    }
+
     public function save(User $user){
 
         $nom = $user->getNom();

@@ -58,6 +58,7 @@ $app->get('/rename/{id}/{name}', 'PwBox\Controller\FolderController:renameItem')
 
 $app->get('/delete/{id}', 'PwBox\Controller\FolderController:deleteItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
+$app->get('/resendValidate', 'PwBox\Controller\ProfileController:resendValidate');
 
 
 

@@ -34,6 +34,9 @@ $container['file_repository'] = function($container){
     return $repo;
 };
 
+$container['mail_repository'] = function($container){
+    return new \PwBox\Model\Implementation\SwiftMailerRepository();
+};
 
 
 $container['user_repository'] = function($container){

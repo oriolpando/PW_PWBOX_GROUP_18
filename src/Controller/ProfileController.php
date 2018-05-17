@@ -25,6 +25,18 @@ class ProfileController
         $this->container = $container;
     }
 
+    public function resendValidate(Request $request, Response $response){
+        $torna = $this->container->get('user_repository')->getInfoValidate($_SESSION['id']);
+
+
+        $name = $torna[0];
+        $mail = $torna[1];
+
+        $this->container->get('mail_repository')->sendValidate($_SESSION['id'],$name,$mail);
+
+        return $response->withStatus(302)->withHeader('Location','/profile');
+
+    }
     public function profilePage(Request $request, Response $response)
     {
 
@@ -43,10 +55,8 @@ class ProfileController
 $validate=null;
         if($this->container->get('user_repository')->checkValidate($id)){
             $validate ="hidden";
-            echo "yes";
         }else{
             $validate = "";
-            echo "nope";
         }
 
 
