@@ -78,51 +78,71 @@
              return $this->container->get('view')
                  ->render($response,'error.twig',['errors'=> $errors]);
          }
-         for ($i = 0; $i <= strlen($_FILES); $i++) {
+         for ($i = 0; $i < count($_FILES); $i++) {
 
-             $name = $_FILES['uploadFile']['name'];
-             $error = null;
+             $pos = "fitxerUpload".$i;
 
-             // Get the file extension
-             $extension = pathinfo($name, PATHINFO_EXTENSION);
+             $name = $_FILES[$pos]['name'];
 
-             // Search the array for the allowed file type
+             if (!$name=="") {
 
-             if (in_array($extension, $allowed_types, false) != true) {
-                 $errors['extension'] = "Error when uploading " . $extension;
+                 if (strpos($name, '&') !== FALSE) {
+                     $errors["bullshit"] = "Has volgut penjar un fitxer amb un caràcter incompatible (&) i no s'ha penjat. Els altres sí que s'han penjat correctament";
 
+                 } else {
+
+
+                     // Get the file extension
+                     $extension = pathinfo($name, PATHINFO_EXTENSION);
+
+                     // Search the array for the allowed file type
+
+                     if (in_array($extension, $allowed_types, false) != true) {
+                         $errors['extension'] = "Error when uploading " . $extension;
+
+                     }
+
+                     $filerepo = $this->container->get('file_repository');
+                     $username = $filerepo->getUsernameFromId($_SESSION['id']);
+                     $target_dir = "assets/resources/perfils";
+
+
+                     if ($_FILES[$pos]["size"] > 2097152) {
+                         $errors['file'] = 'file too big';
+
+                         return $this->container->get('view')
+                             ->render($response, 'error.twig', ['errors' => $errors]);
+
+                     }
+                     /* if (!empty($errors)) {
+                          return $this->container->get('view')
+                              ->render($response, 'dashboard.twig', ['errors' => $errors]);
+
+                      }*/
+
+                     $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "&" . $name;
+
+                     move_uploaded_file($_FILES[$pos]["tmp_name"], $target_file);
+
+                     /** @var FileRepository $fileRepo * */
+                     $item = new Item (null, $name, $_SESSION['currentFolder'], 1);
+                     $ok = $this->container->get('file_repository')->saveItem($item, $_FILES[$pos]["size"]);
+
+                     if (!$ok) {
+
+                         $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+
+                     }
+
+                 }
              }
 
-             $filerepo = $this->container->get('file_repository');
-             $username = $filerepo->getUsernameFromId($_SESSION['id']);
-             $target_dir = "assets/resources/perfils";
+         }
 
+         if (!empty($errors)){
 
-             if ($_FILES["uploadFile"]["size"] > 2097152) {
-                 $errors['file'] = 'file too big';
-
-             }
-             if (!empty($errors)) {
-                 return $this->container->get('view')
-                     ->render($response, 'dashboard.twig', ['errors' => $errors]);
-
-             }
-
-             $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "&" . $name;
-
-             move_uploaded_file($_FILES["uploadFile"]["tmp_name"], $target_file);
-
-             /** @var FileRepository $fileRepo * */
-             $item = new Item (null, $name, $_SESSION['currentFolder'], 1);
-             $ok = $this->container->get('file_repository')->saveItem($item, $_FILES["uploadFile"]["size"]);
-
-             if (!$ok) {
-
-                 $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
-                 return $this->container->get('view')
-                     ->render($response, 'dashboard.twig', ['errors' => $errors]);
-             }
-
+             return $this->container->get('view')
+                 ->render($response,'error.twig',['errors'=> $errors]);
          }
 
          return $response->withStatus(302)->withHeader('Location', '/dashboard');

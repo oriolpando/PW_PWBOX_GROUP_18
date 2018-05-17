@@ -112,7 +112,9 @@
                     <form method="POST" enctype="multipart/form-data" action="/addFile">
                         <div class="container">
                             <div class="form-group" id="formFitxer">
-                                <button type="button" onclick="plusFitxer()">Puja un altre fitxer</button>
+                                <button type="button" class="btn btn-info" id = "nextFitxer" name ="nextFitxer" onclick="plusFitxer()">Puja un altre fitxer</button>
+                                <button type="button"  class="btn btn-warning" name="resetUpload" id="resetUpload" onclick="resetFitxers()">Reseteja</button>
+
                             </div>
                         </div>
                         <input type="submit"  value="Confirm">
