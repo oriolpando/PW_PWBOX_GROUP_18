@@ -98,7 +98,7 @@
 
                  if (strpos($name, '¿') !== FALSE) {
                      $errors["bullshit"] = "Has volgut penjar un fitxer amb un caràcter incompatible (¿) i no s'ha penjat. Els altres sí que s'han penjat correctament";
-                     $auxerrors= true;
+                     $auxerrors = true;
                  } else {
 
 
@@ -133,18 +133,14 @@
 
                      if(!$auxerrors) {
 
-                     $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "¿" . $name;
-
+                        $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "¿" . $name;
                          move_uploaded_file($_FILES[$pos]["tmp_name"], $target_file);
-
                          /** @var FileRepository $fileRepo * */
                          $item = new Item (null, $name, $_SESSION['currentFolder'], 1);
                          $ok = $filerepo->saveItem($item, $bytes+$size);
 
                          if (!$ok) {
-
                              $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
-
                          }
                      }
 

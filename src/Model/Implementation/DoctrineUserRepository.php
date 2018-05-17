@@ -157,7 +157,7 @@ class DoctrineUserRepository implements UserRepository
 
         $result = $stmt->fetchAll();
 
-        //($result);
+        $id = [];
         if (!empty($result)){
             if (password_verify($password, $result[0]['pswUser'])){
                 $results = [];
@@ -166,15 +166,16 @@ class DoctrineUserRepository implements UserRepository
 
                 return $results;
             }else{
-                return -2;
+                array_push($id,-2);
+                return $id;
             }
         }else{
-            return -1;
+            array_push($id,-1);
+            return $id;
         }
     }
 
-    public function getUser(int $id){
-
+    public function getUser($id){
         $sql = "SELECT * FROM User WHERE id LIKE ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);

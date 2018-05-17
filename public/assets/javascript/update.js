@@ -1,48 +1,78 @@
-var reader;
-var change = 0;
+var file;
 
 
-function updateDb() {
+function updateDb(event) {
     var mail = document.getElementById("mailUp").value;
     var psw = document.getElementById("passUp").value;
     var confPsw = document.getElementById("passConfUp").value;
-    var im = document.getElementById("newImageUser").src;
 
     if (psw != confPsw){
-        console.log("fuck2");
+        event.preventDefault();
+        alert("Password sobra!");
     }else{
-        console.log(mail + psw + confPsw);
-        var xmlhttp = new XMLHttpRequest();
-        if (change == 0){
-            xmlhttp.open("GET","/updateUser?email="+mail+"&psw="+psw+"&pswConf="+confPsw,true);
+        if (!validateEmail(mail)) {
+            event.preventDefault();
+            alert("Mail sobra!")
         }else{
-            xmlhttp.open("GET","/updateUser?email="+mail+"&psw="+psw+"&pswConf="+confPsw+"&image="+reader,true);
-        }
-        change = 0;
-        xmlhttp.send();
+            console.log(file);
+            var fd = new FormData();
+            // These extra params aren't necessary but show that you can include other data.
+            fd.append("email", mail);
+            fd.append("psw", psw);
+            fd.append("pswConf", confPsw);
+            fd.append("img", file);
 
-        xmlhttp.onreadystatechange = function () {
-            var DONE = 4; // readyState 4 means the request is done.
-            var OK = 200; // status 200 is a successful return.
-            if (xmlhttp.readyState === DONE) {
-                if (xmlhttp.status === OK){
 
-                    $('#EditInformation').modal('hide');
-                    console.log("fuck11");
-                    document.getElementById("mail").innerHTML = mail;
-                }else {
-                    console.log("fuckv2")
+            console.log(mail + psw + confPsw);
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open('POST', '/updateUser', true);
+
+            xmlhttp.send(fd);
+
+            xmlhttp.onreadystatechange = function () {
+                var DONE = 4; // readyState 4 means the request is done.
+                var OK = 200; // status 200 is a successful return.
+                if (xmlhttp.readyState === DONE) {
+                    if (xmlhttp.status === OK){
+                        var x = xmlhttp.response;
+                        console.log(x);
+                        $('#EditInformation').modal('hide');
+                        document.getElementById("mail").innerHTML = mail;
+
+
+
+                        updateImage(x);
+
+
+                    }else {
+                        alert("Error on update!");
+                    }
                 }
+
             }
 
         }
+
     }
 
+}
+function updateImage(x) {
+    document.getElementById("CurrentImageUser").src = x + "?" + Math.random();
+    document.getElementById("NewImageUser").src = x + "?" + Math.random();
+    document.getElementById("imageUser").src = x + "?" + Math.random();
+    setTimeout(updateImage, 60000);
+    return;
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
 
 function editInformation() {
     var editInf = document.getElementById("editInformation");
-    editInf.style.display = block;
+    editInf.style.display = "block";
 }
 
 function deleteUs(){
@@ -51,17 +81,7 @@ function deleteUs(){
 }
 
 function readURL(input) {
-    if (input.files && input.files[0]) {
-        reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#imageUser')
-                .attr('src', e.target.result)
-                .width(50)
-                .height(50);
-        };
-
-        reader.readAsDataURL(input.files[0]);
-        change = 1;
-    }
+    var x = document.getElementById("buttonChange");
+    console.log(x.files[0]);
+    file = x.files[0];
 }

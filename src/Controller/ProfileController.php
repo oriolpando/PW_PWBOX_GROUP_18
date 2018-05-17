@@ -37,6 +37,7 @@ class ProfileController
         return $response->withStatus(302)->withHeader('Location','/profile');
 
     }
+
     public function profilePage(Request $request, Response $response)
     {
 
@@ -52,13 +53,12 @@ class ProfileController
             echo "The file $path does not exist";
         }
 
-$validate=null;
+        $validate = null;
         if($this->container->get('user_repository')->checkValidate($id)){
             $validate ="hidden";
         }else{
             $validate = "";
         }
-
 
         return $this->container->get('view')
             ->render($response,'profile.twig',

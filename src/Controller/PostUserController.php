@@ -83,8 +83,8 @@ class PostUserController
 
         if (!empty($errors)) {
             return $this->container->get('view')
-                ->render($response, 'home.twig', ['errors' => $errors]);
-        } else {
+                ->render($response, 'error.twig', ['errors' => $errors]);
+        }
 
             $target_dir = "assets/resources/perfils";
 
@@ -167,7 +167,7 @@ class PostUserController
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
-            }
+
         }
 
 
@@ -211,12 +211,13 @@ class PostUserController
                 //Username o email no existeix a bbdd
                 $errors['notexistent'] = 'The username or the email do not exist';
                 return $this->container->get('view')->render($response, 'home.twig', ['errors' => $errors]);
+
             } else {
                 if ($id[0] == -2) {
                     //Contrasenya incorrecta
 
                     $errors['password'] = 'Incorrect password';
-                    return $this->container->get('view')->render($response, 'home.twig', ['errors' => $errors]);
+                    return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
 
                 } else {
 
@@ -231,13 +232,7 @@ class PostUserController
                     $_SESSION['currentSharedFolder'] = $id[1];
 
 
-                    $id = $_SESSION['id'];
-
-                    $user = $this->container->get('user_repository')->getUser($id);
-
-                    $path = 'assets/resources/perfils/' . $user->getUsername() . '/profile.png';
-
-                    return $response->withStatus(302)->withHeader('Location', '/profile');
+                    return $response->withStatus(302)->withHeader('Location', '/');
                 }
             }
         }

@@ -28,7 +28,7 @@ $app->post('/profile', 'PwBox\Controller\ProfileController:profilePage');
 
 $app->get('/profile', 'PwBox\Controller\ProfileController:profilePage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
-$app->get('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser')->add('PwBox\Controller\Middleware\SessionMiddleware');
+$app->post('/updateUser', 'PwBox\Controller\UpdateUserController:updateUser')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
 $app->post('/addFolder', 'PwBox\Controller\FolderController:addFolder');
 

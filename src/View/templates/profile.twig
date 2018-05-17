@@ -70,7 +70,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label class="floatLabel">Username:</label>
-                                            <label class="floatLabel">{{ username }}</label>
+                                            <label class="floatLabel" id="us">{{ username }}</label>
                                         </div>
                                     </div>
 
@@ -167,7 +167,7 @@
                             </div>
                         </div>
                     </form>
-                    <input type="submit" value="Confirm Changes" onclick="updateDb()">
+                    <input type="submit" value="Confirm Changes" onclick="updateDb(event)">
                 </div>
 
             </div>
