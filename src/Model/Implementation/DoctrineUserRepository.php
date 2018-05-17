@@ -60,6 +60,20 @@ class DoctrineUserRepository implements UserRepository
 
     }
 
+    public function checkValidate ($id){
+        $sql = "SELECT validat FROM User WHERE id LIKE ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+
+        return $result[0]['validat'];
+
+
+    }
+
     public function checkIfUserExists(string $username, string $mail){
 
         $sql = "SELECT id FROM User WHERE (email LIKE ? OR username LIKE ?) ";
@@ -91,7 +105,7 @@ class DoctrineUserRepository implements UserRepository
 
        // ($result);
         if (!empty($result)){
-            return $result[0]['id'];;
+            return $result[0]['id'];
         }else{
             return -1;
         }

@@ -40,8 +40,18 @@ class ProfileController
             echo "The file $path does not exist";
         }
 
+$validate=null;
+        if($this->container->get('user_repository')->checkValidate($id)){
+            $validate ="hidden";
+            echo "yes";
+        }else{
+            $validate = "";
+            echo "nope";
+        }
+
+
         return $this->container->get('view')
             ->render($response,'profile.twig',
-                ['srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
+                ['validate'=>$validate, 'srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
     }
 }
