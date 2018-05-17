@@ -172,6 +172,8 @@ function controlRegister(event) {
     spanSurname.style.display = "none";
     var spanEmail = document.getElementById("spanEmail");
     spanEmail.style.display = "none";
+    var spanEmailExists = document.getElementById("spanEmailExists");
+    spanEmailExists.style.display = "none";
     var spanBirth = document.getElementById("spanBirth");
     spanBirth.style.display = "none";
     var spanPsw = document.getElementById("spanPsw");
@@ -180,6 +182,7 @@ function controlRegister(event) {
     spanCpsw.style.display = "none";
     var msg2 = document.getElementById("message2");
     msg2.style.display = "none";
+
 
     psw.onfocus = function () {
         document.getElementById("message").style.display = "block";
@@ -251,7 +254,6 @@ function controlRegister(event) {
         event.preventDefault();
 
     }
-
 }
 
 function readURL(input) {

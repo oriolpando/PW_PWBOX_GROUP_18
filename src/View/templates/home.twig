@@ -75,7 +75,6 @@
     <div id = "register">
         <form action="/register" method="POST" enctype="multipart/form-data">
             <h1 id="reg">Register</h1>
-
             <div class="container">
                 <div class="row">
                     <div class="col">
@@ -113,7 +112,6 @@
                 </div>
 
                     <div class="col">
-
                         <div class="form-group">
                             <label class="floatLabel">Email address:</label>
                             <input type="email" id="email" name="email" placeholder="Your email address">
@@ -121,8 +119,10 @@
                         <div class="spans {%if errors['email'] is not defined%} hidden {% endif %}" id="spanEmail" >
                             <span >Enter correct email</span>
                         </div>
+                        <div class="spans {%if errors['emailExists'] is not defined%} hidden {% endif %}" id="spanEmailExists" >
+                            <span >This email has been registered before</span>
+                        </div>
                     </div>
-
                 </div>
                 <div class="row">
                 <div class="col">

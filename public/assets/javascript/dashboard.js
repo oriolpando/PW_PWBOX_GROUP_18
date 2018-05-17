@@ -56,6 +56,14 @@ function resetFitxers() {
 
 }
 
+function nameValid(name) {
+
+    if (name.indexOf('.') > -1) {
+
+        //aixo significa que el nom que li ha posat te un punt
+
+    }
+}
 function plusFitxer() {
 
 

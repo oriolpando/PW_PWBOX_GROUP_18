@@ -32,6 +32,8 @@ class PostUserController
         $this->container = $container;
     }
 
+
+
     public function register(Request $request, Response $response){
 
         $name = $_POST['name'];
@@ -42,8 +44,11 @@ class PostUserController
         $confirmPassword = $_POST['confirmPassword'];
         $errors = [];
 
-        if($this->container->get('user_repository')->checkIfUserExists($username, $email)){
-            $errors['login'] = 'the username or the mail already exist';
+        if($this->container->get('user_repository')->checkIfUsernameExists($username)){
+            $errors['usernameExists'] = 'the username already exist';
+        }
+        if($this->container->get('user_repository')->checkIfEmailExists($email)){
+            $errors['emailExists'] = 'the email already exist';
         }
 
         if (empty($name)){
@@ -74,127 +79,131 @@ class PostUserController
             $errors['birth'] = 'wrong birth';
         }
 
-
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $errors['email'] = 'invalid email';
         }
 
-
         if (!empty($errors)) {
             return $this->container->get('view')
                 ->render($response,'home.twig',['errors'=> $errors]);
-        }
+        }else{
 
-        $target_dir = "assets/resources/perfils";
+            $target_dir = "assets/resources/perfils";
 
-        if( !empty($_FILES['image'])){
+            if( !empty($_FILES['image'])){
 
-            $errors =[];
+                $errors =[];
 
-            $allowed_types =array('jpg','png' );
-            $name = $_FILES['image']['name'];
-            $error = null;
+                $allowed_types =array('jpg','png' );
+                $name = $_FILES['image']['name'];
+                $error = null;
 
-            // Get the file extensions
-            $extension = pathinfo($name, PATHINFO_EXTENSION);
+                // Get the file extensions
+                $extension = pathinfo($name, PATHINFO_EXTENSION);
 
-            // Search the array for the allowed file type
-            if (in_array($extension, $allowed_types, false) != true) {
-                $errors['extension'] = "Extension not allowed";
+                // Search the array for the allowed file type
+                if (in_array($extension, $allowed_types, false) != true) {
+                    $errors['extension'] = "Extension not allowed";
+                }
+
+                if($_FILES["image"]["size"]>500000){
+                    $errors['image'] = 'image too big';
+
+                }else{
+
+                    mkdir($target_dir."/".$username, 0777, TRUE);
+                    mkdir($target_dir."/".$username."/root", 0777, TRUE);
+                    $target_file = $target_dir."/".$username."/"."profile.png";
+
+                    if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
+                        echo "The file ". basename( $name). " has been uploaded. ";
+                    }
+
+                }
+
+            }else{
+                $target_file = $target_dir."/".$username."/"."profile.png";
+
+                move_uploaded_file( "assets/resources/user.png", $target_file);
+                echo "The file el NOU has been uploaded. ";
+
             }
 
-            if($_FILES["image"]["size"]>500000){
-               $errors['image'] = 'image too big';
+            $user = new User
+            (null,
+                $_POST['name'],
+                $_POST['surname'],
+                $username,$email,
+                $_POST['password'],
+                $_POST['birth'],
+                null
+            );
+            try {
+                /** @var UserRepository $userRepo */
+                $this->container->get('user_repository')->save($user);
+                $_SESSION['id'] = $this->container->get('user_repository')->getId($username);
 
-           }else{
+                $id = $_SESSION['id'];
 
-               mkdir($target_dir."/".$username, 0777, TRUE);
-               mkdir($target_dir."/".$username."/root", 0777, TRUE);
-               $target_file = $target_dir."/".$username."/"."profile.png";
+                $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
 
-               if (move_uploaded_file( $_FILES["image"]["tmp_name"], $target_file)) {
-                   echo "The file ". basename( $name). " has been uploaded. ";
-               }
 
-           }
+                $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
 
-       }else{
-            $target_file = $target_dir."/".$username."/"."profile.png";
 
-            move_uploaded_file( "assets/resources/user.png", $target_file);
-            echo "The file el NOU has been uploaded. ";
+                $messages = $this->container->get('flash')->getMessages();
+                $registerMessages = isset($messages['register'])?$messages['register']:[];
+
+                $_SESSION['currentFolder'] = $id_motherfolder;
+                $_SESSION['motherFolder'] = $id_motherfolder;
+                $_SESSION['currentSharedFolder'] = $id_motherfolder;
+
+
+
+
+                //Si tot està bé, enviem missatge
+                $transport = (new Swift_SmtpTransport('smtp.live.com', 587, 'tls'))
+                    ->setUsername('projectesweb2@hotmail.com')
+                    ->setPassword('MiqPanCar96')
+                ;
+
+                // Create the Mailer using your created Transport
+                $mailer = new Swift_Mailer($transport);
+
+
+
+                // Create a message
+                $message = (new Swift_Message('Activation mail'))
+                    ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
+                    ->setTo([$email, $email => $name])
+                    ->setBody(
+                        '<html>' .
+                        ' <head></head>' .
+                        ' <body>' .
+                        '<a href="pwbox.test/activate/id=' . $id.'">Sign in</a>'.
+                        ' </body>' .
+                        '</html>',
+                        'text/html' // Mark the content-type as HTML
+                    );
+
+                // Send the message
+                $result = $mailer->send($message);
+
+
+                session_destroy();
+
+                // return $this->container->get('view')->render($response,'dashboard.twig',['messages'=> $registerMessages]);
+                return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+            }catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+
+
 
         }
 
-        $user = new User
-        (null,
-            $_POST['name'],
-            $_POST['surname'],
-            $username,$email,
-            $_POST['password'],
-            $_POST['birth'],
-            null
-        );
-        try {
-            /** @var UserRepository $userRepo */
-            $this->container->get('user_repository')->save($user);
-            $_SESSION['id'] = $this->container->get('user_repository')->getId($username);
 
-            $id = $_SESSION['id'];
-
-            $id_motherfolder = $this->container->get('file_repository')->iniciaFolder();
-
-
-            $this->container->get('user_repository')->setMotherFolder($id_motherfolder);
-
-
-            $messages = $this->container->get('flash')->getMessages();
-            $registerMessages = isset($messages['register'])?$messages['register']:[];
-
-            $_SESSION['currentFolder'] = $id_motherfolder;
-            $_SESSION['motherFolder'] = $id_motherfolder;
-            $_SESSION['currentSharedFolder'] = $id_motherfolder;
-
-
-
-
-            //Si tot està bé, enviem missatge
-            $transport = (new Swift_SmtpTransport('smtp.live.com', 587, 'tls'))
-                ->setUsername('projectesweb2@hotmail.com')
-                ->setPassword('MiqPanCar96')
-            ;
-
-            // Create the Mailer using your created Transport
-            $mailer = new Swift_Mailer($transport);
-
-
-
-            // Create a message
-            $message = (new Swift_Message('Activation mail'))
-                ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
-                ->setTo([$email, $email => $name])
-                ->setBody(
-                    '<html>' .
-                    ' <head></head>' .
-                    ' <body>' .
-                    '<a href="pwbox.test/activate/id=' . $id.'">Sign in</a>'.
-                    ' </body>' .
-                    '</html>',
-                    'text/html' // Mark the content-type as HTML
-                );
-
-            // Send the message
-            $result = $mailer->send($message);
-
-
-            session_destroy();
-
-           // return $this->container->get('view')->render($response,'dashboard.twig',['messages'=> $registerMessages]);
-            return $response->withStatus(302)->withHeader('Location','/dashboard');
-
-        }catch (\Exception $e) {
-            echo $e->getMessage();
-        }
     }
 
 

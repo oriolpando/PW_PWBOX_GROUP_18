@@ -18,7 +18,7 @@ $app->get('/logOut', 'PwBox\Controller\PostUserController:logOut');
 
 $app->post('/register', 'PwBox\Controller\PostUserController:register');
 
-$app->post('/notifications', 'PwBox\Controller\NotificationsController');
+//$app->post('/notifications', 'PwBox\Controller\NotificationsController');
 
 $app->get('/register', 'PwBox\Controller\DashboardController:dashboardPage')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
