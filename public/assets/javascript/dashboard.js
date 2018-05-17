@@ -92,3 +92,57 @@ function plusFitxer() {
 
 
 }
+
+
+function resetFitxers2() {
+
+    var pare = document.getElementById("formFitxer2");
+
+    var children = pare.children;
+
+    var child = pare.lastChild;
+
+    while (child.tagName == 'INPUT'){
+        pare.removeChild(child);
+        child = pare.lastChild;
+    }
+
+
+}
+
+function plusFitxer2() {
+
+
+    var nom = document.getElementById("formFitxer2").lastElementChild.name;
+    var i = document.createElement("input");
+    i.setAttribute('accept',".jpg,.png,.gif,.pdf,.md,.txt");
+    i.setAttribute('type',"file");
+
+
+    if (nom===("resetUpload")){
+        nom = "fitxerUpload0";
+
+        i.setAttribute('name',nom);
+        i.setAttribute('id',nom);
+    }else {
+        var num;
+        if (!isNaN(parseInt(nom.substr(nom.length - 3)))){
+            num =parseInt(nom.substr(nom.length - 3))+1;
+
+        }else{
+            if (!isNaN(parseInt(nom.substr(nom.length - 2)))) {
+                num = parseInt(nom.substr(nom.length - 2)) + 1;
+            }else{
+                num = parseInt(nom.substr(nom.length - 1)) + 1;
+            }
+        }
+
+        nom = "fitxerUpload"+num;
+        i.setAttribute('name',nom);
+        i.setAttribute('id',nom);
+
+    }
+    document.getElementById('formFitxer2').appendChild(i);
+
+
+}

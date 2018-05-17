@@ -43,7 +43,6 @@ class DashboardController
         if (!empty($showItems)){
             foreach ($showItems as $item){
 
-
                 if ($item['type'] == 0){
                     $html = $html.'<div class="row" id="files"><div class="col-sm carpeta"><div class="col center">';
                     $html = $html.'<a class="CMove" ondblclick = "enterFolder('.$item['id'].')"><img src="/assets/resources/folder.png" name="'.$item['id'].'" width = 60px height = 60px></a>'

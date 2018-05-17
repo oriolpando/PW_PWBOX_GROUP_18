@@ -37,7 +37,6 @@ class DoctrineFileRepository implements FileRepository
 
     public function getUsernameFromId ($id){
 
-        echo $id;
         $sql = "SELECT username FROM User WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 
@@ -77,7 +76,6 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
-
     public function getUsedBytes ($id){
 
         $sql = "SELECT total_bytes FROM User WHERE id = ?";
@@ -87,9 +85,11 @@ class DoctrineFileRepository implements FileRepository
         $stmt->execute();
 
         $result = $stmt->fetchAll();
+        var_dump($result);
         return $result[0]['total_bytes'];
 
     }
+
     public function saveItem($item, $total)
     {
         /**
@@ -138,6 +138,161 @@ class DoctrineFileRepository implements FileRepository
 
         }else{
             return false;
+        }
+
+    }
+
+    public function saveSharedFolder($item)
+    {
+        /**
+         * @param php $item
+         * @throws \Doctrine\DBAL\DBALException
+         */
+        $nom = $item->getNom();
+        $parent = $_SESSION['currentSharedFolder'];
+        $type = $item->getType();
+
+        $username = $this->getUsernameFromSharedFolder($parent);
+
+        var_dump($item);
+
+        $sql = "SELECT id FROM Item WHERE parent = ? AND type = ? AND nom LIKE ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+        $stmt->bindParam(2, $type, PDO::PARAM_BOOL);
+        $stmt->bindParam(3, $nom, PDO::PARAM_STR);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        if (empty($result)){
+
+            $idShared = $this->getIdFromParent($parent);
+            $roleShared = $this->getRoleFromId($parent);
+
+            if (strcmp('Admin', $roleShared['role']) == 0){
+                $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(?, ?, ?, ?)";
+                $stmt = $this->connection->prepare($sql);
+
+                $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+                $stmt->bindParam(2, $parent, PDO::PARAM_STR);
+                $stmt->bindParam(3, $type, PDO::PARAM_BOOL);
+                $stmt->bindParam(4, $idShared, PDO::PARAM_INT);
+
+                $stmt->execute();
+
+                $sql = "SELECT id FROM Item WHERE parent = ? AND type = ? AND nom LIKE ?";
+                $stmt = $this->connection->prepare($sql);
+
+                $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+                $stmt->bindParam(2, $type, PDO::PARAM_BOOL);
+                $stmt->bindParam(3, $nom, PDO::PARAM_STR);
+
+
+
+                $stmt->execute();
+                $result = $stmt->fetchAll();
+                $idFolder = $result[0]['id'];
+                $sql = "INSERT INTO Share(id_user, role, id_propietari, id_folder, parent) VALUES(?, 'Admin', ?, ?, 1)";
+                $stmt = $this->connection->prepare($sql);
+
+                $idUser = $_SESSION['id'];
+                $stmt->bindParam(1, $idUser, PDO::PARAM_INT);
+                $stmt->bindParam(2, $idShared, PDO::PARAM_INT);
+                $stmt->bindParam(3, $idFolder, PDO::PARAM_INT);
+
+                $stmt->execute();
+
+                return 0;
+            }else{
+                return -2;
+            }
+
+        }else{
+            return -1;
+        }
+
+    }
+
+    public function saveSharedFile($item, $total)
+    {
+        /**
+         * @param php $item
+         * @throws \Doctrine\DBAL\DBALException
+         */
+        $nom = $item->getNom();
+        $parent = $_SESSION['currentSharedFolder'];
+        $type = $item->getType();
+
+        $username = $this->getUsernameFromSharedFolder($parent);
+
+        $sql = "SELECT id FROM Item WHERE parent = ? AND type = ? AND nom LIKE ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+        $stmt->bindParam(2, $type, PDO::PARAM_BOOL);
+        $stmt->bindParam(3, $nom, PDO::PARAM_STR);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        if (empty($result)){
+
+            $idShared = $this->getIdFromParent($parent);
+            $roleShared = $this->getRoleFromId($parent);
+
+            if (strcmp('Admin', $roleShared['role']) == 0){
+
+
+                $sql = "INSERT INTO Item(nom, parent, type, id_propietari) VALUES(?, ?, ?, ?)";
+                $stmt = $this->connection->prepare($sql);
+
+                $stmt->bindParam(1, $nom, PDO::PARAM_STR);
+                $stmt->bindParam(2, $parent, PDO::PARAM_STR);
+                $stmt->bindParam(3, $type, PDO::PARAM_BOOL);
+                $stmt->bindParam(4, $idShared, PDO::PARAM_INT);
+
+                $stmt->execute();
+
+                $sql = "SELECT id FROM Item WHERE parent = ? AND type = ? AND nom LIKE ?";
+                $stmt = $this->connection->prepare($sql);
+
+                $stmt->bindParam(1, $parent, PDO::PARAM_STR);
+                $stmt->bindParam(2, $type, PDO::PARAM_BOOL);
+                $stmt->bindParam(3, $nom, PDO::PARAM_STR);
+
+
+                $stmt->execute();
+                $result = $stmt->fetchAll();
+                $idFolder = $result[0]['id'];
+                $sql = "INSERT INTO Share(id_user, role, id_propietari, id_folder, parent) VALUES(?, 'Admin', ?, ?, 1)";
+                $stmt = $this->connection->prepare($sql);
+
+                $idUser = $_SESSION['id'];
+                $stmt->bindParam(1, $idUser, PDO::PARAM_INT);
+                $stmt->bindParam(2, $idShared, PDO::PARAM_INT);
+                $stmt->bindParam(3, $idFolder, PDO::PARAM_INT);
+
+                $stmt->execute();
+
+                $sql = "UPDATE User SET total_bytes = ? WHERE id = ?";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bindParam(1, $total, PDO::PARAM_INT);
+                $stmt->bindParam(2, $idShared, PDO::PARAM_INT);
+                $stmt->execute();
+
+                return 0;
+            }else{
+                return -2;
+            }
+
+        }else{
+            return -1;
         }
 
     }
@@ -213,9 +368,27 @@ class DoctrineFileRepository implements FileRepository
     }
 
     public function getRoleFromId($id)
+{
+    $idUser = $_SESSION['id'];
+    $sql = "SELECT role FROM Share WHERE id_folder = ? AND id_user = ?";
+    $stmt = $this->connection->prepare($sql);
+
+    $stmt->bindParam(1, $id, PDO::PARAM_INT);
+    $stmt->bindParam(2, $idUser, PDO::PARAM_INT);
+
+
+
+
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    return $result[0];
+
+}
+
+    public function getIdFromParent($id)
     {
 
-        $sql = "SELECT role FROM Share WHERE id_folder = ?";
+        $sql = "SELECT id_propietari FROM Item WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
@@ -224,7 +397,7 @@ class DoctrineFileRepository implements FileRepository
 
         $stmt->execute();
         $result = $stmt->fetchAll();
-        return $result[0];
+        return $result[0]['id_propietari'];
 
     }
 
@@ -262,8 +435,28 @@ class DoctrineFileRepository implements FileRepository
 
     public function deleteFile($item)
     {
-
         $id = $item['id'];
+
+        $bytes = $this->getUsedBytes($item['id_propietari']);
+
+
+        $username = $this->getUsernameFromId($item['id_propietari']);
+        $target_dir = 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$item['nom'];
+        $fileBytes = filesize('assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$item['nom']);
+
+
+        $total = $bytes - $fileBytes;
+
+        $idProp = $item['id_propietari'];
+
+        $sql = "UPDATE User SET total_bytes = ? WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $total, PDO::PARAM_INT);
+        $stmt->bindParam(2, $idProp, PDO::PARAM_INT);
+        $stmt->execute();
+
+
+        unlink($target_dir);
 
         $sql = "DELETE FROM Share WHERE id_folder = ?";
         $stmt = $this->connection->prepare($sql);
@@ -273,7 +466,7 @@ class DoctrineFileRepository implements FileRepository
 
         $stmt->execute();
 
-        $sql = "DELETE FROM Item WHERE id";
+        $sql = "DELETE FROM Item WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
@@ -349,6 +542,51 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
+    public function renameFile($item, $rename)
+    {
+        $username = $this->getUsernameFromId($item['id_propietari']);
+        $target_dir = 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$item['nom'];
+
+        rename($target_dir, 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$rename);
+
+        var_dump($target_dir);
+
+        $id = $item['id'];
+
+        $sql = "UPDATE Item SET nom = ? WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $rename, PDO::PARAM_STR);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+
+
+        $stmt->execute();
+
+        return true;
+
+    }
+
+    public function getUsernameFromSharedFolder($id){
+        $sql = "SELECT id_propietari FROM Item WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        $id = $result[0]['id_propietari'];
+        $sql = "SELECT username FROM User WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1,$id,PDO::PARAM_INT);
+
+
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        return $results[0]['username'];
+    }
 
     public function shareFolder($idFolder, $email, $role, $parent){
 

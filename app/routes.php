@@ -44,6 +44,10 @@ $app->post('/addFile', 'PwBox\Controller\FolderController:addFile');
 
 $app->post('/shareFolder', 'PwBox\Controller\FolderController:shareFolder');
 
+$app->post('/addSharedFile', 'PwBox\Controller\FolderController:addSharedFile');
+
+$app->post('/addSharedFolder', 'PwBox\Controller\FolderController:addSharedFolder');
+
 $app->get('/enterSharedFolder/{id}', 'PwBox\Controller\FolderController:enterSharedFolder')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
 $app->get('/download/{id}', 'PwBox\Controller\FolderController:downloadItem')->add('PwBox\Controller\Middleware\SessionMiddleware');

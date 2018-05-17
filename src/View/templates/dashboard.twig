@@ -50,6 +50,12 @@
                         <div class="row">
                             <button type="button" id="uploadF" class="btn btn-info btn-lg buttons" data-toggle="modal" data-target="#ModalFile" >Upload File</button>
                         </div>
+                        <div class="row">
+                            <button type="button" id="uploadSF" class="btn btn-info btn-lg buttons" data-toggle="modal" data-target="#ModalSharedFile" >Upload Shared File</button>
+                        </div>
+                        <div class="row">
+                            <button type="button" id="addSF" class="btn btn-info btn-lg buttons" data-toggle="modal" data-target="#ModalSharedFolder" >Add Shared Folder</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,6 +214,59 @@
                             </div>
                         </div>
                         <input type="button" onclick="renameItemFin()" value="Confirm">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ModalSharedFolder" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Shared folder</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Choose the name for the folder</p>
+                    <form method="POST" enctype="multipart/form-data" action="/addSharedFolder">
+                        <div class="container">
+                            <div class="form-group">
+                                <input type='text' placeholder="Nom" name="nom">
+                            </div>
+                        </div>
+                        <input type="submit"  value="Confirm">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ModalSharedFile" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload Shared File</h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <p>Choose the file to upload</p>
+                    <form method="POST" enctype="multipart/form-data" action="/addSharedFile">
+                        <div class="container">
+                            <div class="form-group" id="formFitxer2">
+                                <button type="button" class="btn btn-info" id = "nextFitxer" name ="nextFitxer" onclick="plusFitxer2()">Puja un altre fitxer</button>
+                                <button type="button"  class="btn btn-warning" name="resetUpload" id="resetUpload" onclick="resetFitxers2()">Reseteja</button>
+
+                            </div>
+                        </div>
+                        <input type="submit"  value="Confirm">
+
                     </form>
                 </div>
 

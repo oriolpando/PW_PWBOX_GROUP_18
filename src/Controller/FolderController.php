@@ -96,9 +96,9 @@
 
              if (!$name=="") {
 
-                 if (strpos($name, '&') !== FALSE) {
-                     $errors["bullshit"] = "Has volgut penjar un fitxer amb un caràcter incompatible (&) i no s'ha penjat. Els altres sí que s'han penjat correctament";
-                        $auxerrors= true;
+                 if (strpos($name, '¿') !== FALSE) {
+                     $errors["bullshit"] = "Has volgut penjar un fitxer amb un caràcter incompatible (¿) i no s'ha penjat. Els altres sí que s'han penjat correctament";
+                     $auxerrors= true;
                  } else {
 
 
@@ -133,13 +133,13 @@
 
                      if(!$auxerrors) {
 
-                         $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "&" . $name;
+                     $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "¿" . $name;
 
                          move_uploaded_file($_FILES[$pos]["tmp_name"], $target_file);
 
                          /** @var FileRepository $fileRepo * */
                          $item = new Item (null, $name, $_SESSION['currentFolder'], 1);
-                         $ok = $filerepo->saveItem($item, $_FILES[$pos]["size"]);
+                         $ok = $filerepo->saveItem($item, $bytes+$size);
 
                          if (!$ok) {
 
@@ -163,6 +163,156 @@
 
      }
 
+     public function addSharedFolder(Request $request, Response $response){
+
+
+         $sharedFolder = $_SESSION['currentSharedFolder'];
+         $filerepo = $this->container->get('file_repository');
+         $curFolder = $filerepo->getFileNameFromId($sharedFolder);
+         var_dump($curFolder);
+
+
+         if (strcmp('root', $curFolder['nom']) != 0) {
+                echo "OK";
+             $item = new Item (null, $_POST['nom'],$sharedFolder,0);
+             $ok = $this->container->get('file_repository')->saveSharedFolder($item);
+
+             if ($ok == 0){
+                 return $response->withStatus(302)->withHeader('Location','/dashboard');
+             }else{
+                 if ($ok == -1){
+                     $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+                     return $this->container->get('view')->render($response,'error.twig', ['errors'=> $errors]);
+                 }else{
+                     $errors['role'] = 'You are not allowed to create folders here.';
+                     return $this->container->get('view')->render($response,'error.twig', ['errors'=> $errors]);
+                 }
+             }
+
+         } else {
+             $errors['root'] = 'U cant add on shared root';
+         }
+
+         if (!empty($errors)){
+
+             return $this->container->get('view')
+                 ->render($response,'error.twig',['errors'=> $errors]);
+         }
+
+         return $response->withStatus(302)->withHeader('Location', '/dashboard');
+
+     }
+
+     public function addSharedFile(Request $request, Response $response)
+     {
+
+         $errors = [];
+
+         $allowed_types = array('jpg', 'png', 'gif', 'pdf', 'md', 'txt');
+
+
+         if (empty($_FILES)) {
+
+
+             $errors["bullhit"] = "No has ficat fitxers, geni!";
+
+             return $this->container->get('view')
+                 ->render($response, 'error.twig', ['errors' => $errors]);
+         }
+         for ($i = 0; $i < count($_FILES); $i++) {
+
+             $auxerrors = false;
+             $pos = "fitxerUpload" . $i;
+             $size = $_FILES[$pos]["size"];
+             $name = $_FILES[$pos]['name'];
+
+             if (!$name == "") {
+
+                 if (strpos($name, '¿') !== FALSE) {
+                     $errors["bullshit"] = "Has volgut penjar un fitxer amb un caràcter incompatible (¿) i no s'ha penjat. Els altres sí que s'han penjat correctament";
+                     $auxerrors = true;
+
+                 } else {
+
+
+                     // Get the file extension
+                     $extension = pathinfo($name, PATHINFO_EXTENSION);
+
+                     // Search the array for the allowed file type
+
+                     if (in_array($extension, $allowed_types, false) != true) {
+                         $errors['extension'] = "Error when uploading " . $extension;
+                         $auxerrors = true;
+
+                     }
+
+                     $sharedFolder = $_SESSION['currentSharedFolder'];
+                     $filerepo = $this->container->get('file_repository');
+                     $curFolder = $filerepo->getFileNameFromId($sharedFolder);
+
+                     if (strcmp('root', $curFolder['nom']) != 0) {
+
+                         $filerepo = $this->container->get('file_repository');
+                         $username = $filerepo->getUsernameFromSharedFolder($sharedFolder);
+
+                         $target_dir = "assets/resources/perfils/".$username."/root/";
+
+
+                         if ($size > 2097152) {
+                             $errors['file'] = 'One or more of your files were too big! Those will not be uploaded';
+                             $auxerrors = true;
+
+                         }
+                         var_dump($curFolder);
+                         $userBytes = $filerepo->getIdFromParent($sharedFolder);
+                         var_dump($userBytes);
+                         $bytes = $filerepo->getUsedBytes($userBytes);
+
+                         if (($bytes+$size)>1073741824){
+                             $errors['exceededSpace'] = 'You exceded your allowed space. One or more files will not be uploaded';
+                             $auxerrors = true;
+
+                         }
+                          if ($auxerrors == false){
+                              $target_file = $target_dir.$_SESSION['currentSharedFolder']."¿".$name;
+
+                              move_uploaded_file($_FILES[$pos]["tmp_name"], $target_file);
+
+                              /** @var FileRepository $fileRepo * */
+                              $item = new Item (null, $name, $_SESSION['currentSharedFolder'], 1);
+                              $ok = $this->container->get('file_repository')->saveSharedFile($item, $bytes+$size);
+
+                              if ($ok == -1) {
+                                  $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+                                  $auxerrors = true;
+
+                              }else{
+                                  if ($ok == -2) {
+                                      $errors['role'] = 'You are not allowed to create files here.';
+                                      $auxerrors = true;
+
+                                  }
+                              }
+                          }
+                     } else {
+                         $errors['root'] = 'U cant add on shared root';
+                         $auxerrors = true;
+
+                     }
+
+                 }
+
+             }
+         }
+         if (!empty($errors)) {
+
+             return $this->container->get('view')
+                 ->render($response, 'error.twig', ['errors' => $errors]);
+         }
+
+         return $response->withStatus(302)->withHeader('Location', '/dashboard');
+     }
+
      public function deleteItem (Request $request, Response $response, array $arg){
          $id = $arg['id'];
 
@@ -170,7 +320,7 @@
 
          $ok = false;
          if ($item['type'] == 1){
-             //$this->container->get('file_repository')->deleteFile($item);
+             $ok = $this->container->get('file_repository')->deleteFile($item);
          }else{
              $ok = $this->container->get('file_repository')->deleteFolder($item);
          }
@@ -187,7 +337,7 @@
 
          $ok = false;
          if ($item['type'] == 1){
-             //$ok = $this->container->get('file_repository')->deleteFile($item);
+             $ok = $this->container->get('file_repository')->renameFile($item, $rename);
          }else{
              $ok = $this->container->get('file_repository')->renameFolder($item, $rename);
          }
