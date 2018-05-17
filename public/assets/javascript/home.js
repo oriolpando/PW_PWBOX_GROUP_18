@@ -102,7 +102,6 @@ function controlLogin(event) {
 
 
     if (nameEmailU.indexOf('@') > -1) {
-        alert("@found inside your_string");
 
         if ((!validateEmail(nameEmailU))){
             errorNameEmail = true;
