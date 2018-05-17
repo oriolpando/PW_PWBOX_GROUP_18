@@ -66,11 +66,7 @@ class PostUserController
         }
 
         if (strcmp($confirmPassword, $password) != 0) {
-            echo($password);
-            echo($confirmPassword);
-            echo(" " . strcmp($confirmPassword, $password));
             $errors['notSamePassword'] = 'Confirm password field does not match up';
-
         }
 
         if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
@@ -82,8 +78,7 @@ class PostUserController
         }
 
         if (!empty($errors)) {
-            return $this->container->get('view')
-                ->render($response, 'error.twig', ['errors' => $errors]);
+            return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
         }
 
             $target_dir = "assets/resources/perfils";
@@ -114,7 +109,7 @@ class PostUserController
                     $target_file = $target_dir . "/" . $username . "/" . "profile.png";
 
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                        echo "The file " . basename($name) . " has been uploaded. ";
+                        $errors['uploaded'] = "The file " . basename($name) . " has been uploaded. ";;
                     }
 
                 }
@@ -123,7 +118,7 @@ class PostUserController
                 $target_file = $target_dir . "/" . $username . "/" . "profile.png";
 
                 move_uploaded_file("assets/resources/user.png", $target_file);
-                echo "The file el NOU has been uploaded. ";
+                $errors['uploaded'] = "The file el NOU has been uploaded. ";
 
             }
 
@@ -165,7 +160,10 @@ class PostUserController
                 return $response->withStatus(302)->withHeader('Location', '/dashboard');
 
             } catch (\Exception $e) {
-                echo $e->getMessage();
+
+                $errors['message'] = $e->getMessage();
+                return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
+
             }
 
         }

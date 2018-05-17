@@ -39,11 +39,7 @@ function updateDb(event) {
                         console.log(x);
                         $('#EditInformation').modal('hide');
                         document.getElementById("mail").innerHTML = mail;
-
-
-
                         updateImage(x);
-
 
                     }else {
                         alert("Error on update!");

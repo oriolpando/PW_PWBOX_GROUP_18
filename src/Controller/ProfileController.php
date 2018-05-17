@@ -46,11 +46,11 @@ class ProfileController
         $user = $this->container->get('user_repository')->getUser($id);
 
         $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
-
+        $errors[]='';
         if (file_exists($path)) {
-            echo "The file $path exists";
+            $errors['existeix'] = "The file $path exists";
         } else {
-            echo "The file $path does not exist";
+            $errors['noexisteix'] = "The file $path does not exist";
         }
 
         $validate = null;

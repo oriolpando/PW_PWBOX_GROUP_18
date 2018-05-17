@@ -165,11 +165,9 @@
          $sharedFolder = $_SESSION['currentSharedFolder'];
          $filerepo = $this->container->get('file_repository');
          $curFolder = $filerepo->getFileNameFromId($sharedFolder);
-         var_dump($curFolder);
 
 
          if (strcmp('root', $curFolder['nom']) != 0) {
-                echo "OK";
              $item = new Item (null, $_POST['nom'],$sharedFolder,0);
              $ok = $this->container->get('file_repository')->saveSharedFolder($item);
 
@@ -259,9 +257,7 @@
                              $auxerrors = true;
 
                          }
-                         var_dump($curFolder);
                          $userBytes = $filerepo->getIdFromParent($sharedFolder);
-                         var_dump($userBytes);
                          $bytes = $filerepo->getUsedBytes($userBytes);
 
                          if (($bytes+$size)>1073741824){

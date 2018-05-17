@@ -37,9 +37,6 @@ class UpdateUserController
             }
 
             if(strcmp($confirmPassword, $password) != 0){
-                echo($password);
-                echo($confirmPassword);
-                echo(" ".strcmp($confirmPassword, $password));
                 $errors['confirmPassword'] = 'Confirm password field does not match up';
 
             }
@@ -48,6 +45,9 @@ class UpdateUserController
                 $errors['email'] = 'invalid email';
             }
 
+            if ($this->container->get('user_repository')->checkIfEmailExists()){
+                $errors['exists'] = 'This email already exists';
+            }
 
             if (!empty($errors)) {
                 return $this->container->get('view')
@@ -99,7 +99,6 @@ class UpdateUserController
 
         $this->container->get('user_repository')->deleteUser();
 
-        echo 'User deleted';
         session_destroy();
         return $response->withStatus(302)->withHeader('Location','/dashboard');
 

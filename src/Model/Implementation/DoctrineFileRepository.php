@@ -85,7 +85,6 @@ class DoctrineFileRepository implements FileRepository
         $stmt->execute();
 
         $result = $stmt->fetchAll();
-        var_dump($result);
         return $result[0]['total_bytes'];
 
     }
@@ -154,7 +153,6 @@ class DoctrineFileRepository implements FileRepository
 
         $username = $this->getUsernameFromSharedFolder($parent);
 
-        var_dump($item);
 
         $sql = "SELECT id FROM Item WHERE parent = ? AND type = ? AND nom LIKE ?";
         $stmt = $this->connection->prepare($sql);
@@ -477,9 +475,7 @@ class DoctrineFileRepository implements FileRepository
 
     public function deleteFolder($item)
     {
-        var_dump($item);
         $id = $item['id'];
-        var_dump($id);
 
         $sql = "SELECT * FROM Item WHERE parent LIKE ? ";
         $stmt = $this->connection->prepare($sql);
@@ -489,19 +485,16 @@ class DoctrineFileRepository implements FileRepository
         $results = $stmt->fetchAll();
         if (!empty($results)) {
             foreach ($results as $result){
-                var_dump($result);
 
                 if ($result['type'] == 0){
                     $ok = $this->deleteFolder($result);
                 }else{
-                    echo "fk";
                     $ok = $this->deleteFile($result);
                 }
             }
         }
 
 
-        var_dump($id);
 
         $sql = "DELETE FROM Share WHERE id_folder = ?";
         $stmt = $this->connection->prepare($sql);
@@ -512,8 +505,6 @@ class DoctrineFileRepository implements FileRepository
         $stmt->execute();
 
 
-        echo "LOL";
-
         $sql = "DELETE FROM Item WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
 
@@ -521,7 +512,6 @@ class DoctrineFileRepository implements FileRepository
 
         $stmt->execute();
 
-        echo "fk";
         return true;
 
     }
@@ -551,7 +541,6 @@ class DoctrineFileRepository implements FileRepository
 
         rename($target_dir, 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$rename.".".$extension[1]);
 
-        var_dump($target_dir);
 
         $id = $item['id'];
 
