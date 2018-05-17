@@ -547,12 +547,15 @@ class DoctrineFileRepository implements FileRepository
         $username = $this->getUsernameFromId($item['id_propietari']);
         $target_dir = 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$item['nom'];
 
-        rename($target_dir, 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$rename);
+        $extension = explode(".", $item['nom']);
+
+        rename($target_dir, 'assets/resources/perfils/'.$username.'/root/'.$item['parent'].'¿'.$rename.".".$extension[1]);
 
         var_dump($target_dir);
 
         $id = $item['id'];
 
+        $rename = $rename.".".$extension[1];
         $sql = "UPDATE Item SET nom = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $rename, PDO::PARAM_STR);
