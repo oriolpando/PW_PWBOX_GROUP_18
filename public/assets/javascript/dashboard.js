@@ -32,7 +32,6 @@ function resetFitxers() {
 
     var child = pare.lastChild;
 
-    alert(child.tagName);
     while (child.tagName == 'INPUT'){
         pare.removeChild(child);
         child = pare.lastChild;
