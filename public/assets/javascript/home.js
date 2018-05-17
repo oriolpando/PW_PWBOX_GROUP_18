@@ -85,7 +85,7 @@ function showRegister() {
     var date = document.getElementById("birth").setAttribute("max", today   );
 }
 
-function controlLogin() {
+function controlLogin(event) {
 
     var nameEmailU = document.getElementById("nameEmailU").value;
     var pswU = document.getElementById("pswU").value;
@@ -95,40 +95,51 @@ function controlLogin() {
 
     var spanNameEmail = document.getElementById("spanNameU");
     spanNameEmail.style.display = "none";
-    var spanNameEmailE = document.getElementById("spanNameUNotExists");
+    var spanNameEmailE = document.getElementById("spanNameUnotExists");
     spanNameEmailE.style.display = "none";
     var spanPsw = document.getElementById("spanPswU");
     spanPsw.style.display = "none";
 
-    /*
-    if (nameEmailU == ""){
-        errorNameEmail = true;
-        spanNameEmail.style.display = "block";
-    }else{
-        if (!existsInDatabase(nameEmailU)){
+
+    if (nameEmailU.indexOf('@') > -1) {
+        alert("@found inside your_string");
+
+        if ((!validateEmail(nameEmailU))){
             errorNameEmail = true;
-            spanNameEmailE.style.display = "block";
-        }else{
-            //totOk
+            spanNameEmail.style.display = "block";
         }
-    }*/
-
-   /* if((pswU == "") || (!correctPswUser(pswU))){
-        errorPsw = true;
-        spanPsw.style.display = true;
-    }
-
-    if(errorNameEmail || errorPsw){
-        event.preventDefault();
     }else{
-        var register = document.getElementById("login");
-        register.style.display = "none";
-        return true;
+
+        if (nameEmailU == "" || (nameEmailU.length > 20) || (nameEmailU.match("/^[0-9a-zA-Z]+$/"))){
+            errorNameEmail = true;
+            spanNameEmail.style.display = "block";
+        }
+
     }
-    */
 
+    function validateEmail(nameEmailU) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(nameEmailU).toLowerCase());
+    }
 
-    return true;
+    var upperCaseLetters = /[A-Z]/g;
+    var numbers = /[0-9]/g;
+
+    if((pswU == "") || (pswU.length < 6) || (pswU.length > 12) || (!(pswU.match(numbers))) || (!pswU.match(upperCaseLetters))) {
+        errorPsw = true;
+        spanPsw.style.display = "block";
+    }
+   // event.preventDefault();
+
+    if((errorNameEmail) || (errorPsw)){
+        var login = document.getElementById("login");
+        login.style.display = "block";
+        var register = document.getElementById("register");
+        register.style.display = "none";
+        var landingPage = document.getElementById("principalPage");
+        landingPage.style.display = "none";
+        event.preventDefault();
+    }
 }
 
 function controlRegister(event) {
@@ -201,13 +212,15 @@ function controlRegister(event) {
         return re.test(String(email).toLowerCase());
     }
 
-
     var dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
     // Match the date format through regular expression
+   /* var now = new Date();
+    if (selectedDate < now) {
+        alert("Date must be in the future");
+    }*/
     if(birth.match(dateformat) || (birth == "")){
         errorBirth = true;
         spanBirth.style.display = "block";
-
     }
 
     var upperCaseLetters = /[A-Z]/g;
@@ -233,10 +246,12 @@ function controlRegister(event) {
 
     }
 
-
     if((errorName) || (errorSurname) || (errorUsername) || (errorPsw) || (errorConfirmPsw) || (errorEmail) || (errorBirth) || (errorImage)){
+
         event.preventDefault();
+
     }
+
 }
 
 function readURL(input) {

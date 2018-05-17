@@ -21,7 +21,6 @@ function updateDb() {
         change = 0;
         xmlhttp.send();
 
-
         xmlhttp.onreadystatechange = function () {
             var DONE = 4; // readyState 4 means the request is done.
             var OK = 200; // status 200 is a successful return.

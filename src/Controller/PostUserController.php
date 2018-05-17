@@ -58,11 +58,15 @@ class PostUserController
             $errors['password'] = 'invalid password';
         }
 
+        if (empty($confirmPassword)||strlen($confirmPassword)>12||strlen($confirmPassword)<6||!preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/',$password)){
+            $errors['confirmPassword'] = 'invalid confirmPassword';
+        }
+
         if(strcmp($confirmPassword, $password) != 0){
             echo($password);
             echo($confirmPassword);
             echo(" ".strcmp($confirmPassword, $password));
-            $errors['confirmPassword'] = 'Confirm password field does not match up';
+            $errors['notSamePassword'] = 'Confirm password field does not match up';
 
         }
 
@@ -74,6 +78,7 @@ class PostUserController
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $errors['email'] = 'invalid email';
         }
+
 
         if (!empty($errors)) {
             return $this->container->get('view')
@@ -120,9 +125,6 @@ class PostUserController
             echo "The file el NOU has been uploaded. ";
 
         }
-
-
-
 
         $user = new User
         (null,
@@ -213,20 +215,22 @@ class PostUserController
             $errors['password'] = 'invalid password';
         }
 
-        if(!filter_var($username, FILTER_VALIDATE_EMAIL)){
-            $erroMail = 1;
+        if (strpos($username, '@' ) == true){
+            if(!filter_var($username, FILTER_VALIDATE_EMAIL)){
+                $erroMail = 1;
+            }
         }
 
-        if ($erroMail == 1 & $erroUs == 1){
+        if ($erroMail == 1 || $erroUs == 1){
             $errors['user&mail'] = 'invalid username or mail';
         }
+
         if (!empty($errors)) {
             return $this->container->get('view')
                 ->render($response,'home.twig',['errors'=> $errors]);
         }
 
         $errors = [];
-
         $id = [];
         $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
@@ -260,10 +264,10 @@ class PostUserController
 
                 $path = 'assets/resources/perfils/'.$user->getUsername().'/profile.png';
 
-                return $response->withStatus(302)->withHeader('Location','/');
+                return $response->withStatus(302)->withHeader('Location','/profile');
+                }
             }
         }
-    }
 
     public function logOut(Request $request, Response $response)
     {
@@ -276,7 +280,6 @@ class PostUserController
         $ok = $arg['id'];
 
         $id = $this->container->get('user_repository')->validateUser($ok);
-
 
         $_SESSION['currentFolder'] = $id[1];
 

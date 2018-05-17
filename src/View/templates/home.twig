@@ -6,7 +6,6 @@
 {% block header %}
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav buttonsLogReg">
-
             <li class="nav-item menu">
                 <button id="buttonLogin" type="button" class="btn1 btn-xl btn-danger" onclick="showLogin()">Login</button>
             </li>
@@ -14,6 +13,7 @@
                 <button id="buttonRegister" type="button" class="btn1 btn-xl btn-danger" onclick="showRegister()">Register</button>
             </li>
         </ul>
+        {{ errors['username'] }}
     </div>
 {% endblock %}
 
@@ -29,21 +29,26 @@
             <div class="form-group">
                 <label class="floatLabel">Username or email:</label>
                 <input type="text" id="nameEmailU" name="title" placeholder="Username or email">
-                <div id="spanNameU" class="spans">
-                    <span >Invalid username or email</span>
+                <div id="spanNameU" class="spans  {%if errors['user&mail'] is not defined%} hidden {% endif %}">
+                    <span >Introduce correct username or email</span>
                 </div>
-                <div id="spanNameUnotExists" class="spans">
+                <div id="spanNameUnotExists" class="spans {%if errors['notexistent'] is not defined%} hidden {% endif %} ">
                     <span >This username or email doesn't exists</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="floatLabel">Password:</label>
                 <input type="password" id="pswU" name="passwordLogin" placeholder="Password">
-                <div id="spanPswU" class="spans">
+                <div id="spanPswU" class="spans {%if errors['password'] is not defined%} hidden {% endif %} ">
                     <span >Invalid password</span>
                 </div>
             </div>
-            <input type="submit" value="Login" onclick="controlLogin()">
+            <input type="submit" value="Login" onclick="controlLogin(event)">
+            <div class=" createA text-center p-t-136">
+                <a class="createAccount" onclick="showRegister()">
+                    Create your Account
+                </a>
+            </div>
         </form>
     </div>
     <div id="principalPage">
@@ -51,14 +56,14 @@
             <div class="row h-100">
                 <div class="col-lg-7">
                     <div class="header-content">
-                        <h1 class="mb-5"> Pando will make life more difficult!</h1>
+                        <h1 class="mb-5"> PwBox</h1>
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <a href="/register" class="btn1 btn-outline btn-xl js-scroll-trigger">El matem?</a>
+                                    <a href="/register" class="btn1 btn-outline btn-xl js-scroll-trigger">login</a>
                                 </div>
                                 <div class="col">
-                                    <a href="/register" class="btn1 btn-outline btn-xl js-scroll-trigger">El deixem viure</a>
+                                    <a href="/register" class="btn1 btn-outline btn-xl js-scroll-trigger">registre</a>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +83,7 @@
                             <label class="floatLabel">Name:</label>
                             <input type="text" id="nameR" name="name" placeholder="Your name">
                         </div>
-                        <div id="spanName" class="spans">
+                        <div id="spanName" class="spans {%if errors['name'] is not defined%} hidden {% endif %}">
                             <span >Enter a correct name</span>
                         </div>
                     </div>
@@ -87,12 +92,11 @@
                             <label class="floatLabel">Username:</label>
                             <input type="text" id="username" name="username" placeholder="Create a username">
                         </div>
-                        <div class="spans" id="spanUsername">
-                            <span >Enter correct username</span>
-                            {%if errors['username'] is not empty%}
-                            <span  class="hidden">Enter a correct USERNAME</span>
-                            {% endif %}
+                        <div class="spans {%if errors['username'] is not defined%} hidden {% endif %}" id="spanUsername">
+                            <span>Enter a correct USERNAME</span>
                         </div>
+
+
                     </div>
 
                 </div>
@@ -103,7 +107,7 @@
                             <label class="floatLabel">Surname:</label>
                             <input type="text" id="surname" name="surname" placeholder="Your surname">
                         </div>
-                    <div class="spans" id="spanSurname">
+                    <div class="spans {%if errors['surname'] is not defined%} hidden {% endif %}" id="spanSurname">
                         <span >Enter correct surname</span>
                     </div>
                 </div>
@@ -114,16 +118,13 @@
                             <label class="floatLabel">Email address:</label>
                             <input type="email" id="email" name="email" placeholder="Your email address">
                         </div>
-                        <div class="spans" id="spanEmail">
+                        <div class="spans {%if errors['email'] is not defined%} hidden {% endif %}" id="spanEmail" >
                             <span >Enter correct email</span>
                         </div>
                     </div>
 
                 </div>
-
-
                 <div class="row">
-
                 <div class="col">
                     <div class="form-group">
                         <label class="floatLabel">Password:</label>
@@ -131,7 +132,7 @@
                         {#<span {% if errors['psw'] not defined %}  class="hidden" {% endif %}>Enter a correct password</span>#}
                         {#  {% if form.get('errors') is not empty %}  #}
                     </div>
-                    <div class="spans" id="spanPsw">
+                    <div class="spans {%if errors['password'] is not defined%} hidden {% endif %}" id="spanPsw">
                         <span >Enter correct password</span>
                     </div>
                     <div id="message">
@@ -150,10 +151,10 @@
                             {#<span {% if errors['email'] not defined %}  class="hidden" {% endif %}>Enter a correct password</span>#}
                             {#  {% if form.get('errors') is not empty %}  #}
                         </div>
-                    <div class="spans" id="spanCpsw">
+                    <div class="spans {%if errors['notSamePassword'] is not defined%} hidden {% endif %}" id="spanCpsw">
                         <span >Enter same password</span>
                     </div>
-                    <div id="message2">
+                    <div id="message2" class="spans  {%if errors['confirmPassword'] is not defined%} hidden {% endif %}">
                         <p class="valid">Correct Password</p>
                     </div>
 
@@ -167,7 +168,7 @@
                             <label class="floatLabel">Birth date:</label>
                             <input type="date" id="birth" name="birth" min="1900-01-01" max="2020-01-01">
                         </div>
-                        <div class="spans" id="spanBirth">
+                        <div class="spans {%if errors['birth'] is not defined%} hidden {% endif %}" id="spanBirth">
                             <span >Select birth date</span>
                         </div>
                     </div>
@@ -177,7 +178,7 @@
                             <input src="{{ srcProfileImg }}" accept="image/*" type='file' id="image" name="image" onchange="readURL(this);" />
                         </div>
                         <div class="spans" id="spanImage">
-                            <span >Enter correct image</span>
+                            <span class="spans {%if errors['image'] is not defined%} hidden {% endif %}">Enter correct image</span>
                         </div>
                     </div>
 

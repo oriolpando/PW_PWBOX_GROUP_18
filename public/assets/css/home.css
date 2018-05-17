@@ -247,11 +247,10 @@ input[type="submit"]:hover {
 
 .spans{
     margin-bottom: 7px;
-    display: none;
 }
 
 .hidden{
-    display: block;
+    display: none;
 }
 
 .CMove{
@@ -508,4 +507,9 @@ h2 { color: #ffffff;
     top: 15px;
     right: 100px;
     height: 30px;
+}
+
+.createA{
+   margin-top: 20px;
+
 }
