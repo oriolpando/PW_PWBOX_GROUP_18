@@ -72,6 +72,7 @@
 
      public function addFile(Request $request, Response $response){
 
+
          $errors =[];
 
          $allowed_types =array('jpg','png','gif','pdf','md','txt' );
@@ -81,22 +82,23 @@
          if (empty($_FILES)){
 
 
-             $errors["bullhit"] = "No has ficat fitxers, geni!";
+             $errors["bullhit"] = "No files were introduced!";
 
              return $this->container->get('view')
                  ->render($response,'error.twig',['errors'=> $errors]);
          }
          for ($i = 0; $i < count($_FILES); $i++) {
 
+             $auxerrors = false;
              $pos = "fitxerUpload".$i;
-
+             $size = $_FILES[$pos]["size"];
              $name = $_FILES[$pos]['name'];
 
              if (!$name=="") {
 
                  if (strpos($name, '&') !== FALSE) {
                      $errors["bullshit"] = "Has volgut penjar un fitxer amb un caràcter incompatible (&) i no s'ha penjat. Els altres sí que s'han penjat correctament";
-
+                        $auxerrors= true;
                  } else {
 
 
@@ -107,7 +109,7 @@
 
                      if (in_array($extension, $allowed_types, false) != true) {
                          $errors['extension'] = "Error when uploading " . $extension;
-
+                         $auxerrors = true;
                      }
 
                      $filerepo = $this->container->get('file_repository');
@@ -115,31 +117,35 @@
                      $target_dir = "assets/resources/perfils";
 
 
-                     if ($_FILES[$pos]["size"] > 2097152) {
-                         $errors['file'] = 'file too big';
-
-                         return $this->container->get('view')
-                             ->render($response, 'error.twig', ['errors' => $errors]);
+                     if ($size > 2097152) {
+                         $errors['file'] = 'One or more of your files were too big! Those will not be uploaded';
+                         $auxerrors = true;
 
                      }
-                     /* if (!empty($errors)) {
-                          return $this->container->get('view')
-                              ->render($response, 'dashboard.twig', ['errors' => $errors]);
 
-                      }*/
+                     $bytes = $filerepo->getUsedBytes($_SESSION['id']);
 
-                     $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "&" . $name;
+                     if (($bytes+$size)>1073741824){
+                         $errors['exceededSpace'] = 'You exceded your allowed space. One or more files will not be uploaded';
+                         $auxerrors = true;
 
-                     move_uploaded_file($_FILES[$pos]["tmp_name"], $target_file);
+                     }
 
-                     /** @var FileRepository $fileRepo * */
-                     $item = new Item (null, $name, $_SESSION['currentFolder'], 1);
-                     $ok = $this->container->get('file_repository')->saveItem($item, $_FILES[$pos]["size"]);
+                     if(!$auxerrors) {
 
-                     if (!$ok) {
+                         $target_file = $target_dir . "/" . $username . "/root/" . $_SESSION['currentFolder'] . "&" . $name;
 
-                         $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+                         move_uploaded_file($_FILES[$pos]["tmp_name"], $target_file);
 
+                         /** @var FileRepository $fileRepo * */
+                         $item = new Item (null, $name, $_SESSION['currentFolder'], 1);
+                         $ok = $filerepo->saveItem($item, $_FILES[$pos]["size"]);
+
+                         if (!$ok) {
+
+                             $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+
+                         }
                      }
 
                  }
