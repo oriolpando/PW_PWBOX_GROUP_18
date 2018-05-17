@@ -62,6 +62,14 @@
 
      }
 
+     public function toSharedRoot (Request $request, Response $response){
+
+         $_SESSION['currentSharedFolder'] = $_SESSION['motherFolder'];
+
+         return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+     }
+
      public function addFile(Request $request, Response $response){
 
          $errors =[];
@@ -152,7 +160,31 @@
      public function deleteItem (Request $request, Response $response, array $arg){
          $id = $arg['id'];
 
-         $_SESSION['currentFolder'] = $id;
+         $item = $this->container->get('file_repository')->getItem($id);
+
+         $ok = false;
+         if ($item['type'] == 1){
+             //$this->container->get('file_repository')->deleteFile($item);
+         }else{
+             $ok = $this->container->get('file_repository')->deleteFolder($item);
+         }
+
+         return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+     }
+
+     public function renameItem (Request $request, Response $response, array $arg){
+         $id = $arg['id'];
+         $rename = $arg['name'];
+
+         $item = $this->container->get('file_repository')->getItem($id);
+
+         $ok = false;
+         if ($item['type'] == 1){
+             //$ok = $this->container->get('file_repository')->deleteFile($item);
+         }else{
+             $ok = $this->container->get('file_repository')->renameFolder($item, $rename);
+         }
 
          return $response->withStatus(302)->withHeader('Location','/dashboard');
 

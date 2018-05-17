@@ -7,8 +7,17 @@ function enterSharedFolder(id) {
 function toRoot() {
     location.href = "/toRoot";
 }
+function toSharedRoot() {
+    location.href = "/toSharedRoot";
+}
 function deleteItem(id) {
-    location.href = "/delete/" + id;
+    $('#DeleteItem').modal("show");
+    $("#deleteIt").val(id);
+    console.log($("#deleteIt").val());
+}
+function deleteItemFin() {
+    console.log($("#deleteIt").val());
+    location.href = "/delete/" + $("#deleteIt").val();
 }
 function shareItem(id) {
     $('#ModalShare').modal("show");
@@ -16,13 +25,19 @@ function shareItem(id) {
     console.log($("#idFolder").val());
 }
 function renameItem(id) {
-    location.href = "/rename/" + id;
+    $('#Rename').modal("show");
+    $("#renameIt").val(id);
+}
+function renameItemFin() {
+    var name = document.getElementById("rename").value;
+    var id = $("#renameIt").val(id);
+    console.log(name);
+    console.log(id);
+    location.href = "/rename/" + id + "/" + name;
 }
 function downloadItem(id) {
     location.href = "/download/" + id;
 }
-
-
 
 function resetFitxers() {
 
@@ -74,7 +89,6 @@ alert(nom);
 
     }
     document.getElementById('formFitxer').appendChild(i);
-
 
 
 }

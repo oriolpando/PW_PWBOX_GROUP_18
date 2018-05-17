@@ -36,6 +36,8 @@ $app->get('/enterFolder/{id}', 'PwBox\Controller\FolderController:enterFolder')-
 
 $app->get('/toRoot', 'PwBox\Controller\FolderController:toRoot')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
+$app->get('/toSharedRoot', 'PwBox\Controller\FolderController:toSharedRoot')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
 $app->get('/activate/id={id}', 'PwBox\Controller\PostUserController:activate');
 
 $app->post('/addFile', 'PwBox\Controller\FolderController:addFile');
@@ -45,6 +47,8 @@ $app->post('/shareFolder', 'PwBox\Controller\FolderController:shareFolder');
 $app->get('/enterSharedFolder/{id}', 'PwBox\Controller\FolderController:enterSharedFolder')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
 $app->get('/download/{id}', 'PwBox\Controller\FolderController:downloadItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
+
+$app->get('/rename/{id}/{name}', 'PwBox\Controller\FolderController:renameItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
 
 $app->get('/delete/{id}', 'PwBox\Controller\FolderController:deleteItem')->add('PwBox\Controller\Middleware\SessionMiddleware');
 

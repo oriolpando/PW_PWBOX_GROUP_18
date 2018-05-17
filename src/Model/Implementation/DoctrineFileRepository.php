@@ -11,6 +11,7 @@ namespace PwBox\Model\Implementation;
 
 use Doctrine\DBAL\Connection;
 use function FastRoute\TestFixtures\empty_options_cached;
+use function PHPSTORM_META\type;
 use PwBox\Model\FileRepository;
 use PwBox\Model\Item;
 use PwBox\Model\php;
@@ -243,6 +244,112 @@ class DoctrineFileRepository implements FileRepository
         return $result[0];
 
     }
+
+    public function getItem($id)
+    {
+
+        $sql = "SELECT * FROM Item WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result[0];
+
+    }
+
+    public function deleteFile($item)
+    {
+
+        $id = $item['id'];
+
+        $sql = "DELETE FROM Share WHERE id_folder = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+        $stmt->execute();
+
+        $sql = "DELETE FROM Item WHERE id";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+    }
+
+    public function deleteFolder($item)
+    {
+        var_dump($item);
+        $id = $item['id'];
+        var_dump($id);
+
+        $sql = "SELECT * FROM Item WHERE parent LIKE ? ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll();
+        if (!empty($results)) {
+            foreach ($results as $result){
+                var_dump($result);
+
+                if ($result['type'] == 0){
+                    $ok = $this->deleteFolder($result);
+                }else{
+                    echo "fk";
+                    $ok = $this->deleteFile($result);
+                }
+            }
+        }
+
+
+        var_dump($id);
+
+        $sql = "DELETE FROM Share WHERE id_folder = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+        $stmt->execute();
+
+
+        echo "LOL";
+
+        $sql = "DELETE FROM Item WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        echo "fk";
+        return true;
+
+    }
+
+    public function renameFolder($item, $rename)
+    {
+        $id = $item['id'];
+
+        $sql = "UPDATE Item SET nom = ? WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $rename, PDO::PARAM_STR);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+
+
+        $stmt->execute();
+
+        return true;
+
+    }
+
 
     public function shareFolder($idFolder, $email, $role, $parent){
 
