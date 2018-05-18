@@ -82,9 +82,11 @@ class PostUserController{
 
             $target_dir = "assets/resources/perfils";
 
-            if (!empty($_FILES['image'])) {
+
+            if (!empty($_FILES['image']&&!$_FILES['image']['name']=='')) {
 
                 $errors = [];
+
 
                 $allowed_types = array('jpg', 'png');
                 $name = $_FILES['image']['name'];
@@ -95,29 +97,30 @@ class PostUserController{
 
                 // Search the array for the allowed file type
                 if (in_array($extension, $allowed_types, false) != true) {
+
                     $errors['extension'] = "Extension not allowed";
                 }
+
 
                 if ($_FILES["image"]["size"] > 500000) {
                     $errors['image'] = 'image too big';
 
                 } else {
 
-                    mkdir($target_dir . "/" . $username, 0777, TRUE);
-                    mkdir($target_dir . "/" . $username . "/root", 0777, TRUE);
-                    $target_file = $target_dir . "/" . $username . "/" . "profile.png";
-
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                        $errors['uploaded'] = "The file " . basename($name) . " has been uploaded. ";;
-                    }
+                    $file = 'assets/resources/user.png';
+                    mkdir($target_dir . "/" . $username);
+                    $newfile = $target_dir . "/" . $username . "/" . "profile.png";
+                    copy($file, $newfile);
 
                 }
 
             } else {
-                $target_file = $target_dir . "/" . $username . "/" . "profile.png";
 
-                move_uploaded_file("assets/resources/user.png", $target_file);
-                $errors['uploaded'] = "The file el NOU has been uploaded. ";
+
+                $file = 'assets/resources/user.png';
+                mkdir($target_dir . "/" . $username);
+                $newfile = $target_dir . "/" . $username . "/" . "profile.png";
+                copy($file, $newfile);
 
             }
 
