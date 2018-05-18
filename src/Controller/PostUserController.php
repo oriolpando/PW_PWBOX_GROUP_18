@@ -185,23 +185,28 @@ class PostUserController{
             $erroMail = 0;
 
 
+            if (strpos($username, '@')  == true){
 
-            if (empty($username) || strlen($username) > 20 || !ctype_alnum($username)) {
-                $erroUs = 1;
+                if ((!filter_var($username, FILTER_VALIDATE_EMAIL)) || (empty($username))) {
+                    $erroMail = 1;
+                }
+
+            }else{
+
+                if (empty($username) || strlen($username) > 20 || !ctype_alnum($username)) {
+                    $erroUs = 1;
+                }
+
             }
 
             if (empty($password) || strlen($password) > 12 || strlen($password) < 6 || !preg_match('/^[A-Za-z0-9]*([A-Z][A-Za-z0-9]*\d|\d[A-Za-z0-9]*[A-Z])[A-Za-z0-9]*$/', $password)) {
                 $errors['password'] = 'invalid password';
             }
 
-            if (strpos($username, '@') == true) {
-                if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
-                    $erroMail = 1;
-                }
-            }
-
             if ($erroMail == 1 || $erroUs == 1) {
                 $errors['user&mail'] = 'invalid username or mail';
+                echo ("gols3");
+                die();
             }
 
             if (!empty($errors)) {

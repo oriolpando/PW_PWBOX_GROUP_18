@@ -24,12 +24,13 @@ function updateDb(event) {
         document.getElementById("message").style.display = "block";
     }
 
-    var mesureImage = Math.round((file["size"] / 1024));
+    if (!(file == null)){
+        var mesureImage = Math.round((file["size"] / 1024));
 
-    if (mesureImage >= 0){
-        errorImage = GetFileSize(mesureImage);
+        if (mesureImage >= 0){
+            errorImage = GetFileSize(mesureImage);
+        }
     }
-
 
 
     if (!validateEmail(email)) {
