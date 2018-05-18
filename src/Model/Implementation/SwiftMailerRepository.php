@@ -34,8 +34,6 @@ class SwiftMailerRepository implements MailerRepository
 
 
     public function sendValidate($id, $name, $email){
-
-
         // Create the Mailer using your created Transport
         $mailer = new Swift_Mailer($this->transport);
 
@@ -60,6 +58,34 @@ class SwiftMailerRepository implements MailerRepository
 
 
     }
+
+
+    public function sendNotification($id, $name, $email, $titol, $message){
+        // Create the Mailer using your created Transport
+        $mailer = new Swift_Mailer($this->transport);
+
+
+
+        // Create a message
+        $message = (new Swift_Message($titol))
+            ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
+            ->setTo([$email, $email => $name])
+            ->setBody(
+                '<html>' .
+                ' <head></head>' .
+                ' <body>' .
+                '<p>'.$message.'</p>'.
+                ' </body>' .
+                '</html>',
+                'text/html' // Mark the content-type as HTML
+            );
+
+        // Send the message
+        $result = $mailer->send($message);
+
+
+    }
+
 
 
 

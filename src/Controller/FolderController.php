@@ -378,9 +378,19 @@
          $email = $_POST['email'];
          $role = $_POST['role'];
 
-         $ok = $this->container->get('file_repository')->shareFolder($idFolder, $email, $role, 0);
 
-         return $response->withStatus(302)->withHeader('Location','/dashboard');
+         if ($this->container->get('user_repository')->checkIfEmailExists($email)){
+             $ok = $this->container->get('file_repository')->shareFolder($idFolder, $email, $role, 0);
+
+             return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+         }else{
+             $errors=[];
+             $errors['mailnotexists']="El mail no existeix";
+             return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
+
+         }
+
      }
 
  }

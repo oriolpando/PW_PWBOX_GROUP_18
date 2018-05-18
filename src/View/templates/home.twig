@@ -23,6 +23,7 @@
    {% for error in errors %}
         <p>{{ error }}</p>
     {% endfor %}#}
+
     <div id = "login"  >
         <form action="/login" method="POST">
             <h1>Sign in</h1>
@@ -51,6 +52,11 @@
             </div>
         </form>
     </div>
+
+        {% endif %}
+
+
+
     <div id="principalPage">
         <div class="container">
             <div class="row h-100">
