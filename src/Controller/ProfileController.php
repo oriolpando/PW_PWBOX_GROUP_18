@@ -60,8 +60,13 @@ class ProfileController
             $validate = "";
         }
 
+
+        $espai = $this->container->get("file_repository")->getUsedBytes($id);
+        $percentatge = (($espai)/1000000000)*100;
+        $espai =$espai/1000000;
+
         return $this->container->get('view')
             ->render($response,'profile.twig',
-                ['validate'=>$validate, 'srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
+                ['percentatge'=>$percentatge, 'espai'=>$espai,'validate'=>$validate, 'srcProfileImg' =>$path, 'user' => $user->getNom().' '.$user->getSurname(),'srcProfileImg'=> $path,'name'=> $user->getNom(),'username'=> $user->getUsername(),'surname'=> $user->getSurname(), 'email'=> $user->getEmail(), 'birthDate'=> $user->getBirthDate()]);
     }
 }
