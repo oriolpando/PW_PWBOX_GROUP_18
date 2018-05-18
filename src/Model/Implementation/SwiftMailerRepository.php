@@ -47,7 +47,7 @@ class SwiftMailerRepository implements MailerRepository
                 '<html>' .
                 ' <head></head>' .
                 ' <body>' .
-                '<p>"Thank you for using our service! Click the following link to validate your account"</p>'.
+                '<p>Thank you for using our service! Click the following link to validate your account.</p>'.
                 '<a href="pwbox.test/activate/id=' . $id.'">Sign in</a>'.
                 ' </body>' .
                 '</html>',

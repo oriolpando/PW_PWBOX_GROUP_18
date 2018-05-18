@@ -205,13 +205,13 @@ class PostUserController{
 
             if ($erroMail == 1 || $erroUs == 1) {
                 $errors['user&mail'] = 'invalid username or mail';
-                echo ("gols3");
-                die();
+
             }
 
             if (!empty($errors)) {
+                $block = 'block';
                 return $this->container->get('view')
-                    ->render($response, 'home.twig', ['errors' => $errors]);
+                    ->render($response, 'home.twig', ['errors' => $errors,'showlogin'=>$block]);
             }
 
             $errors = [];
@@ -219,16 +219,17 @@ class PostUserController{
             $id = $this->container->get('user_repository')->tryLogin($_POST['title'], $_POST['passwordLogin']);
 
             if ($id[0] == -1) {
+                $block = 'block';
                 //Username o email no existeix a bbdd
                 $errors['notexistent'] = 'The username or the email do not exist';
-                return $this->container->get('view')->render($response, 'home.twig', ['errors' => $errors]);
+                return $this->container->get('view')->render($response, 'home.twig', ['showlogin' => $block,'errors'=>$errors]);
 
             } else {
                 if ($id[0] == -2) {
                     //Contrasenya incorrecta
 
                     $errors['password'] = 'Incorrect password';
-                    return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
+                    return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors,'showLogin'=>"block"]);
 
                 } else {
 
