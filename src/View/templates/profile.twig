@@ -141,10 +141,10 @@
                             <div class="row">
 
                                 <div class="col">
-
                                     <div class="form-group">
                                         <label class="floatLabel">New email address:</label>
                                         <input type="email" id = "mailUp" name="email" placeholder="Enter new email address">
+                                        <span id="spanEmailUpdate" >Enter correct email</span>
                                     </div>
                                 </div>
 
@@ -155,8 +155,14 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label class="floatLabel">New Password:</label>
-                                        <input type="password" id="passUp" name="password" placeholder="Enter new password">
-                                        <span>Enter a correct password</span>
+                                        <input type="password" id="passUp" name="password" placeholder="Enter new password" onfocus="focusFunction()" onblur="blurFunction()" onkeyup="validatePsw()">
+                                        <span id="spanPswUpdate">Enter a correct password</span>
+                                    </div>
+                                    <div id="message">
+                                        <p id="uppercase" class="invalid">A <b>uppercase</b> letter</p>
+                                        <p id="number" class="invalid">A <b>number</b></p>
+                                        <p id="lengthmin" class="invalid">Minimum <b>6 characters</b></p>
+                                        <p id="lengthmax" class="invalid">Maximum <b>12 characters</b></p>
                                     </div>
                                 </div>
 
@@ -164,11 +170,10 @@
                             <div class="row">
 
                                 <div class="col">
-
                                     <div class="form-group">
                                         <label class="floatLabel">Confirm password:</label>
                                         <input type="password" id="passConfUp" name="confirmPassword" placeholder="Confirm the new password">
-                                        <span>Enter a correct password</span>
+                                        <span id="spanCpswUpdate">Enter same password</span>
                                     </div>
                                 </div>
                             </div>

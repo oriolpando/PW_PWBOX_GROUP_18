@@ -69,12 +69,7 @@ input[type="password"]:focus {
     background: #fff
 }
 
-span {
-    display:none;
-    background: #F9A5A5;
-    padding: 2px 5px;
-    color: #666;
-}
+
 
 input[type="submit"] {
     background: rgba(190,30,4,1);
@@ -200,4 +195,75 @@ input[type="submit"]:hover {
 #buttonChange{
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+
+.spans{
+    margin-bottom: 7px;
+
+}
+
+span {
+    display: none;
+    background: #F9A5A5;
+    padding: 2px 5px;
+    color: #666;
+}
+
+
+
+#uppercase{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+}
+#number{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+
+}
+#lengthmin{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+
+}
+#lengthmax{
+    margin-bottom: 0px;
+    font-size: 0.75em;
+
+}
+
+#message {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    padding: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+    margin-bottom: 0px;
+
+}
+
+.valid:before {
+    position: relative;
+    left: -15px;
+    content: "✔";
+    margin-bottom: 0px;
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -15px;
+    content: "✖";
 }

@@ -44,6 +44,7 @@ class PostUserController{
         if ($this->container->get('user_repository')->checkIfUsernameExists($username)) {
             $errors['usernameExists'] = 'the username already exist';
         }
+
         if ($this->container->get('user_repository')->checkIfEmailExists($email)) {
             $errors['emailExists'] = 'the email already exist';
         }
@@ -182,6 +183,8 @@ class PostUserController{
 
             $erroUs = 0;
             $erroMail = 0;
+
+
 
             if (empty($username) || strlen($username) > 20 || !ctype_alnum($username)) {
                 $erroUs = 1;

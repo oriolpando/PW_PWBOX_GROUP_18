@@ -103,17 +103,17 @@ function controlLogin(event) {
 
     if (nameEmailU.indexOf('@') > -1) {
 
-        if ((!validateEmail(nameEmailU))){
+        if ((!validateEmail(nameEmailU)) || (nameEmailU == "")){
             errorNameEmail = true;
             spanNameEmail.style.display = "block";
         }
+
     }else{
 
         if (nameEmailU == "" || (nameEmailU.length > 20) || (nameEmailU.match("/^[0-9a-zA-Z]+$/"))){
             errorNameEmail = true;
             spanNameEmail.style.display = "block";
         }
-
     }
 
     function validateEmail(nameEmailU) {
@@ -128,16 +128,18 @@ function controlLogin(event) {
         errorPsw = true;
         spanPsw.style.display = "block";
     }
-   // event.preventDefault();
+
+    console.log(errorNameEmail);
+    console.log(errorPsw);
 
     if((errorNameEmail) || (errorPsw)){
+        event.preventDefault();
         var login = document.getElementById("login");
         login.style.display = "block";
         var register = document.getElementById("register");
         register.style.display = "none";
         var landingPage = document.getElementById("principalPage");
         landingPage.style.display = "none";
-        event.preventDefault();
     }
 }
 
@@ -181,7 +183,6 @@ function controlRegister(event) {
     spanCpsw.style.display = "none";
     var msg2 = document.getElementById("message2");
     msg2.style.display = "none";
-
 
     psw.onfocus = function () {
         document.getElementById("message").style.display = "block";
