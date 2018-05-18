@@ -60,7 +60,7 @@ class SwiftMailerRepository implements MailerRepository
     }
 
 
-    public function sendNotification($id, $name, $email, $titol, $message){
+    public function sendNotification( $name, $email, $titol, $message){
         // Create the Mailer using your created Transport
         $mailer = new Swift_Mailer($this->transport);
 
