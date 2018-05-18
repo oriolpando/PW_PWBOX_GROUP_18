@@ -58,8 +58,6 @@ function updateDb(event) {
 
         if (psw != confirmPsw) {
             spanCpsw.style.display = "block";
-        } else {
-            msg2.style.display = "block";
         }
 
     }
