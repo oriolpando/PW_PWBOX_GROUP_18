@@ -97,7 +97,6 @@ function editInformation() {
 
 function deleteUs(){
     location.href = "/deleteUser";
-    alert("The user has deleted!");
 }
 
 function readURL(input) {

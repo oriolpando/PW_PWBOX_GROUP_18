@@ -34,9 +34,10 @@ class NotificationsController
 
         $pathSend = 'assets/resources/perfils/'.$userSend->getUsername().'/profile.png';
 
+        $html = $this->container->get('user_repository')->getNotifications($idSend);
         return $this->container->get('view')
             ->render($response,'notifications.twig',
-                ['srcProfileImg' =>$pathSend,  'user' => $userSend->getNom(),'name'=> $userSend->getNom(),'username'=> $userSend->getUsername(),'surname'=> $userSend->getSurname(), 'email'=> $userSend->getEmail(), 'birthDate'=> $userSend->getBirthDate()]);
+                ['notification' => $html,'srcProfileImg' =>$pathSend,  'user' => $userSend->getNom(),'name'=> $userSend->getNom(),'username'=> $userSend->getUsername(),'surname'=> $userSend->getSurname(), 'email'=> $userSend->getEmail(), 'birthDate'=> $userSend->getBirthDate()]);
 
     }
 

@@ -284,6 +284,7 @@ class DoctrineFileRepository implements FileRepository
                 $stmt->bindParam(2, $idShared, PDO::PARAM_INT);
                 $stmt->execute();
 
+
                 return 0;
             }else{
                 return -2;
@@ -471,6 +472,8 @@ class DoctrineFileRepository implements FileRepository
 
         $stmt->execute();
 
+        return true;
+
     }
 
     public function deleteFolder($item)
@@ -650,6 +653,38 @@ class DoctrineFileRepository implements FileRepository
         }
 
         return false;
+    }
+
+    public function insertBBDD($id, $message){
+        $sql = "INSERT INTO Notification(id_user, notification) VALUES(?, ?)";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $message, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
+    public function getOwner($id){
+        $sql = "SELECT id_propietari FROM Item WHERE id = ? ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll();
+        var_dump($results);
+        return $results[0]['id_propietari'];
+
+    }
+
+    public function getEmail($id){
+        $sql = "SELECT email FROM User WHERE id = ? ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll();
+        return $results[0]['email'];
+
     }
 
 }

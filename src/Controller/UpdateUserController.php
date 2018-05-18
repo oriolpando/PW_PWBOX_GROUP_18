@@ -98,9 +98,9 @@ class UpdateUserController
         self::deleteDir($dirPath);
 
         $this->container->get('user_repository')->deleteUser();
-
+        $error['deletedUs'] = 'The user has been deletd';
         session_destroy();
-        return $response->withStatus(302)->withHeader('Location','/dashboard');
+        return $this->container->get('view')->render($response, 'error.twig',['errors' => $error]);
 
     }
 

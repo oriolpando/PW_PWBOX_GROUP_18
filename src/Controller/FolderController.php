@@ -24,9 +24,14 @@
 
          /** @var FileRepository $fileRepo **/
         $item = new Item (null, $_POST['nom'],$_SESSION['currentFolder'],0);
+        $nomFold = $this->container->get('file_repository')->getFileNameFromId($_SESSION['currentFolder']);
         $ok = $this->container->get('file_repository')->saveItem($item, null);
 
         if ($ok){
+            $owner = $this->container->get('file_repository')->getOwner($_SESSION['currentFolder']);
+            $message = "A folder named ".$_POST['nom']." has been added to ".$nomFold['nom'];
+            $this->container->get('file_repository')->insertBBDD($owner,$message);
+
             return $response->withStatus(302)->withHeader('Location','/dashboard');
         }else{
             $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
@@ -142,6 +147,13 @@
 
                          if (!$ok) {
                              $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
+                         }else{
+
+                             $owner = $this->container->get('file_repository')->getOwner($_SESSION['currentFolder']);
+                             $nameFold = $this->container->get('file_repository')->getFileNameFromId($_SESSION['currentFolder']);
+                             $message = "A file named ".$name." has been added to ".$nameFold['nom'];
+                             $titol = "File Added";
+                             $this->container->get('file_repository')->insertBBDD($owner,$message);
                          }
                      }
 
@@ -173,9 +185,18 @@
              $ok = $this->container->get('file_repository')->saveSharedFolder($item);
 
              if ($ok == 0){
+                 $owner = $this->container->get('file_repository')->getOwner($sharedFolder);
+                 $message = "A folder named ".$_POST['nom']." has been added to ".$curFolder['nom'];
+                 $titol = "Added folder";
+                 $this->container->get('file_repository')->insertBBDD($owner,$message);
+                 $email = $this->container->get('file_repository')->getEmail($owner);
+                 $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+
+
                  return $response->withStatus(302)->withHeader('Location','/dashboard');
              }else{
                  if ($ok == -1){
+
                      $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
                      return $this->container->get('view')->render($response,'error.twig', ['errors'=> $errors]);
                  }else{
@@ -284,6 +305,15 @@
                                       $errors['role'] = 'You are not allowed to create files here.';
                                       $auxerrors = true;
 
+                                  }else{
+                                      $owner = $this->container->get('file_repository')->getOwner($sharedFolder);
+                                      $message = "The file ".$name." has added to ".$curFolder['nom'];
+                                      $titol = "File Added";
+                                      $this->container->get('file_repository')->insertBBDD($owner,$message);
+                                      $email = $this->container->get('file_repository')->getEmail($owner);
+                                      if ($_SESSION['id'] != $owner){
+                                          $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+                                      }
                                   }
                               }
                           }
@@ -310,12 +340,30 @@
          $id = $arg['id'];
 
          $item = $this->container->get('file_repository')->getItem($id);
+         $owner = $this->container->get('file_repository')->getOwner($id);
+
 
          $ok = false;
          if ($item['type'] == 1){
              $ok = $this->container->get('file_repository')->deleteFile($item);
+             $message = "The file ".$item['nom']." has been deleted";
+             $titol = "File Deleted";
+             $this->container->get('file_repository')->insertBBDD($owner,$message);
+             $email = $this->container->get('file_repository')->getEmail($owner);
+             if ($_SESSION['id'] != $owner){
+                 $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+             }
          }else{
+
              $ok = $this->container->get('file_repository')->deleteFolder($item);
+             var_dump($id);
+             $message = "The folder ".$item['nom']." has been deleted";
+             $titol = "Folder Deleted";
+             $this->container->get('file_repository')->insertBBDD($owner,$message);
+             $email = $this->container->get('file_repository')->getEmail($owner);
+             if ($_SESSION['id'] != $owner){
+                 $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+             }
          }
 
          return $response->withStatus(302)->withHeader('Location','/dashboard');
@@ -331,8 +379,31 @@
          $ok = false;
          if ($item['type'] == 1){
              $ok = $this->container->get('file_repository')->renameFile($item, $rename);
+
+             if ($ok == true){
+
+                 $owner = $this->container->get('file_repository')->getOwner($id);
+                 $message = "The file ".$item['nom']." has been renamed to ".$rename;
+                 $titol = "File Renamed";
+                 $this->container->get('file_repository')->insertBBDD($owner,$message);
+                 $email = $this->container->get('file_repository')->getEmail($owner);
+                 if ($_SESSION['id'] != $owner){
+                     $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+                 }
+             }
          }else{
              $ok = $this->container->get('file_repository')->renameFolder($item, $rename);
+
+             if ($ok == true){
+                 $owner = $this->container->get('file_repository')->getOwner($id);
+                 $message = "The folder ".$item['nom']." has been renamed to ".$rename;
+                 $titol = "Folder Renamed";
+                 $this->container->get('file_repository')->insertBBDD($owner,$message);
+                 $email = $this->container->get('file_repository')->getEmail($owner);
+                 if ($_SESSION['id'] != $owner){
+                     $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+                 }
+             }
          }
 
          return $response->withStatus(302)->withHeader('Location','/dashboard');
@@ -369,7 +440,6 @@
                      rename( $path.$nom[1],$path.$file);
                  }
              }
-
          }
      }
 
@@ -385,6 +455,7 @@
 
                  $message = "You have been invited to get access to a folder.";
                  $titol = "Share request";
+                 $this->container->get('file_repository')->insertBBDD($_SESSION['id'],$message);
                  $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
                  return $response->withStatus(302)->withHeader('Location','/dashboard');
 

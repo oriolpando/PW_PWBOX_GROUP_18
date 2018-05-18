@@ -223,6 +223,13 @@ class DoctrineUserRepository implements UserRepository
     {
         $id = $_SESSION['id'];
 
+        $sql = "DELETE FROM Notification WHERE id_user = ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+
         $sql = "DELETE FROM Share WHERE id_propietari = ? OR id_user = ?";
         $stmt = $this->connection->prepare($sql);
 
@@ -276,6 +283,28 @@ class DoctrineUserRepository implements UserRepository
         }else{
             return -1;
         }
+
+    }
+
+    public function getNotifications($id){
+        $sql = "SELECT * FROM Notification WHERE id_user = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll();
+
+        $html = '';
+
+        if (!empty($results)){
+            foreach ($results as $result){
+                $html = $html.'<tr><td>'.$result['notification'].'</td></tr>';
+            }
+        }else{
+            $html = $html.'<tr><td>There isn\'t any notification yet</td></tr>';
+        }
+        return $html;
 
     }
 }
