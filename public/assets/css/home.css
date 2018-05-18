@@ -74,6 +74,12 @@ span {
     color: #666;
 }
 
+p{
+    background: #F9A5A5;
+    padding: 2px 5px;
+    color: #666;
+}
+
 input[type="submit"] {
     background: rgba(190,30,4,1);
     max-width: 450px;
@@ -513,3 +519,4 @@ h2 { color: #ffffff;
    margin-top: 20px;
 
 }
+

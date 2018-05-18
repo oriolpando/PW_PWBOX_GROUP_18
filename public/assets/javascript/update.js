@@ -2,10 +2,13 @@ var file;
 
 
 function updateDb(event) {
+
+    var image = document.getElementById("NewImageUser");
     var email = document.getElementById("mailUp").value;
     var psw = document.getElementById("passUp").value;
     var confirmPsw = document.getElementById("passConfUp").value;
 
+    var errorImage = false;
     var errorEmail = false;
     var errorPsw = false;
     var errorConfirmPsw = false;
@@ -17,8 +20,20 @@ function updateDb(event) {
     var spanCpsw = document.getElementById("spanCpswUpdate");
     spanCpsw.style.display = "none";
 
+    psw.onfocus = function () {
+        document.getElementById("message").style.display = "block";
+    }
+
+    var mesureImage = Math.round((file["size"] / 1024));
+
+    if (mesureImage >= 0){
+        errorImage = GetFileSize(mesureImage);
+    }
+
+
+
     if (!validateEmail(email)) {
-        errorEmail = true
+        errorEmail = true;
         spanEmail.style.display = "block";
     }
     function validateEmail(email) {
@@ -47,7 +62,8 @@ function updateDb(event) {
         }
 
     }
-    if((errorPsw) || (errorConfirmPsw) || (errorEmail)){
+    if((errorPsw) || (errorConfirmPsw) || (errorEmail) || (errorImage)){
+        event.preventDefault();
 
     }else{
 
@@ -143,9 +159,7 @@ function validatePsw() {
     }
 }
 
-psw.onfocus = function () {
-    document.getElementById("message").style.display = "block";
-}
+
 
 
 function correctPsw() {
@@ -169,4 +183,24 @@ function focusFunction() {
 
 function blurFunction() {
     document.getElementById("message").style.display = "none";
+}
+
+function GetFileSize(mesureImage) {
+
+
+
+        console.log(mesureImage);
+
+        if (mesureImage > 500){
+            document.getElementById('fp2').innerHTML =
+                document.getElementById('fp2').innerHTML + 'The image size is<br /> ' +
+                '<b>' + mesureImage + '</b> KB and it has to be less than 500KB';
+
+            return true;
+
+        }else{
+            return false;
+        }
+
+
 }

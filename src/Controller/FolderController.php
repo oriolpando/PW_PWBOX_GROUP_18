@@ -122,7 +122,7 @@
                      $target_dir = "assets/resources/perfils";
 
                     //1Mb = 125 000 bytes
-                     if ($size > 125000) {
+                     if ($size > 250000) {
                          $errors['file'] = 'One or more of your files were too big! Those will not be uploaded';
                          $auxerrors = true;
 

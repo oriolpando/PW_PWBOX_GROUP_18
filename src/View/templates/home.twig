@@ -53,9 +53,6 @@
         </form>
     </div>
 
-
-
-
     <div id="principalPage">
         <div class="container">
             <div class="row h-100">
@@ -178,8 +175,9 @@
                             <label class="floatLabel">Select an image for your profile:</label>
                             <input  src="assets/resources/user.png" accept="image/*" type='file' id="image" name="image" onchange="readURL(this);" />
                         </div>
+                        <p id="fp"></p>
                         <div class="spans" id="spanImage">
-                            <span class="spans {%if errors['image'] is not defined%} hidden {% endif %}">Enter correct image</span>
+                            <span class="spans {%if errors['image'] is not defined%} hidden {% endif %}" id="fp"></span>
                         </div>
                     </div>
 

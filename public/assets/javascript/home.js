@@ -190,6 +190,8 @@ function controlRegister(event) {
 
     //ERRORS REGISTRE
 
+    errorImage = GetFileSize(image);
+
     if (name == "") {
         errorName = true;
         spanName.style.display = "block";
@@ -254,6 +256,25 @@ function controlRegister(event) {
         event.preventDefault();
 
     }
+}
+
+function GetFileSize(image) {
+
+    var fsize = image.files.item(0).size;
+    var mesureImage = Math.round((fsize / 1024));
+
+    if (mesureImage > 500){
+        console.log(Math.round((fsize / 1024)));
+        document.getElementById('fp').innerHTML =
+            document.getElementById('fp').innerHTML + 'The image size is<br /> ' +
+            '<b>' + Math.round((fsize / 1024)) + '</b> KB and it has to be less than 500KB';
+
+        return true;
+
+    }else{
+        return false;
+    }
+
 }
 
 function readURL(input) {
