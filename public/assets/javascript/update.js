@@ -71,7 +71,6 @@ function updateDb(event) {
 
     }else{
 
-        console.log(file);
         var fd = new FormData();
         // These extra params aren't necessary but show that you can include other data.
         fd.append("email", email);
