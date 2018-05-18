@@ -168,7 +168,7 @@ class DashboardController
 
 
         $espai = $this->container->get("file_repository")->getUsedBytes($idSend);
-        $percentatge = (($espai)/1000000000)*100;
+        $percentatge = (($espai)/125000000)*100;
         $espai =$espai/1000000;
 
         return $this->container->get('view')

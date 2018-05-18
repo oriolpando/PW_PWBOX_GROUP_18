@@ -274,7 +274,7 @@
                          $target_dir = "assets/resources/perfils/".$username."/root/";
 
 
-                         if ($size > 125000) {
+                         if ($size > 250000) {
                              $errors['file'] = 'One or more of your files were too big! Those will not be uploaded';
                              $auxerrors = true;
 
