@@ -1,5 +1,9 @@
 var file;
 
+function noError() {
+    var errorUpdate = document.getElementById("errUpdate");
+    errorUpdate.style.display = "none";
+}
 
 function updateDb(event) {
 
@@ -19,19 +23,20 @@ function updateDb(event) {
     spanPsw.style.display = "none";
     var spanCpsw = document.getElementById("spanCpswUpdate");
     spanCpsw.style.display = "none";
+    var errorUpdate = document.getElementById("errUpdate");
+    errorUpdate.style.display = "none";
 
     psw.onfocus = function () {
         document.getElementById("message").style.display = "block";
     }
 
-    if (!(file == null)){
+    if (!(file == null)) {
         var mesureImage = Math.round((file["size"] / 1024));
 
-        if (mesureImage >= 0){
+        if (mesureImage >= 0) {
             errorImage = GetFileSize(mesureImage);
         }
     }
-
 
     if (!validateEmail(email)) {
         errorEmail = true;
@@ -92,7 +97,8 @@ function updateDb(event) {
                     document.getElementById("mail").innerHTML = email;
                     updateImage(x);
                 }else {
-                    alert("Error on update!");
+                    var errorUpdate = document.getElementById("errUpdate");
+                    errorUpdate.style.display = "block";
                 }
             }
         }
@@ -157,9 +163,6 @@ function validatePsw() {
         lengthmax.classList.add("valid");
     }
 }
-
-
-
 
 function correctPsw() {
 

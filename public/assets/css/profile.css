@@ -135,8 +135,8 @@ input[type="submit"]:hover {
 }
 
 #editProfile{
-    margin-top: 80px;
-    margin-right: 220px;
+    margin-top: 30px;
+    width: 100%;
 }
 
 #dropName{
@@ -145,8 +145,10 @@ input[type="submit"]:hover {
 
 }
 
+
+
 #positionNameProfile{
-    margin-left: 80em;
+    margin-left: 0px;
     margin-right: 0px;
 }
 
@@ -177,14 +179,14 @@ input[type="submit"]:hover {
 
 #logoDropdown{
     float: right;
-    margin-right: 0em;
-    margin-left: 76em;
+    margin-right: 0px;
+    margin-left: 950px;
 
 }
 
 #contentProfile{
     margin-top: 130px;
-    margin-left: 8em;
+    margin-left: 8px;
     margin-right: 0em;
 }
 
@@ -203,14 +205,13 @@ input[type="submit"]:hover {
 
 }
 
+
 span {
     display: none;
     background: #F9A5A5;
     padding: 2px 5px;
     color: #666;
 }
-
-
 
 #uppercase{
     margin-bottom: 0px;
@@ -266,4 +267,49 @@ span {
     position: relative;
     left: -15px;
     content: "✖";
+}
+
+
+#errUpdate{
+    color: red;
+    font-family: 'Raleway',sans-serif;
+    font-size: 35px;
+    font-weight: 800;
+    line-height: 72px;
+    margin: 0 0 18px;
+    text-align: center;
+    text-transform: uppercase;
+    border-color: red;
+    border-radius: 3px;
+    border-style: double;
+}
+
+#validate{
+    text-align: center;
+    color: white;
+    font-family: 'Raleway',sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 32px;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+
+}
+
+#clickResend{
+    text-align: center;
+    color: darkblue;
+}
+
+#a{
+     text-align: center;
+ }
+
+.tot{
+    margin-right: 100px;
+}
+
+.base {
+    margin-top: 10px;
+    margin-right: 100px;
 }
