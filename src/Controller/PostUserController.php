@@ -106,8 +106,8 @@ class PostUserController{
                 mkdir($target_dir . "/" . $username.'/root');
 
 
-                if ($_FILES["image"]["size"] > 500000) {
-                    $errors['image'] = 'image too big';
+                if ($_FILES["image"]["size"] > 62500) {
+                    $errors['image'] = 'The image is too big';
 
                 } else {
 
@@ -162,7 +162,6 @@ class PostUserController{
 
                 session_destroy();
 
-                // return $this->container->get('view')->render($response,'dashboard.twig',['messages'=> $registerMessages]);
                 return $response->withStatus(302)->withHeader('Location', '/dashboard');
 
             } catch (\Exception $e) {

@@ -31,7 +31,7 @@
         }else{
             $errors['itemExisteix'] = 'Already exists an item with the same name in the same folder. Please, change the name';
             return $this->container->get('view')
-                ->render($response,'dashboard.twig', ['errors'=> $errors]);
+                ->render($response,'error.twig', ['errors'=> $errors]);
         }
      }
 
@@ -116,8 +116,8 @@
                      $username = $filerepo->getUsernameFromId($_SESSION['id']);
                      $target_dir = "assets/resources/perfils";
 
-
-                     if ($size > 2097152) {
+                    //1Mb = 125 000 bytes
+                     if ($size > 125000) {
                          $errors['file'] = 'One or more of your files were too big! Those will not be uploaded';
                          $auxerrors = true;
 
@@ -125,7 +125,8 @@
 
                      $bytes = $filerepo->getUsedBytes($_SESSION['id']);
 
-                     if (($bytes+$size)>1073741824){
+                     //1 Gb = 125000000 bytes
+                     if (($bytes+$size)>125000000){
                          $errors['exceededSpace'] = 'You exceded your allowed space. One or more files will not be uploaded';
                          $auxerrors = true;
 
@@ -252,7 +253,7 @@
                          $target_dir = "assets/resources/perfils/".$username."/root/";
 
 
-                         if ($size > 2097152) {
+                         if ($size > 125000) {
                              $errors['file'] = 'One or more of your files were too big! Those will not be uploaded';
                              $auxerrors = true;
 
@@ -260,7 +261,7 @@
                          $userBytes = $filerepo->getIdFromParent($sharedFolder);
                          $bytes = $filerepo->getUsedBytes($userBytes);
 
-                         if (($bytes+$size)>1073741824){
+                         if (($bytes+$size)>125000000){
                              $errors['exceededSpace'] = 'You exceded your allowed space. One or more files will not be uploaded';
                              $auxerrors = true;
 

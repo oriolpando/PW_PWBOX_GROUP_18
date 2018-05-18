@@ -166,9 +166,14 @@ class DashboardController
 
         $pathSend = 'assets/resources/perfils/'.$userSend->getUsername().'/profile.png';
 
+
+        $espai = $this->container->get("file_repository")->getUsedBytes($idSend);
+        $percentatge = (($espai)/1000000000)*100;
+        $espai =$espai/1000000;
+
         return $this->container->get('view')
             ->render($response,'dashboard.twig',
-                ['srcProfileImg' =>$pathSend, 'folders'=>$html, 'sharedFolders' => $html2, 'user' => $userSend->getNom(),'name'=> $userSend->getNom(),'username'=> $userSend->getUsername(),'surname'=> $userSend->getSurname(), 'email'=> $userSend->getEmail(), 'birthDate'=> $userSend->getBirthDate()]);
+                ['espai'=>$espai,'percentatge' => $percentatge, 'srcProfileImg' =>$pathSend, 'folders'=>$html, 'sharedFolders' => $html2, 'user' => $userSend->getNom(),'name'=> $userSend->getNom(),'username'=> $userSend->getUsername(),'surname'=> $userSend->getSurname(), 'email'=> $userSend->getEmail(), 'birthDate'=> $userSend->getBirthDate()]);
     }
 
 }

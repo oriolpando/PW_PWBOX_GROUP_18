@@ -62,7 +62,7 @@ class UpdateUserController
                 $target_file = "assets/resources/perfils/" .$username->getUsername()."/profile.png";
 
 
-                if ($_FILES["img"]["size"] > 500000) {
+                if ($_FILES["img"]["size"] > 62500) {
                     $errors['img'] = 'image too big';
                 } else {
 
