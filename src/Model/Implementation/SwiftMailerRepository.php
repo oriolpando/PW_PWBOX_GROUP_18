@@ -60,7 +60,7 @@ class SwiftMailerRepository implements MailerRepository
     }
 
 
-    public function sendNotification( $name, $email, $titol, $message){
+    public function sendNotification( $email, $titol, $message){
         // Create the Mailer using your created Transport
         $mailer = new Swift_Mailer($this->transport);
 
@@ -69,7 +69,7 @@ class SwiftMailerRepository implements MailerRepository
         // Create a message
         $message = (new Swift_Message($titol))
             ->setFrom(['projectesweb2@hotmail.com' => 'Pwbox Awesome Team'])
-            ->setTo([$email, $email => $name])
+            ->setTo([$email, $email => "Dear user"])
             ->setBody(
                 '<html>' .
                 ' <head></head>' .

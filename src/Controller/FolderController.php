@@ -380,13 +380,25 @@
 
 
          if ($this->container->get('user_repository')->checkIfEmailExists($email)){
-             $ok = $this->container->get('file_repository')->shareFolder($idFolder, $email, $role, 0);
+             if($ok = $this->container->get('file_repository')->shareFolder($idFolder, $email, $role, 0)){
 
-             return $response->withStatus(302)->withHeader('Location','/dashboard');
+                 $message = "You have been invited to get access to a folder.";
+                 $titol = "Share request";
+                 $this->container->get('mail_repository')->sendNotification($email,$titol,$message);
+                 return $response->withStatus(302)->withHeader('Location','/dashboard');
+
+             }else{
+                 $errors=[];
+                 $errors['errorbbdd']="There has been a problem when accessing the database";
+                 return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
+
+             }
+
+
 
          }else{
              $errors=[];
-             $errors['mailnotexists']="El mail no existeix";
+             $errors['mailnotexists']="The mail doesn't exist";
              return $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
 
          }
