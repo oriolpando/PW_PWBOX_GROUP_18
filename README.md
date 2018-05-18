@@ -38,5 +38,5 @@ A part d'aixó, també ens hem estalviat diferents .twig al home ja que el regis
 Hores invertides:
 
 Miquel Aprox 55 hores 
-Carla ---
+Carla Aprox 45 hores
 Oriol  Aprox 60 hores 
