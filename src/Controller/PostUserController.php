@@ -102,13 +102,16 @@ class PostUserController{
                 }
 
 
+                mkdir($target_dir . "/" . $username);
+                mkdir($target_dir . "/" . $username.'/root');
+
+
                 if ($_FILES["image"]["size"] > 500000) {
                     $errors['image'] = 'image too big';
 
                 } else {
 
                     $file = 'assets/resources/user.png';
-                    mkdir($target_dir . "/" . $username);
                     $newfile = $target_dir . "/" . $username . "/" . "profile.png";
                     copy($file, $newfile);
 
@@ -117,8 +120,9 @@ class PostUserController{
             } else {
 
 
-                $file = 'assets/resources/user.png';
                 mkdir($target_dir . "/" . $username);
+                mkdir($target_dir . "/" . $username.'/root');
+                $file = 'assets/resources/user.png';
                 $newfile = $target_dir . "/" . $username . "/" . "profile.png";
                 copy($file, $newfile);
 
