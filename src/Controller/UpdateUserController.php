@@ -45,41 +45,39 @@ class UpdateUserController
                 $errors['email'] = 'invalid email';
             }
 
-            if ($this->container->get('user_repository')->checkIfEmailExists()){
+            if ($this->container->get('user_repository')->checkIfEmailExists($email)){
                 $errors['exists'] = 'This email already exists';
             }
 
-            if (!empty($errors)) {
-                return $this->container->get('view')
-                    ->render($response,'error.twig',['errors'=> $errors]);
-            }
+            if (empty($errors)) {
+
+                $username = $this->container->get('user_repository')->getUser($_SESSION['id']);
+                $target_file = '';
+                if( !empty($_FILES["img"])) {
+                    $target_file = "assets/resources/perfils/" .$username->getUsername()."/profile.png";
 
 
+                    if ($_FILES["img"]["size"] > 62500) {
+                        $errors['img'] = 'image too big';
+                    } else {
 
-            $username = $this->container->get('user_repository')->getUser($_SESSION['id']);
-            $target_file = '';
-            if( !empty($_FILES["img"])) {
-                $target_file = "assets/resources/perfils/" .$username->getUsername()."/profile.png";
-
-
-                if ($_FILES["img"]["size"] > 62500) {
-                    $errors['img'] = 'image too big';
-                } else {
-
-                    if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
-                        $errors['uploaded'] = "The file " . basename($_FILES["img"]["name"]) . " has been uploaded. ";
+                        if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
+                            $errors['uploaded'] = "The file " . basename($_FILES["img"]["name"]) . " has been uploaded. ";
+                        }
                     }
                 }
+
+                $passwordHashed = password_hash($password,PASSWORD_DEFAULT);
+
+                $exists = $this->container->get('user_repository')->updateUser($email, $passwordHashed);
+
+
+
+
+                echo $target_file;
+            }else{
+                return $response->withStatus(500);
             }
-
-           $passwordHashed = password_hash($password,PASSWORD_DEFAULT);
-
-           $exists = $this->container->get('user_repository')->updateUser($email, $passwordHashed);
-
-
-
-
-            echo $target_file;
 
         }catch (\Exception $e){
             return $response->withStatus(500);
